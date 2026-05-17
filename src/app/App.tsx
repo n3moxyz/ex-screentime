@@ -136,7 +136,9 @@ export function App() {
   const [selectedFixtureId, setSelectedFixtureId] = useState(replayFixtures[0].meta.id);
   const [githubUrl, setGithubUrl] = useState("");
   const [localFixture, setLocalFixture] = useState<ReplayFixture | null>(null);
-  const [githubStatus, setGithubStatus] = useState("");
+  const [githubStatus, setGithubStatus] = useState<
+    { kind: "info" | "success" | "error"; message: string } | null
+  >(null);
   const [githubLoading, setGithubLoading] = useState(false);
   const [githubSuggestions, setGithubSuggestions] = useState<string[]>([]);
   const [replaySpeed, setReplaySpeed] = useState<ReplaySpeed>(getInitialReplaySpeed);
@@ -325,13 +327,18 @@ export function App() {
   const cloneGithubUrl = async (): Promise<ReplayFixture | null> => {
     const url = githubUrl.trim();
     if (!url) {
-      setGithubStatus("Paste a GitHub URL before running clone-and-inspect.");
+      setGithubStatus({
+        kind: "error",
+        message: "Paste a GitHub URL before running clone-and-inspect.",
+      });
       return null;
     }
     setGithubLoading(true);
-    setGithubStatus(
-      "Cloning into a temp directory. Ralph Ledger only reads files; it does not execute the cloned repo.",
-    );
+    setGithubStatus({
+      kind: "info",
+      message:
+        "Cloning into a temp directory. Ralph Ledger only reads files; it does not execute the cloned repo.",
+    });
     try {
       const response = await fetch("/api/github-inspect", {
         method: "POST",
@@ -351,13 +358,14 @@ export function App() {
       setActiveDeck("evidence");
       setRunning(false);
       setCursor(0);
-      setGithubStatus(
-        "GitHub clone inspected statically. Watching the event stream now.",
-      );
+      setGithubStatus({
+        kind: "success",
+        message: "GitHub clone inspected statically. Watching the event stream now.",
+      });
       return nextFixture;
     } catch (error) {
       const message = error instanceof Error ? error.message : "GitHub inspection failed.";
-      setGithubStatus(`${message} Run safe replay demo to fall back to the curated baseline.`);
+      setGithubStatus({ kind: "error", message });
       return null;
     } finally {
       setGithubLoading(false);
@@ -529,7 +537,24 @@ export function App() {
               Reset
             </button>
           </div>
-          {githubStatus && !running && <p className="local-status">{githubStatus}</p>}
+          {githubStatus && !running && (
+            <div
+              className={`clone-alert clone-alert--${githubStatus.kind}`}
+              role={githubStatus.kind === "error" ? "alert" : "status"}
+            >
+              <p>{githubStatus.message}</p>
+              {githubStatus.kind === "error" && (
+                <button
+                  type="button"
+                  className="button clone-alert__action"
+                  onClick={runSafeReplayDemo}
+                >
+                  <Sparkles size={14} aria-hidden="true" />
+                  Run safe replay instead
+                </button>
+              )}
+            </div>
+          )}
 
           <button
             className="button button--ghost safe-replay-cta"

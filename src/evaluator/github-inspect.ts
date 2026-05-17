@@ -6,9 +6,9 @@ import { buildLocalFixture, LocalInspectError } from "./local-inspect";
 import type { ReplayFixture } from "./types";
 
 const GITHUB_SUGGESTIONS = [
-  "https://github.com/n3moxyz/ralph-ledger",
-  "https://github.com/n3moxyz/etskills",
+  "https://github.com/n3moxyz/ex-screentime",
   "https://github.com/anthropics/claude-code",
+  "https://github.com/sindresorhus/is-plain-obj",
 ];
 
 const CLONE_TIMEOUT_MS = 25_000;
@@ -61,6 +61,26 @@ const dirSize = (target: string): number => {
   return total;
 };
 
+const friendlyCloneError = (stderr: string, code: number, url: string): string => {
+  const lower = stderr.toLowerCase();
+  if (lower.includes("repository not found") || lower.includes("not found")) {
+    return `Repository not found at ${url}. Check the URL and that the repo is public.`;
+  }
+  if (lower.includes("authentication") || lower.includes("permission denied")) {
+    return "Repository requires authentication. Ralph Ledger only inspects public repos.";
+  }
+  if (lower.includes("could not resolve host") || lower.includes("network")) {
+    return "Network problem reaching GitHub. Check your connection and try again.";
+  }
+  if (lower.includes("ssl") || lower.includes("certificate")) {
+    return "SSL/certificate problem reaching GitHub.";
+  }
+  const sanitized = stderr.replace(/'?\/[^\s']*ralph-ledger-clone-[\w-]+'?/g, "<temp dir>").trim();
+  if (!sanitized) return `git clone exited ${code}.`;
+  const firstLine = sanitized.split(/\r?\n/).find((line) => line.trim().length > 0) ?? sanitized;
+  return firstLine.length > 160 ? `${firstLine.slice(0, 160)}…` : firstLine;
+};
+
 const cloneRepo = (url: string, target: string) =>
   new Promise<void>((resolve, reject) => {
     const child = spawn(
@@ -98,7 +118,7 @@ const cloneRepo = (url: string, target: string) =>
 
     child.on("error", (error) => {
       clearTimeout(timer);
-      reject(new LocalInspectError(`git clone failed: ${error.message}`, 502));
+      reject(new LocalInspectError(`git clone could not start: ${error.message}`, 502));
     });
 
     child.on("close", (code) => {
@@ -107,12 +127,7 @@ const cloneRepo = (url: string, target: string) =>
         resolve();
         return;
       }
-      reject(
-        new LocalInspectError(
-          stderr.trim() ? `git clone exited ${code}: ${stderr.trim()}` : `git clone exited ${code}.`,
-          502,
-        ),
-      );
+      reject(new LocalInspectError(friendlyCloneError(stderr, code ?? -1, url), 502));
     });
   });
 

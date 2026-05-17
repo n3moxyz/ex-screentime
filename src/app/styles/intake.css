@@ -142,6 +142,52 @@
   line-height: 1.4;
 }
 
+.clone-alert {
+  margin: 10px 0 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.clone-alert p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.clone-alert--info {
+  background: color-mix(in oklch, var(--paper-2) 50%, var(--card-bg));
+  color: var(--muted);
+}
+
+.clone-alert--success {
+  background: color-mix(in oklch, var(--green) 8%, var(--card-bg));
+  border-color: color-mix(in oklch, var(--green) 35%, var(--line));
+  color: color-mix(in oklch, var(--green) 80%, var(--ink));
+}
+
+.clone-alert--error {
+  background: color-mix(in oklch, var(--rust) 7%, var(--card-bg));
+  border-color: color-mix(in oklch, var(--rust) 40%, var(--line));
+  color: color-mix(in oklch, var(--rust) 80%, var(--ink));
+}
+
+.clone-alert--error p {
+  color: color-mix(in oklch, var(--rust) 75%, var(--ink));
+  font-weight: 700;
+}
+
+.clone-alert__action {
+  justify-self: start;
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 0.78rem;
+}
+
 .github-suggestion-row {
   margin: -8px 0 14px;
 }
