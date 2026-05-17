@@ -46,14 +46,15 @@ Source layout:
 - `src/fixtures/` — deterministic replay event logs.
 - `scripts/` — local validation scripts.
 - `judges/` — judge-lens notes for the implemented panel.
-- `vite.config.ts` — Vite setup plus dev-only read-only Local Path Mode middleware.
+- `vite.config.ts` — Vite setup plus dev-only `/api/local-inspect` and `/api/github-inspect` middleware.
 
 ## Conventions
 
 - Keep secrets in `.env.local`; never commit real credentials.
 - Keep `.env.example` current whenever environment variables change.
 - Update `FORET.md` after meaningful features, refactors, or bug fixes.
-- Preserve Replay Fixture Mode as the reliable demo path.
-- Keep Local Path Mode static-only until an explicit command-execution trust gate exists.
+- Preserve Replay Fixture Mode as the reliable demo path. `Run safe replay demo` MUST stay one click away on a cold screen.
+- Keep Local Path Mode and GitHub URL Mode static-only until an explicit command-execution trust gate exists.
+- When restarting the local Vite dev server, kill the actual vite child PID (`lsof -nP -iTCP:5173 -sTCP:LISTEN`), not the npm wrapper, otherwise a second instance lands on 5174 and the original keeps holding 5173.
 - Keep score movements tied to evidence, confidence, judge lens, artifact reference, and rubric clause.
 - Follow the workspace conventions in `/Users/edwardtmc/dev/ClaudeProjs/AGENTS.md`.

@@ -21,13 +21,17 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Three primary tracks are now selectable: Harness, Impact, and Overall Ralphthon.
 - Track selection automatically picks the evaluator panel; advanced panel details still support Phase 0 split and custom 3 to 5 lens testing.
 - Track presets reorder the scorecard around the selected track's lead evidence.
-- Local Path Mode exists as a conservative static inspection path behind the `Local static fallback` drawer. It reads safe docs, manifests, source layout, scripts, fixtures, and judge files through Vite dev middleware and emits the same event stream without executing repo commands.
-- Local Path Mode logic lives in `src/evaluator/local-inspect.ts` and imports the shared judge/rubric constants instead of duplicating them in Vite config.
-- Fixture selection has been removed from the primary sidebar. The strong fixture is the hidden default baseline; medium and weak remain available through the `Compare fixtures` tab to explain calibration.
+- Pasting a GitHub URL and pressing **Start evaluation** triggers a clone-then-replay in a single click. The clone happens against `/api/github-inspect` (a Vite dev middleware) using `git clone --depth 1 --no-tags --no-recurse-submodules --filter=blob:none --single-branch`, plus `protocol.file.allow=never`, `protocol.ext.allow=never`, `core.symlinks=false`. A 25-second timeout and 50 MB post-clone ceiling bound the worst case. The cloned tree is fed through the same `buildLocalFixture` pipeline as Local Path Mode and the temp directory is deleted whether the clone succeeds or fails.
+- GitHub clone errors are mapped to friendly user-facing messages by `friendlyCloneError` in `src/evaluator/github-inspect.ts` (Repository not found / authentication / network / SSL). Generic failures keep the first line of git's stderr with the internal temp-clone path sanitized and a 160-char cap.
+- The intake aside renders clone status as a tagged-union alert card (`info` / `success` / `error`) instead of a raw paragraph. Errors include a "Run safe replay instead" CTA so recovery from a cold error is one click.
+- Local Path Mode logic still lives in `src/evaluator/local-inspect.ts` and powers both `/api/local-inspect` and the github-inspect endpoint, but the standalone Local static fallback UI surface was removed once GitHub URL Mode covered the everyday case. The endpoint and `buildLocalFixture` remain testable through `npm run test:local-inspect`.
+- After a replay completes, a `ScoreSummary` "Why this score" card renders inline right below the stage strip (no scrolling required). It shows the strongest dimension, the weakest dimension with the first missing-evidence item, the headline panel split (or a "Panel agrees" note), plus an Inspect button per bullet and quick links to the evidence inspector / judge report. The deep-link buttons smooth-scroll the lower deck into view via a ref on `.lower-grid`.
+- Compare Fixtures uses a `repeat(auto-fit, minmax(220px, 1fr))` grid so all five fixtures render on one row at desktop widths and wrap cleanly on smaller viewports. Buttons are labelled `Load fixture` / `Currently loaded`. The intro copy describes the view as a calibration band rather than a list of demos.
+- Fixture selection has been removed from the primary sidebar. The strong fixture is the hidden default baseline; the other four remain available through the `Compare fixtures` tab to explain calibration.
 - Replay speed is visible as a top-bar control instead of only being hidden behind `?speed=fast`.
 - Reducer unit tests cover score clamping, headline total scoring, spread/agreement thresholds, stage-completion dedupe, completion state, malformed `score_delta` details, and malformed `panel_split_detected` details.
 - Local inspection tests generate a fixture from this repo through `buildLocalFixture(".")`, reuse fixture validation, and require every judge × criterion score-delta combination.
-- Report tests generate Markdown and JSON from the strong fixture's final state and require rubric labels, panel judges, and final score coverage.
+- Report tests now also assert every required section heading, the Markdown scorecard and per-judge tables, the JSON `inspectionMode` field, the `narrative` block, and the three inspection-mode branches (replay / local-static / github-clone).
 - No database, auth, external AI API, or required secrets are used.
 
 ## Codebase Structure
@@ -100,6 +104,17 @@ Review follow-ups tightened the evaluator surface:
 - Added `scripts/report-unit.mjs` to verify Markdown/JSON report exports include rubric labels, panel judges, and final score.
 - Split the old monolithic `src/app/components.tsx` into focused component-region files under `src/app/components/`; `components.tsx` is now only a small barrel.
 - Removed the scaffold-era project-name explanations from docs; docs now consistently present the project as Ralph Ledger.
+
+## Phase 2 Landing (2026-05-17)
+
+Phase 2 stretch items shipped end-to-end. Lessons worth keeping:
+
+- **Intake had a misleading mental model.** Pasting a URL + Start used to silently replay the strong fixture (showing 74.9 for every URL) because GitHub URL Mode lived in a closed-by-default details panel and the top Start button was wired to the old URL-preview code path. Fix: a single `startEvaluation` handler that clones-then-replays when a URL is present and no fixture has been inspected yet; otherwise just replays the current fixture. The lesson: any "primary action that always returns the same result regardless of input" is a UX bug worth fixing before adding more features.
+- **Allowlist was the wrong safety abstraction.** Originally GitHub URL Mode rejected non-allowlisted repos with a 403. But Ralph Ledger never executes cloned code (file reads capped at 120 KB, no install/build/test/hooks/submodules), so the gate was friction without safety. Real safety: depth-1 clone, `protocol.file.allow=never`, `protocol.ext.allow=never`, `core.symlinks=false`, `--no-recurse-submodules`, file-size caps, 25s timeout, 50 MB ceiling. The "Examples to try" pill row is informational, not gating.
+- **Score summary belongs above the fold.** Adding `ScoreSummary` inline after the stage strip eliminated the "where do I look to understand the score" problem. Deep-link buttons (Inspect / Open evidence inspector / Open judge report) appeared broken at first because they changed state but didn't scroll — fixed by smooth-scrolling via a ref on `.lower-grid`. The lesson: a button that changes state below the fold needs scroll-to-target or it reads as broken.
+- **Compare Fixtures CSS was hard-coded to 3 columns.** With 5 fixtures, two hid on row 2 below the user's viewport, making the view look incomplete. Fix: `repeat(auto-fit, minmax(220px, 1fr))`. Also: stale headings stay stale until somebody actually reads them. The intro copy referenced "strong, medium, and weak replays" long after harness-heavy and impact-heavy were added.
+- **`/tmp/ralph-dev.pid` tracked the wrong PID.** `npm run dev` spawns an npm wrapper that spawns the vite child. Killing the wrapper PID does eventually terminate vite, but if the wrapper has already exited (e.g., a previous start was Ctrl+C'd), the stored PID points at nothing while the vite child keeps holding the port. Always resolve the actual vite child via `lsof -nP -iTCP:5173 -sTCP:LISTEN` before killing, and re-derive the PID after each start.
+- **Friendly error mapping pays for itself.** Raw `git clone` stderr leaked temp paths and had a "git clone exited 128:" prefix that looked like a crash. A small `friendlyCloneError` mapper (Repository not found / requires auth / network / SSL / sanitized first line) turns the same error into something a judge can act on.
 
 ## Spec Hardening (2026-05-17)
 
