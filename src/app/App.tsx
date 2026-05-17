@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   SlidersHorizontal,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { JUDGES, PHASE_ZERO_PANEL, TRACK_PRESETS } from "../evaluator/judges";
 import { generateReportJson, generateReportMarkdown } from "../evaluator/report";
 import { RUBRIC, RUBRIC_BY_ID, STAGES } from "../evaluator/rubric";
@@ -44,6 +44,21 @@ import {
 } from "./components";
 
 type ReplaySpeed = "normal" | "fast";
+type DeckId = "evidence" | "rubric" | "compare" | "report";
+
+const DECK_TAB_META: Array<{
+  id: DeckId;
+  label: string;
+  icon: typeof Search;
+}> = [
+  { id: "evidence", label: "Evidence inspector", icon: Search },
+  { id: "rubric", label: "Rubric", icon: FileText },
+  { id: "compare", label: "Compare fixtures", icon: BarChart3 },
+  { id: "report", label: "Judge report", icon: CheckCircle2 },
+];
+const DECK_IDS: DeckId[] = DECK_TAB_META.map((tab) => tab.id);
+const deckTabId = (id: DeckId) => `deck-tab-${id}`;
+const deckPanelId = (id: DeckId) => `deck-panel-${id}`;
 
 const getInitialReplaySpeed = (): ReplaySpeed => {
   if (typeof window === "undefined") return "normal";
@@ -132,9 +147,13 @@ export function App() {
   const [panel, setPanel] = useState<JudgeId[]>(
     TRACK_PRESETS[replayFixtures[0].meta.track] ?? PHASE_ZERO_PANEL,
   );
-  const [activeDeck, setActiveDeck] = useState<"evidence" | "rubric" | "compare" | "report">(
-    "evidence",
-  );
+  const [activeDeck, setActiveDeck] = useState<DeckId>("evidence");
+  const tabRefs = useRef<Record<DeckId, HTMLButtonElement | null>>({
+    evidence: null,
+    rubric: null,
+    compare: null,
+    report: null,
+  });
   const replayDelayMs = replaySpeed === "fast" ? 35 : 620;
   const focus = getTrackFocus(track);
 
@@ -308,6 +327,28 @@ export function App() {
     }
     setRunning(false);
     setCursor(0);
+  };
+
+  const focusDeckTab = (id: DeckId) => {
+    setActiveDeck(id);
+    tabRefs.current[id]?.focus();
+  };
+
+  const handleTabKey = (event: KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = DECK_IDS.indexOf(activeDeck);
+    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+      event.preventDefault();
+      focusDeckTab(DECK_IDS[(currentIndex + 1) % DECK_IDS.length]);
+    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+      event.preventDefault();
+      focusDeckTab(DECK_IDS[(currentIndex - 1 + DECK_IDS.length) % DECK_IDS.length]);
+    } else if (event.key === "Home") {
+      event.preventDefault();
+      focusDeckTab(DECK_IDS[0]);
+    } else if (event.key === "End") {
+      event.preventDefault();
+      focusDeckTab(DECK_IDS[DECK_IDS.length - 1]);
+    }
   };
 
   const toggleJudge = (judgeId: JudgeId) => {
@@ -506,21 +547,24 @@ export function App() {
             </div>
           </div>
 
-          <div className="stage-strip" aria-label="Stage progress">
+          <ol className="stage-strip" aria-label="Stage progress">
             {STAGES.map((stage, index) => {
               const isDone = state.completedStages.includes(stage.id);
               const isCurrent = state.currentStage === stage.id;
+              const statusLabel = isDone ? "completed" : isCurrent ? "in progress" : "pending";
               return (
-                <div
+                <li
                   className={`stage-step ${isDone ? "is-done" : ""} ${isCurrent ? "is-current" : ""}`}
                   key={stage.id}
+                  aria-current={isCurrent ? "step" : undefined}
+                  aria-label={`Stage ${index + 1} of ${STAGES.length}: ${stage.label} — ${statusLabel}`}
                 >
-                  <span>{index + 1}</span>
+                  <span aria-hidden="true">{index + 1}</span>
                   <p>{stage.label}</p>
-                </div>
+                </li>
               );
             })}
-          </div>
+          </ol>
 
           <div className="live-grid">
             <section className="event-panel" aria-label="Live event feed">
@@ -565,7 +609,9 @@ export function App() {
                         setActiveDeck("evidence");
                       }}
                     >
-                      <span className="criterion-row__mark">{criterionIcon[item.id]}</span>
+                      <span className="criterion-row__mark" aria-hidden="true">
+                        {criterionIcon[item.id]}
+                      </span>
                       <span className="criterion-row__main">
                         <span className="criterion-row__title">{item.label}</span>
                         <span className="bar" aria-hidden="true">
@@ -605,38 +651,44 @@ export function App() {
       </section>
 
       <section className="lower-grid" aria-label="Evidence, rubric, and report workspace">
-        <nav className="deck-tabs" aria-label="Inspector tabs">
-          <button
-            className={activeDeck === "evidence" ? "is-active" : ""}
-            onClick={() => setActiveDeck("evidence")}
-          >
-            <Search size={16} />
-            Evidence inspector
-          </button>
-          <button
-            className={activeDeck === "rubric" ? "is-active" : ""}
-            onClick={() => setActiveDeck("rubric")}
-          >
-            <FileText size={16} />
-            Rubric
-          </button>
-          <button
-            className={activeDeck === "compare" ? "is-active" : ""}
-            onClick={() => setActiveDeck("compare")}
-          >
-            <BarChart3 size={16} />
-            Compare fixtures
-          </button>
-          <button
-            className={activeDeck === "report" ? "is-active" : ""}
-            onClick={() => setActiveDeck("report")}
-          >
-            <CheckCircle2 size={16} />
-            Judge report
-          </button>
-        </nav>
+        <div
+          className="deck-tabs"
+          role="tablist"
+          aria-label="Inspector views"
+          aria-orientation="horizontal"
+          onKeyDown={handleTabKey}
+        >
+          {DECK_TAB_META.map((tab) => {
+            const isActive = activeDeck === tab.id;
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                id={deckTabId(tab.id)}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={deckPanelId(tab.id)}
+                tabIndex={isActive ? 0 : -1}
+                ref={(node) => {
+                  tabRefs.current[tab.id] = node;
+                }}
+                onClick={() => setActiveDeck(tab.id)}
+              >
+                <Icon size={16} aria-hidden="true" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
 
-        <div className="deck">
+        <div
+          className="deck"
+          role="tabpanel"
+          id={deckPanelId(activeDeck)}
+          aria-labelledby={deckTabId(activeDeck)}
+          tabIndex={0}
+        >
           {activeDeck === "evidence" && (
             <EvidenceInspector criterionId={selectedCriterion} stateCriterion={selected} />
           )}

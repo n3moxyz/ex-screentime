@@ -25,7 +25,7 @@
 .section-heading {
   gap: 8px;
   margin-bottom: 14px;
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .section-heading--spaced {
@@ -38,16 +38,16 @@
   margin-bottom: 14px;
   color: var(--muted);
   font-size: 0.86rem;
-  font-weight: 750;
+  font-weight: 700;
 }
 
 .field input,
 .field select {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
+  background: var(--card-bg);
   color: var(--ink);
   padding: 0 11px;
 }
@@ -61,7 +61,7 @@
   margin: -2px 0 14px;
   border: 1px solid color-mix(in oklch, var(--green) 34%, var(--line));
   border-radius: 7px;
-  background: color-mix(in oklch, var(--green) 6%, #fffaf1);
+  background: color-mix(in oklch, var(--green) 6%, var(--card-bg));
   padding: 10px;
 }
 
@@ -89,13 +89,13 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
+  background: var(--card-bg);
   color: var(--ink);
   padding: 0 13px;
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .button:hover {
@@ -122,7 +122,7 @@
   margin: -2px 0 12px;
   color: var(--muted);
   font-size: 0.78rem;
-  font-weight: 750;
+  font-weight: 700;
   line-height: 1.35;
 }
 
@@ -157,11 +157,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 11px;
   color: var(--ink);
   font-size: 0.84rem;
-  font-weight: 850;
+  font-weight: 800;
   list-style: none;
   cursor: pointer;
 }
@@ -171,11 +171,15 @@
 }
 
 .fallback-panel summary::after {
-  content: "+";
+  content: "›";
   margin-left: auto;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 900;
+  transition: transform 200ms ease;
+  transform-origin: center;
+  display: inline-block;
+  line-height: 1;
 }
 
 .fallback-panel[open] {
@@ -183,7 +187,7 @@
 }
 
 .fallback-panel[open] summary::after {
-  content: "-";
+  transform: rotate(90deg);
 }
 
 .fallback-panel > p {
@@ -240,17 +244,19 @@
 .panel-choice {
   display: grid;
   grid-template-columns: auto auto minmax(0, 1fr);
-  gap: 8px;
+  gap: 10px;
   align-items: center;
+  min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
-  padding: 7px;
+  background: var(--card-bg);
+  padding: 10px;
+  cursor: pointer;
 }
 
 .panel-choice input {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   accent-color: var(--green);
 }
 
@@ -260,8 +266,8 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  color: white;
-  font-size: 0.66rem;
+  color: var(--marker-fg);
+  font-size: 0.72rem;
   font-weight: 900;
 }
 
@@ -281,19 +287,19 @@
 
 .panel-choice strong {
   color: var(--ink);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
 }
 
 .panel-choice small {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
 }
 
 .panel-picker__error {
   margin: 8px 0 0;
   color: var(--rust);
   font-size: 0.76rem;
-  font-weight: 850;
+  font-weight: 800;
   line-height: 1.35;
 }
 
@@ -301,7 +307,7 @@
   margin: 0 0 14px;
   border: 1px solid color-mix(in oklch, var(--ochre) 38%, var(--line));
   border-radius: 7px;
-  background: color-mix(in oklch, var(--ochre) 7%, #fffaf1);
+  background: color-mix(in oklch, var(--ochre) 7%, var(--card-bg));
   padding: 10px;
 }
 
@@ -325,8 +331,8 @@
 
 .track-focus-card small {
   display: block;
-  font-size: 0.72rem;
-  font-weight: 750;
+  font-size: 0.74rem;
+  font-weight: 700;
 }
 
 .judge-list {
@@ -353,7 +359,7 @@
   gap: 8px;
   margin-bottom: 8px;
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
 }
 
 .evaluator-bench__header strong {
@@ -361,7 +367,7 @@
 }
 
 .evaluator-bench__header span {
-  font-weight: 850;
+  font-weight: 800;
 }
 
 .bench-list {
@@ -371,16 +377,16 @@
 
 .bench-row {
   gap: 8px;
-  min-height: 42px;
+  min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
-  padding: 7px;
+  background: var(--card-bg);
+  padding: 8px;
 }
 
 .bench-row.is-active {
   border-color: color-mix(in oklch, var(--green) 45%, var(--line));
-  background: color-mix(in oklch, var(--green) 7%, #fffaf1);
+  background: color-mix(in oklch, var(--green) 7%, var(--card-bg));
 }
 
 .bench-row > span {
@@ -390,8 +396,8 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  color: white;
-  font-size: 0.66rem;
+  color: var(--marker-fg);
+  font-size: 0.72rem;
   font-weight: 900;
 }
 
@@ -405,7 +411,7 @@
 .bench-row strong {
   overflow: hidden;
   color: var(--ink);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -413,7 +419,7 @@
 .bench-row small {
   overflow: hidden;
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: 0.74rem;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -422,11 +428,11 @@
   margin-left: auto;
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 2px 6px;
+  padding: 3px 8px;
   color: var(--muted);
-  font-size: 0.63rem;
+  font-size: 0.72rem;
   font-style: normal;
-  font-weight: 900;
+  font-weight: 800;
   white-space: nowrap;
 }
 
@@ -438,7 +444,7 @@
 .panel-disclaimer {
   margin: -5px 0 12px;
   color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 750;
+  font-size: 0.78rem;
+  font-weight: 700;
   line-height: 1.35;
 }

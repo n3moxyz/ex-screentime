@@ -6,10 +6,10 @@ import {
   Download,
   Split,
 } from "lucide-react";
+import { useMemo } from "react";
 import { JUDGES } from "../evaluator/judges";
 import {
   getAgreementLevel,
-  getCriterionPanelScore,
   getJudgeCriterionScore,
   getPanelSpread,
   getTotalScore,
@@ -18,6 +18,11 @@ import {
 import { RUBRIC, RUBRIC_BY_ID } from "../evaluator/rubric";
 import type { CriterionId, JudgeId, LedgerEvent } from "../evaluator/types";
 import { replayFixtures } from "../fixtures/fixtures";
+
+const FIXTURE_FINAL_STATES = replayFixtures.map((item) => ({
+  fixture: item,
+  finalState: replayEvents(item.events, item.events.length),
+}));
 
 const fmt = (value: number, digits = 1) => value.toFixed(digits);
 
@@ -47,18 +52,21 @@ export function ScoreMovementRail({ events }: { events: LedgerEvent[] }) {
       {movements.length === 0 ? (
         <p className="muted">Score deltas will appear here as evidence is replayed.</p>
       ) : (
-        <div className="movement-rail__ticks">
+        <div className="movement-rail__ticks" role="list">
           {movements.map((event) => {
             const details = event.details as { delta?: number; criterion?: CriterionId };
             const delta = details.delta ?? 0;
             const criterion = details.criterion;
+            const label = `${criterion ? RUBRIC_BY_ID[criterion].label : "Score"} ${
+              delta > 0 ? "+" : ""
+            }${fmt(delta)}`;
             return (
               <span
                 key={event.id}
                 className={delta < 0 ? "is-negative" : "is-positive"}
-                title={`${criterion ? RUBRIC_BY_ID[criterion].label : "Score"} ${
-                  delta > 0 ? "+" : ""
-                }${fmt(delta)}`}
+                role="listitem"
+                aria-label={label}
+                title={label}
                 style={{ height: `${Math.max(16, Math.min(54, Math.abs(delta) * 5))}px` }}
               />
             );
@@ -417,18 +425,24 @@ export function FixtureComparison({
   panel: JudgeId[];
   onChooseFixture: (fixtureId: string) => void;
 }) {
-  const rows = replayFixtures.map((item) => {
-    const finalState = replayEvents(item.events, item.events.length);
-    const total = getTotalScore(finalState, panel);
-    const harnessSpread = getPanelSpread(finalState.criteria.harness_agent_engineering, panel);
-    return {
-      fixture: item,
-      total,
-      harnessSpread,
-      role: fixtureRoles[item.meta.id]?.role ?? "Replay fixture",
-      purpose: fixtureRoles[item.meta.id]?.purpose ?? item.meta.summary,
-    };
-  });
+  const rows = useMemo(
+    () =>
+      FIXTURE_FINAL_STATES.map(({ fixture: item, finalState }) => {
+        const total = getTotalScore(finalState, panel);
+        const harnessSpread = getPanelSpread(
+          finalState.criteria.harness_agent_engineering,
+          panel,
+        );
+        return {
+          fixture: item,
+          total,
+          harnessSpread,
+          role: fixtureRoles[item.meta.id]?.role ?? "Replay fixture",
+          purpose: fixtureRoles[item.meta.id]?.purpose ?? item.meta.summary,
+        };
+      }),
+    [panel],
+  );
 
   return (
     <section className="comparison-view" aria-label="Fixture comparison">
@@ -593,7 +607,12 @@ export function ReportView({
         </div>
       </div>
       {completed ? (
-        <pre>{markdown}</pre>
+        <>
+          <p className="report-preview-note">
+            Raw markdown preview. Use the buttons above to download a formatted file.
+          </p>
+          <pre>{markdown}</pre>
+        </>
       ) : (
         <div className="report-pending">
           <Clock3 size={22} />

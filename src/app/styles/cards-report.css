@@ -1,7 +1,7 @@
 .judge-card {
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
+  background: var(--card-bg);
   padding: 12px;
 }
 
@@ -37,10 +37,17 @@
 .bias-grid span {
   border: 1px solid var(--line);
   border-radius: 999px;
-  padding: 3px 7px;
+  padding: 4px 8px;
   color: var(--muted);
-  font-size: 0.68rem;
-  font-weight: 800;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.report-preview-note {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .judge-card--compact .bias-grid {
@@ -53,7 +60,7 @@
   margin: 0;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
+  background: var(--card-bg);
   padding: 14px;
   color: var(--ink);
   font-family: "SFMono-Regular", Consolas, monospace;
@@ -68,7 +75,7 @@
   min-height: 320px;
   border: 1px solid var(--line);
   border-radius: 7px;
-  background: #fffaf1;
+  background: var(--card-bg);
   color: var(--muted);
   padding: 22px;
   text-align: center;
