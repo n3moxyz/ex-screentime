@@ -11,6 +11,7 @@ import {
   Search,
   ShieldCheck,
   SlidersHorizontal,
+  Sparkles,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { JUDGES, PHASE_ZERO_PANEL, TRACK_PRESETS } from "../evaluator/judges";
@@ -138,6 +139,9 @@ export function App() {
   const [localFixture, setLocalFixture] = useState<ReplayFixture | null>(null);
   const [localStatus, setLocalStatus] = useState("");
   const [localLoading, setLocalLoading] = useState(false);
+  const [githubStatus, setGithubStatus] = useState("");
+  const [githubLoading, setGithubLoading] = useState(false);
+  const [githubAllowlist, setGithubAllowlist] = useState<string[]>([]);
   const [replaySpeed, setReplaySpeed] = useState<ReplaySpeed>(getInitialReplaySpeed);
   const fixture = localFixture ?? (getFixtureById(selectedFixtureId) as ReplayFixture);
   const [selectedCriterion, setSelectedCriterion] =
@@ -193,7 +197,9 @@ export function App() {
     panelIsValid && (fixture.meta.mode === "local-static" || submittedGithubUrl.length > 0);
   const modeLabel =
     fixture.meta.mode === "local-static"
-      ? "Static Local Path Mode"
+      ? fixture.meta.submittedRepoUrl
+        ? "GitHub Clone Mode"
+        : "Static Local Path Mode"
       : isGithubPreview
         ? "GitHub URL Preview"
         : "Replay Fixture Mode";
@@ -261,6 +267,22 @@ export function App() {
     setActiveDeck("evidence");
   };
 
+  const runSafeReplayDemo = () => {
+    const demoFixture = replayFixtures[0];
+    const demoTrack = demoFixture.meta.track;
+    setLocalFixture(null);
+    setLocalStatus("");
+    setSelectedFixtureId(demoFixture.meta.id);
+    setGithubUrl("");
+    setTrack(demoTrack);
+    setPanelPreset(demoTrack);
+    setPanel(TRACK_PRESETS[demoTrack] ?? PHASE_ZERO_PANEL);
+    setSelectedCriterion(getTrackFocus(demoTrack).leadCriteria[0]);
+    setActiveDeck("evidence");
+    setCursor(0);
+    setRunning(true);
+  };
+
   const updateGithubUrl = (nextUrl: string) => {
     setGithubUrl(nextUrl);
     if (localFixture) {
@@ -281,6 +303,66 @@ export function App() {
     setActiveDeck("evidence");
     setRunning(false);
     setCursor(0);
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch("/api/github-inspect");
+        if (!response.ok) return;
+        const payload = (await response.json()) as { allowlist?: string[] };
+        if (!cancelled && Array.isArray(payload.allowlist)) {
+          setGithubAllowlist(payload.allowlist);
+        }
+      } catch {
+        /* allowlist is informational; ignore fetch failure */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const inspectGithubUrl = async () => {
+    const url = githubUrl.trim();
+    if (!url) {
+      setGithubStatus("Paste a GitHub URL before running clone-and-inspect.");
+      return;
+    }
+    setGithubLoading(true);
+    setGithubStatus(
+      "Cloning into a temp directory. Ralph Ledger does not sandbox arbitrary repos; the allowlist is enforced.",
+    );
+    try {
+      const response = await fetch("/api/github-inspect", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload.error ?? "GitHub inspection failed.");
+      }
+      const nextFixture = payload as ReplayFixture;
+      setLocalFixture(nextFixture);
+      setLocalStatus("");
+      setTrack(nextFixture.meta.track);
+      setPanelPreset(nextFixture.meta.track);
+      setPanel(TRACK_PRESETS[nextFixture.meta.track] ?? TRACK_PRESETS["Harness / Skills Track"]);
+      setSelectedCriterion(getTrackFocus(nextFixture.meta.track).leadCriteria[0]);
+      setActiveDeck("evidence");
+      setRunning(false);
+      setCursor(0);
+      setGithubStatus(
+        "GitHub clone inspected statically. Start the event stream when you want to watch it, or fall back to safe replay.",
+      );
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "GitHub inspection failed.";
+      setGithubStatus(`${message} Falling back to the safe replay baseline is still one click away.`);
+    } finally {
+      setGithubLoading(false);
+    }
   };
 
   const inspectLocalPath = async () => {
@@ -420,7 +502,7 @@ export function App() {
                 ? "This fallback reads safe files only and emits the same structured evaluation stream."
                 : submittedGithubUrl
                   ? "The strongest replay baseline stays hidden as the reliable demo engine until live GitHub cloning lands."
-                  : "Then choose Harness, Impact, or Overall Ralphthon and start the evaluation."}
+                  : "Or run the safe replay demo below — one click, no URL required."}
             </p>
           </div>
 
@@ -450,6 +532,20 @@ export function App() {
               Reset
             </button>
           </div>
+
+          <button
+            className="button button--ghost safe-replay-cta"
+            onClick={runSafeReplayDemo}
+            type="button"
+            aria-label="Run safe replay demo of the strong harness fixture"
+          >
+            <Sparkles size={16} aria-hidden="true" />
+            Run safe replay demo
+          </button>
+          <p className="safe-replay-hint">
+            Bypasses URL and local inspection. Replays the strongest deterministic fixture so the
+            cockpit is always one click from a working demo.
+          </p>
 
           <details className="fallback-panel panel-advanced">
             <summary>
@@ -485,10 +581,49 @@ export function App() {
             <ShieldCheck size={18} aria-hidden="true" />
             <p>
               {fixture.meta.mode === "local-static"
-                ? "Local Path Mode reads safe files and source layout only. It does not run install, build, test, or arbitrary repo commands."
-                : "GitHub URL Mode is not fetching remote code yet. The saved strong replay is the default safe baseline; calibration fixtures live in Compare."}
+                ? fixture.meta.submittedRepoUrl
+                  ? "GitHub Clone Mode statically inspected a cloned working tree. Ralph Ledger does not sandbox arbitrary code, so only allowlisted repos can be cloned."
+                  : "Local Path Mode reads safe files and source layout only. It does not run install, build, test, or arbitrary repo commands."
+                : "GitHub URL Mode previews the safe replay baseline. Use the GitHub clone fallback to statically inspect an allowlisted repo, or run the safe replay demo for the canonical judging path."}
             </p>
           </div>
+
+          <details className="fallback-panel">
+            <summary>
+              <GitBranch size={16} aria-hidden="true" />
+              <span>GitHub clone (allowlist only)</span>
+            </summary>
+            <p>
+              Clones a vetted public repo with <code>--depth 1</code> into a temp directory, runs the
+              same static inspection as Local Path Mode, and never executes install or build commands.
+              Ralph Ledger does <strong>not</strong> sandbox arbitrary code; only allowlisted repos are
+              accepted.
+            </p>
+            {githubAllowlist.length > 0 && (
+              <ul className="github-allowlist">
+                {githubAllowlist.map((url) => (
+                  <li key={url}>
+                    <button
+                      type="button"
+                      className="github-allowlist__pick"
+                      onClick={() => setGithubUrl(url)}
+                    >
+                      {url}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <button
+              className="button button--wide"
+              onClick={inspectGithubUrl}
+              disabled={githubLoading || !githubUrl.trim()}
+            >
+              <GitBranch size={16} />
+              {githubLoading ? "Cloning..." : "Clone & inspect"}
+            </button>
+            {githubStatus && <p className="local-status">{githubStatus}</p>}
+          </details>
 
           <details className="fallback-panel">
             <summary>

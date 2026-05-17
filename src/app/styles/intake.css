@@ -118,6 +118,55 @@
   margin: -2px 0 10px;
 }
 
+.button--ghost {
+  border-style: dashed;
+  background: color-mix(in oklch, var(--ochre) 6%, var(--card-bg));
+  color: var(--rust);
+}
+
+.button--ghost:hover {
+  border-color: var(--rust);
+  border-style: solid;
+}
+
+.safe-replay-cta {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.safe-replay-hint {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.github-allowlist {
+  margin: 0 10px 10px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.github-allowlist__pick {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--card-bg);
+  color: var(--ink);
+  padding: 6px 9px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.github-allowlist__pick:hover {
+  border-color: var(--ink);
+}
+
 .local-status {
   margin: -2px 0 12px;
   color: var(--muted);
