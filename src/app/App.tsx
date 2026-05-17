@@ -33,13 +33,13 @@ import {
   EventFeed,
   EvidenceInspector,
   FixtureComparison,
-  JudgeCard,
   PanelPicker,
   PanelSplitsView,
   ReportView,
   RubricView,
   RunningChecks,
   ScoreMovementRail,
+  ScoreSummary,
   TrackFocusCard,
   getJudgeTotal,
 } from "./components";
@@ -135,10 +135,7 @@ export function App() {
   const [running, setRunning] = useState(false);
   const [selectedFixtureId, setSelectedFixtureId] = useState(replayFixtures[0].meta.id);
   const [githubUrl, setGithubUrl] = useState("");
-  const [localPath, setLocalPath] = useState("");
   const [localFixture, setLocalFixture] = useState<ReplayFixture | null>(null);
-  const [localStatus, setLocalStatus] = useState("");
-  const [localLoading, setLocalLoading] = useState(false);
   const [githubStatus, setGithubStatus] = useState("");
   const [githubLoading, setGithubLoading] = useState(false);
   const [githubSuggestions, setGithubSuggestions] = useState<string[]>([]);
@@ -259,7 +256,6 @@ export function App() {
     const nextFixture = getFixtureById(fixtureId);
     const nextTrack = nextFixture.meta.track;
     setLocalFixture(null);
-    setLocalStatus("");
     setSelectedFixtureId(nextFixture.meta.id);
     setTrack(nextTrack);
     setPanelPreset(nextTrack);
@@ -274,7 +270,6 @@ export function App() {
     const demoFixture = replayFixtures[0];
     const demoTrack = demoFixture.meta.track;
     setLocalFixture(null);
-    setLocalStatus("");
     setSelectedFixtureId(demoFixture.meta.id);
     setGithubUrl("");
     setTrack(demoTrack);
@@ -349,7 +344,6 @@ export function App() {
       }
       const nextFixture = payload as ReplayFixture;
       setLocalFixture(nextFixture);
-      setLocalStatus("");
       setTrack(nextFixture.meta.track);
       setPanelPreset(nextFixture.meta.track);
       setPanel(TRACK_PRESETS[nextFixture.meta.track] ?? TRACK_PRESETS["Harness / Skills Track"]);
@@ -380,41 +374,6 @@ export function App() {
       if (!cloned) return;
     }
     startReplay();
-  };
-
-  const inspectLocalPath = async () => {
-    if (!localPath.trim()) {
-      setLocalStatus("Enter an absolute local repo path first.");
-      return;
-    }
-    setLocalLoading(true);
-    setLocalStatus("Inspecting safe files only; no commands will run.");
-    try {
-      const response = await fetch("/api/local-inspect", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ path: localPath.trim() }),
-      });
-      const payload = await response.json();
-      if (!response.ok) {
-        throw new Error(payload.error ?? "Local inspection failed.");
-      }
-      const nextFixture = payload as ReplayFixture;
-      setLocalFixture(nextFixture);
-      setGithubUrl("");
-      setTrack(nextFixture.meta.track);
-      setPanelPreset(nextFixture.meta.track);
-      setPanel(TRACK_PRESETS[nextFixture.meta.track] ?? TRACK_PRESETS["Harness / Skills Track"]);
-      setSelectedCriterion(getTrackFocus(nextFixture.meta.track).leadCriteria[0]);
-      setActiveDeck("evidence");
-      setRunning(false);
-      setCursor(0);
-      setLocalStatus("Static inspection ready. Start the event stream when you want to watch it.");
-    } catch (error) {
-      setLocalStatus(error instanceof Error ? error.message : "Local inspection failed.");
-    } finally {
-      setLocalLoading(false);
-    }
   };
 
   const choosePanelPreset = (nextPreset: string) => {
@@ -627,46 +586,9 @@ export function App() {
             </p>
           </div>
 
-          <details className="fallback-panel">
-            <summary>
-              <Search size={16} aria-hidden="true" />
-              <span>Local static fallback</span>
-            </summary>
-            <p>
-              Use this for a repo already on disk. Ralph Ledger reads safe files only and never runs
-              project commands.
-            </p>
-            <label className="field">
-              <span>Local repo path</span>
-              <input
-                value={localPath}
-                placeholder="/absolute/path/to/repo"
-                onChange={(event) => setLocalPath(event.target.value)}
-              />
-            </label>
-            <button
-              className="button button--wide"
-              onClick={inspectLocalPath}
-              disabled={localLoading}
-            >
-              <Search size={16} />
-              {localLoading ? "Inspecting..." : "Inspect static path"}
-            </button>
-            {localStatus && <p className="local-status">{localStatus}</p>}
-          </details>
-
           <div className="section-heading section-heading--spaced">
             <SlidersHorizontal size={18} aria-hidden="true" />
             <span>Evaluator panel</span>
-          </div>
-          <p className="panel-disclaimer">
-            Selected lenses affect the scorecard and report. Every evaluator now has authored
-            score movements in replay fixtures and static local inspections.
-          </p>
-          <div className="judge-list">
-            {panel.map((judgeId) => (
-              <JudgeCard key={judgeId} judgeId={judgeId} compact />
-            ))}
           </div>
           <EvaluatorBench activePanel={panel} />
         </aside>
@@ -702,6 +624,16 @@ export function App() {
               );
             })}
           </ol>
+
+          {state.completed && (
+            <ScoreSummary
+              state={state}
+              panel={panel}
+              track={track}
+              onOpenDeck={setActiveDeck}
+              onSelectCriterion={setSelectedCriterion}
+            />
+          )}
 
           <div className="live-grid">
             <section className="event-panel" aria-label="Live event feed">

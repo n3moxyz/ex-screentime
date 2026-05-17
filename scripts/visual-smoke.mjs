@@ -60,32 +60,17 @@ const runViewport = async (name, viewport) => {
   await page.getByLabel("Panel override").selectOption("Harness / Skills Track");
   await page.getByText("5 active lenses").waitFor({ timeout: 5000 });
   await page.getByText("Panel details").click();
-  await page.getByText("Local static fallback").click();
-  await page.getByLabel("Local repo path").fill(process.cwd());
-  await page.getByRole("button", { name: /Inspect static path/i }).click();
-  await page.locator(".local-status", { hasText: "Static inspection ready." }).waitFor({
-    timeout: 8000,
-  });
-  await page.getByRole("button", { name: /Start evaluation/i }).click();
-  await page.waitForFunction(
-    () => document.body.textContent?.includes("Static local inspection complete"),
-    undefined,
-    { timeout: 15000 },
-  );
-  await page.getByRole("tab", { name: /Compare fixtures/i }).click();
-  await page.getByText("Calibration across strong, medium, and weak replays").waitFor({
-    timeout: 5000,
-  });
-  await page
-    .locator(".comparison-card", { hasText: "Strong Harness Replay" })
-    .getByRole("button", { name: /Use fixture/i })
-    .click();
   await page.getByRole("button", { name: /Run safe replay demo/i }).click();
   await page.waitForFunction(
     () => document.body.textContent?.includes("Replay evaluation complete"),
     undefined,
     { timeout: 15000 },
   );
+  await page.getByText("Why this score").waitFor({ timeout: 5000 });
+  await page.getByRole("tab", { name: /Compare fixtures/i }).click();
+  await page.getByText("Calibration across strong, medium, and weak replays").waitFor({
+    timeout: 5000,
+  });
   await page.getByRole("tab", { name: /Rubric/i }).click();
   await page.getByText("Confidence model").waitFor({ timeout: 5000 });
   await page.getByRole("tab", { name: /Compare fixtures/i }).click();
