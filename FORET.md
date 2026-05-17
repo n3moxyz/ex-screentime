@@ -8,7 +8,7 @@
 
 ## Current State
 
-- Local checkout currently exists under `/Users/edwardtmc/dev/ClaudeProjs/projects/ralphtontest`.
+- Local checkout currently exists under `/Users/edwardtmc/dev/ClaudeProjs/projects/ex-screentime`.
 - Repo scaffold includes `README.md`, `AGENTS.md`, `CLAUDE.md`, `.env.example`, `.gitignore`, and this FORET.
 - No application code, package manager, database, or deployment target has been selected yet.
 
