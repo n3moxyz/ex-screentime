@@ -1,0 +1,998 @@
+{
+  "meta": {
+    "id": "impact-heavy-replay",
+    "name": "Impact-Heavy Replay",
+    "mode": "replay",
+    "track": "Impact Track",
+    "panel": [
+      "sam-altman",
+      "andrej-karpathy",
+      "ilya-sutskever",
+      "brian-chesky",
+      "harrison-chase"
+    ],
+    "repoLabel": "demo-fixtures/quickship-onboarder",
+    "summary": "A polished AI onboarding wizard for hackathon teams. Strong user value and demo polish, but the agent harness is a single planning prompt and the concept reuses familiar onboarding patterns. Sam and Brian score it highly; Ilya and Andrej hold back because the originality and harness signals are thin.",
+    "expectedScoreBand": {
+      "min": 48,
+      "max": 66
+    },
+    "requiredHarnessSplit": false
+  },
+  "events": [
+    {
+      "id": "imp-001",
+      "timestamp": "2026-05-17T04:20:00.000Z",
+      "type": "stage_started",
+      "stage": "intake",
+      "message": "Replay fixture session created for demo-fixtures/quickship-onboarder.",
+      "severity": "info",
+      "details": {
+        "mode": "replay",
+        "repo": "demo-fixtures/quickship-onboarder"
+      }
+    },
+    {
+      "id": "imp-002",
+      "timestamp": "2026-05-17T04:20:01.000Z",
+      "type": "track_selected",
+      "stage": "track_panel",
+      "message": "Impact Track selected.",
+      "severity": "info",
+      "details": {
+        "track": "Impact Track"
+      }
+    },
+    {
+      "id": "imp-003",
+      "timestamp": "2026-05-17T04:20:02.000Z",
+      "type": "panel_selected",
+      "stage": "track_panel",
+      "message": "Five-lens replay panel loaded for an impact-heavy submission.",
+      "severity": "success",
+      "details": {
+        "panel": [
+          "sam-altman",
+          "andrej-karpathy",
+          "ilya-sutskever",
+          "brian-chesky",
+          "harrison-chase"
+        ],
+        "canonicalPreset": "Impact Track"
+      }
+    },
+    {
+      "id": "imp-004",
+      "timestamp": "2026-05-17T04:20:03.000Z",
+      "type": "stage_completed",
+      "stage": "track_panel",
+      "message": "Track and panel selection complete.",
+      "severity": "success",
+      "details": {
+        "panel_size": 5
+      }
+    },
+    {
+      "id": "imp-005",
+      "timestamp": "2026-05-17T04:20:04.000Z",
+      "type": "stage_completed",
+      "stage": "intake",
+      "message": "Replay intake complete.",
+      "severity": "success",
+      "details": {
+        "confidence": 1
+      }
+    },
+    {
+      "id": "imp-006",
+      "timestamp": "2026-05-17T04:20:05.000Z",
+      "type": "stage_started",
+      "stage": "stack_detection",
+      "message": "Detecting stack from fixture manifest.",
+      "severity": "info",
+      "details": {
+        "files": [
+          "package.json",
+          "next.config.ts"
+        ]
+      }
+    },
+    {
+      "id": "imp-007",
+      "timestamp": "2026-05-17T04:20:06.000Z",
+      "type": "stack_detected",
+      "stage": "stack_detection",
+      "message": "Next.js + TypeScript detected with Tailwind and Supabase wired in.",
+      "severity": "success",
+      "details": {
+        "framework": "Next.js",
+        "language": "TypeScript"
+      }
+    },
+    {
+      "id": "imp-008",
+      "timestamp": "2026-05-17T04:20:07.000Z",
+      "type": "stage_completed",
+      "stage": "stack_detection",
+      "message": "Stack detection complete.",
+      "severity": "success",
+      "details": {
+        "duration_ms": 2000
+      }
+    },
+    {
+      "id": "imp-009",
+      "timestamp": "2026-05-17T04:20:08.000Z",
+      "type": "stage_started",
+      "stage": "documentation_review",
+      "message": "Reading README, SPEC, and impact briefing.",
+      "severity": "info",
+      "details": {
+        "docs": [
+          "README.md",
+          "SPEC.md",
+          "SUBMISSION.md",
+          "IMPACT.md"
+        ]
+      }
+    },
+    {
+      "id": "imp-010",
+      "timestamp": "2026-05-17T04:20:09.000Z",
+      "type": "file_found",
+      "stage": "documentation_review",
+      "message": "Strong product narrative found in README and IMPACT.",
+      "severity": "success",
+      "details": {
+        "files": [
+          "README.md",
+          "IMPACT.md",
+          "SUBMISSION.md"
+        ]
+      }
+    },
+    {
+      "id": "imp-011",
+      "timestamp": "2026-05-17T04:20:10.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Sam credits the project for a sharp problem and audience.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "sam-altman",
+        "delta": 19,
+        "reason": "Every hackathon team needs onboarding help and the README spells the pain out clearly.",
+        "evidence": [
+          "README opens with a concrete user story",
+          "IMPACT.md cites 11 hackathons and 600+ teams as the target"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:IMPACT.md",
+        "rubric_clause_ref": "impact.audience_clarity"
+      }
+    },
+    {
+      "id": "imp-012",
+      "timestamp": "2026-05-17T04:20:11.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian credits the product for clear user value.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "brian-chesky",
+        "delta": 18,
+        "reason": "The story is legible without a narrator; the value lands in the first paragraph.",
+        "evidence": [
+          "SUBMISSION.md describes the moment the team realizes time saved"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:SUBMISSION.md",
+        "rubric_clause_ref": "impact.useful_workflow"
+      }
+    },
+    {
+      "id": "imp-013",
+      "timestamp": "2026-05-17T04:20:12.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Harrison gives moderate impact credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "harrison-chase",
+        "delta": 13,
+        "reason": "Useful workflow, but the harness story underneath does not yet show how autonomy extends impact.",
+        "evidence": [
+          "README describes the user flow without claiming agentic autonomy"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "imp-014",
+      "timestamp": "2026-05-17T04:20:13.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Ilya is unconvinced impact compensates for thin novelty.",
+      "severity": "warning",
+      "details": {
+        "criterion": "impact",
+        "judge": "ilya-sutskever",
+        "delta": 11,
+        "reason": "The audience is real but the leverage comes from familiar onboarding patterns, not a new mechanism.",
+        "evidence": [
+          "IMPACT.md cites adoption metrics, not novel insight"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:IMPACT.md",
+        "rubric_clause_ref": "impact.practical_value"
+      }
+    },
+    {
+      "id": "imp-015",
+      "timestamp": "2026-05-17T04:20:14.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Andrej is the lowest impact voice on the panel.",
+      "severity": "warning",
+      "details": {
+        "criterion": "impact",
+        "judge": "andrej-karpathy",
+        "delta": 10,
+        "reason": "User value is plausible, but I have not yet seen evidence the system actually does what the docs promise.",
+        "evidence": [
+          "Claims about saved time are not measured against runs"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:IMPACT.md",
+        "rubric_clause_ref": "impact.practical_value"
+      }
+    },
+    {
+      "id": "imp-016",
+      "timestamp": "2026-05-17T04:20:15.000Z",
+      "type": "stage_completed",
+      "stage": "documentation_review",
+      "message": "Documentation review complete.",
+      "severity": "success",
+      "details": {
+        "docs": 4
+      }
+    },
+    {
+      "id": "imp-017",
+      "timestamp": "2026-05-17T04:20:16.000Z",
+      "type": "stage_started",
+      "stage": "prompt_discovery",
+      "message": "Looking for autonomous prompt and harness evidence.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "imp-018",
+      "timestamp": "2026-05-17T04:20:17.000Z",
+      "type": "file_found",
+      "stage": "prompt_discovery",
+      "message": "Single PROMPT.md found; no decomposition or recovery loop documented.",
+      "severity": "warning",
+      "details": {
+        "files": [
+          "PROMPT.md"
+        ]
+      }
+    },
+    {
+      "id": "imp-019",
+      "timestamp": "2026-05-17T04:20:18.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Harrison sees a prompt but not a harness.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 13,
+        "reason": "PROMPT.md exists but there is no task graph, recovery flow, or verification loop around it.",
+        "evidence": [
+          "PROMPT.md is 80 lines of instructions with no acceptance criteria"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "imp-020",
+      "timestamp": "2026-05-17T04:20:19.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Andrej gives credit for documenting one prompt.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "andrej-karpathy",
+        "delta": 13,
+        "reason": "A single readable prompt is better than agentic claims without artifacts.",
+        "evidence": [
+          "PROMPT.md is short and inspectable"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.spec_clarity"
+      }
+    },
+    {
+      "id": "imp-021",
+      "timestamp": "2026-05-17T04:20:20.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Ilya looks for the mechanism beneath the prompt.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "ilya-sutskever",
+        "delta": 13,
+        "reason": "There is a reasonable scaffold, but nothing recursive that would let it improve itself.",
+        "evidence": [
+          "PROMPT.md describes a single pass, not a refinement loop"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.task_decomposition"
+      }
+    },
+    {
+      "id": "imp-022",
+      "timestamp": "2026-05-17T04:20:21.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Sam discounts harness depth in favor of product velocity.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "sam-altman",
+        "delta": 10,
+        "reason": "The harness is light, but the team shipped something users would actually use.",
+        "evidence": [
+          "PROMPT.md plus the live product workflow indicates iteration on outcomes, not harness"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.evidence_logging"
+      }
+    },
+    {
+      "id": "imp-023",
+      "timestamp": "2026-05-17T04:20:22.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Brian penalizes the harness for being demo-invisible.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": 8,
+        "reason": "Whatever the harness is, the user never sees it; the demo is the product, not the process.",
+        "evidence": [
+          "Demo screenshots do not surface any agent process"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.submission_report_readiness"
+      }
+    },
+    {
+      "id": "imp-024",
+      "timestamp": "2026-05-17T04:20:23.000Z",
+      "type": "deduction_applied",
+      "stage": "prompt_discovery",
+      "message": "No recovery or task decomposition evidence in PROMPT.md.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 0,
+        "reason": "Harness lacks decomposition and recovery; flagged for the report.",
+        "evidence": [
+          "PROMPT.md lacks acceptance criteria or recovery flow"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:harness-recovery-loop",
+        "rubric_clause_ref": "harness_agent_engineering.failure_recovery"
+      }
+    },
+    {
+      "id": "imp-025",
+      "timestamp": "2026-05-17T04:20:24.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Missing recovery loop deducts confidence for Harrison.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 0,
+        "reason": "Missing recovery evidence is recorded without altering Harrison's positive score for the existing prompt.",
+        "evidence": [
+          "Recovery flow not documented"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:harness-recovery-loop",
+        "rubric_clause_ref": "harness_agent_engineering.failure_recovery"
+      }
+    },
+    {
+      "id": "imp-026",
+      "timestamp": "2026-05-17T04:20:25.000Z",
+      "type": "stage_completed",
+      "stage": "prompt_discovery",
+      "message": "Prompt discovery complete; harness is light but documented.",
+      "severity": "warning",
+      "details": {
+        "files": 1
+      }
+    },
+    {
+      "id": "imp-027",
+      "timestamp": "2026-05-17T04:20:26.000Z",
+      "type": "stage_started",
+      "stage": "structure_inspection",
+      "message": "Inspecting source layout, components, and onboarding flow assets.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "imp-028",
+      "timestamp": "2026-05-17T04:20:27.000Z",
+      "type": "evidence_found",
+      "stage": "structure_inspection",
+      "message": "Coherent Next.js layout with onboarding flow under app/onboard.",
+      "severity": "success",
+      "details": {
+        "directories": [
+          "app/onboard",
+          "components",
+          "lib"
+        ]
+      }
+    },
+    {
+      "id": "imp-029",
+      "timestamp": "2026-05-17T04:20:28.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Andrej rewards the runnable, readable Next.js layout.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 13,
+        "reason": "Clean Next.js separation between app routes, server actions, and UI primitives.",
+        "evidence": [
+          "Server actions live under app/onboard/actions.ts"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "directory:app/onboard",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "imp-030",
+      "timestamp": "2026-05-17T04:20:29.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Harrison sees the layout as adequate for a single-pass agent product.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 13,
+        "reason": "The wiring is straightforward; the harness scaffolding would need to grow to match it.",
+        "evidence": [
+          "lib/llm.ts isolates a single Claude call"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:lib/llm.ts",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "imp-031",
+      "timestamp": "2026-05-17T04:20:30.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Sam credits technical execution for shipping a usable product fast.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "sam-altman",
+        "delta": 11,
+        "reason": "Runs, deploys, and reaches users — the rest is iteration.",
+        "evidence": [
+          "vercel.json defines a one-step deploy"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:vercel.json",
+        "rubric_clause_ref": "technical_execution.reproducibility"
+      }
+    },
+    {
+      "id": "imp-032",
+      "timestamp": "2026-05-17T04:20:31.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Brian gives technical execution a friendly nod.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 10,
+        "reason": "The plumbing is invisible to users, which is the right call here.",
+        "evidence": [
+          "Onboarding flow loads in under one second on the demo build"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:app/onboard/page.tsx",
+        "rubric_clause_ref": "technical_execution.reproducibility"
+      }
+    },
+    {
+      "id": "imp-033",
+      "timestamp": "2026-05-17T04:20:32.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Ilya is cool on technical execution because there is no novel mechanism.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "ilya-sutskever",
+        "delta": 9,
+        "reason": "Competent CRUD-and-LLM wiring; nothing here teaches the model or the team something new.",
+        "evidence": [
+          "lib/llm.ts is a single call without feedback loops"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:lib/llm.ts",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "imp-034",
+      "timestamp": "2026-05-17T04:20:33.000Z",
+      "type": "stage_completed",
+      "stage": "structure_inspection",
+      "message": "Structure inspection complete.",
+      "severity": "success",
+      "details": {
+        "directories": 3
+      }
+    },
+    {
+      "id": "imp-035",
+      "timestamp": "2026-05-17T04:20:34.000Z",
+      "type": "stage_started",
+      "stage": "verification",
+      "message": "Replay reports the previously-captured verification log.",
+      "severity": "info",
+      "details": {
+        "commands": [
+          "npm run build",
+          "npm run test"
+        ]
+      }
+    },
+    {
+      "id": "imp-036",
+      "timestamp": "2026-05-17T04:20:35.000Z",
+      "type": "command_completed",
+      "stage": "verification",
+      "message": "npm run build succeeded in the captured log.",
+      "severity": "success",
+      "details": {
+        "command": "npm run build",
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "imp-037",
+      "timestamp": "2026-05-17T04:20:36.000Z",
+      "type": "command_failed",
+      "stage": "verification",
+      "message": "npm run test produced no test cases; the script is a placeholder.",
+      "severity": "warning",
+      "details": {
+        "command": "npm run test",
+        "exit_code": 0,
+        "note": "no tests collected"
+      }
+    },
+    {
+      "id": "imp-038",
+      "timestamp": "2026-05-17T04:20:37.000Z",
+      "type": "deduction_applied",
+      "stage": "verification",
+      "message": "No real test coverage despite a documented test script.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 0,
+        "reason": "Placeholder test script noted for the report.",
+        "evidence": [
+          "tests/ contains a single 'returns true' assertion"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:meaningful-tests",
+        "rubric_clause_ref": "technical_execution.tests_pass"
+      }
+    },
+    {
+      "id": "imp-039",
+      "timestamp": "2026-05-17T04:20:38.000Z",
+      "type": "stage_completed",
+      "stage": "verification",
+      "message": "Verification complete; build evidence strong, test evidence thin.",
+      "severity": "warning",
+      "details": {
+        "commands_passed": 1,
+        "commands_failed": 1
+      }
+    },
+    {
+      "id": "imp-040",
+      "timestamp": "2026-05-17T04:20:39.000Z",
+      "type": "stage_started",
+      "stage": "scoring",
+      "message": "Applying lens scoring for originality and demo polish.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "imp-041",
+      "timestamp": "2026-05-17T04:20:40.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya is the lone originality voice giving real credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "ilya-sutskever",
+        "delta": 8,
+        "reason": "The onboarding-as-agent framing is mildly novel even if the substrate is familiar.",
+        "evidence": [
+          "SPEC.md frames the team itself as the agent's user"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "originality.framing"
+      }
+    },
+    {
+      "id": "imp-042",
+      "timestamp": "2026-05-17T04:20:41.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison sees moderate novelty in the workflow framing.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "harrison-chase",
+        "delta": 6,
+        "reason": "Useful framing but the harness underneath is generic.",
+        "evidence": [
+          "SUBMISSION.md compares the flow to standard onboarding wizards"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SUBMISSION.md",
+        "rubric_clause_ref": "originality.framing"
+      }
+    },
+    {
+      "id": "imp-043",
+      "timestamp": "2026-05-17T04:20:42.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam awards moderate originality.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "sam-altman",
+        "delta": 6,
+        "reason": "Product framing is sharp even if the mechanism is familiar.",
+        "evidence": [
+          "IMPACT.md frames this as 'TurboTax for hackathon kickoff'"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:IMPACT.md",
+        "rubric_clause_ref": "originality.framing"
+      }
+    },
+    {
+      "id": "imp-044",
+      "timestamp": "2026-05-17T04:20:43.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian sees the originality as adequate but not memorable.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "brian-chesky",
+        "delta": 6,
+        "reason": "It looks familiar enough that another team could ship a copy in a weekend.",
+        "evidence": [
+          "Onboarding visual language follows standard SaaS patterns"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:components",
+        "rubric_clause_ref": "originality.differentiated"
+      }
+    },
+    {
+      "id": "imp-045",
+      "timestamp": "2026-05-17T04:20:44.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej is unimpressed with the originality story.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "andrej-karpathy",
+        "delta": 5,
+        "reason": "No new mechanism, no learning loop; just careful product work on a known shape.",
+        "evidence": [
+          "No novel evaluation, indexing, or planning logic in the code"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:lib",
+        "rubric_clause_ref": "originality.differentiated"
+      }
+    },
+    {
+      "id": "imp-046",
+      "timestamp": "2026-05-17T04:20:45.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian celebrates the demo polish.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 14,
+        "reason": "First screen, motion, copy, and pacing are all carrying their own weight.",
+        "evidence": [
+          "First screen explains the user benefit before any branding"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "directory:public/demo",
+        "rubric_clause_ref": "demo_quality.first_screen"
+      }
+    },
+    {
+      "id": "imp-047",
+      "timestamp": "2026-05-17T04:20:46.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam celebrates the demo for selling the value.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "sam-altman",
+        "delta": 14,
+        "reason": "I would sign up after the first 20 seconds, and that is the bar for a demo.",
+        "evidence": [
+          "DEMO.md prescribes the 90-second judge story"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.smooth_flow"
+      }
+    },
+    {
+      "id": "imp-048",
+      "timestamp": "2026-05-17T04:20:47.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej gives the demo a moderate score.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "andrej-karpathy",
+        "delta": 11,
+        "reason": "Smooth UI, but the demo papers over how shallow the harness is.",
+        "evidence": [
+          "DEMO.md never shows the agent's reasoning trail"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.smooth_flow"
+      }
+    },
+    {
+      "id": "imp-049",
+      "timestamp": "2026-05-17T04:20:48.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison gives the demo a fair score.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "harrison-chase",
+        "delta": 10,
+        "reason": "Demo lands the value but does not reveal the agent process.",
+        "evidence": [
+          "Demo skips any view of the underlying prompt or generation step"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.fixtures"
+      }
+    },
+    {
+      "id": "imp-050",
+      "timestamp": "2026-05-17T04:20:49.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya is the lowest demo voice on the panel.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "ilya-sutskever",
+        "delta": 8,
+        "reason": "The demo charm hides the absence of a deeper idea.",
+        "evidence": [
+          "Demo emphasizes outcomes rather than mechanism"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.fixtures"
+      }
+    },
+    {
+      "id": "imp-051",
+      "timestamp": "2026-05-17T04:20:50.000Z",
+      "type": "stage_completed",
+      "stage": "scoring",
+      "message": "Five-lens scoring complete; Impact and Originality show meaningful splits.",
+      "severity": "success",
+      "details": {
+        "splits": 2
+      }
+    },
+    {
+      "id": "imp-052",
+      "timestamp": "2026-05-17T04:20:51.000Z",
+      "type": "stage_started",
+      "stage": "panel_interpretation",
+      "message": "Computing panel spread for impact and originality.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "imp-053",
+      "timestamp": "2026-05-17T04:20:52.000Z",
+      "type": "panel_split_detected",
+      "stage": "panel_interpretation",
+      "message": "Meaningful Impact split detected between Sam and Andrej.",
+      "severity": "warning",
+      "details": {
+        "criterion": "impact",
+        "consensus": "low",
+        "meaningful": true,
+        "highestJudge": "sam-altman",
+        "highestReason": "Strong product narrative, sharp audience, and an obvious behavior change for hackathon teams.",
+        "lowestJudge": "andrej-karpathy",
+        "lowestReason": "Impact claims are not backed by measured outcomes; the system has not yet been verified end-to-end.",
+        "resolutionNote": "Sam and Brian see real user value worth shipping; Ilya and Andrej hold back because the originality and verification signals are thin."
+      }
+    },
+    {
+      "id": "imp-054",
+      "timestamp": "2026-05-17T04:20:53.000Z",
+      "type": "panel_split_detected",
+      "stage": "panel_interpretation",
+      "message": "Secondary Originality split detected between Ilya and Andrej.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "consensus": "low",
+        "meaningful": true,
+        "highestJudge": "ilya-sutskever",
+        "highestReason": "The onboarding-as-agent framing is the most interesting thing in this submission.",
+        "lowestJudge": "andrej-karpathy",
+        "lowestReason": "There is no new mechanism, learning loop, or evaluation under the hood.",
+        "resolutionNote": "Ilya sees a mild conceptual lift; Andrej sees a familiar substrate. Both agree the product story is what carries the submission."
+      }
+    },
+    {
+      "id": "imp-055",
+      "timestamp": "2026-05-17T04:20:54.000Z",
+      "type": "stage_completed",
+      "stage": "panel_interpretation",
+      "message": "Panel interpretation complete with two meaningful splits.",
+      "severity": "success",
+      "details": {
+        "splits": 2
+      }
+    },
+    {
+      "id": "imp-056",
+      "timestamp": "2026-05-17T04:20:55.000Z",
+      "type": "stage_started",
+      "stage": "report_generation",
+      "message": "Generating impact-heavy report from final session state.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "imp-057",
+      "timestamp": "2026-05-17T04:20:56.000Z",
+      "type": "report_generated",
+      "stage": "report_generation",
+      "message": "Report generated with two meaningful panel splits and clear impact-vs-novelty tradeoff.",
+      "severity": "success",
+      "details": {
+        "sections": [
+          "scorecard",
+          "per-judge",
+          "evidence",
+          "panel-splits",
+          "suggested-improvements"
+        ]
+      }
+    },
+    {
+      "id": "imp-058",
+      "timestamp": "2026-05-17T04:20:57.000Z",
+      "type": "stage_completed",
+      "stage": "report_generation",
+      "message": "Report generation complete.",
+      "severity": "success",
+      "details": {
+        "duration_ms": 2000
+      }
+    },
+    {
+      "id": "imp-059",
+      "timestamp": "2026-05-17T04:20:58.000Z",
+      "type": "evaluation_completed",
+      "stage": "report_generation",
+      "message": "Impact-heavy replay evaluation complete.",
+      "severity": "success",
+      "details": {
+        "fixture": "impact-heavy-replay"
+      }
+    }
+  ]
+}

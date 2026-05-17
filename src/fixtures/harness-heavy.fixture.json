@@ -1,0 +1,1023 @@
+{
+  "meta": {
+    "id": "harness-heavy-replay",
+    "name": "Harness-Heavy Replay",
+    "mode": "replay",
+    "track": "Harness / Skills Track",
+    "panel": [
+      "sam-altman",
+      "andrej-karpathy",
+      "ilya-sutskever",
+      "brian-chesky",
+      "harrison-chase"
+    ],
+    "repoLabel": "demo-fixtures/loop-lab-harness",
+    "summary": "A submission obsessed with autonomous workflow rigor. Multiple prompts, decomposition graphs, recovery flows, and persistent evidence logs — but the live UI is bare and the product story is missing. Harrison and Andrej score the harness highly; Brian scores it lowest because the value never reaches the user.",
+    "expectedScoreBand": {
+      "min": 55,
+      "max": 75
+    },
+    "requiredHarnessSplit": true
+  },
+  "events": [
+    {
+      "id": "hh-001",
+      "timestamp": "2026-05-17T04:30:00.000Z",
+      "type": "stage_started",
+      "stage": "intake",
+      "message": "Replay fixture session created for demo-fixtures/loop-lab-harness.",
+      "severity": "info",
+      "details": {
+        "mode": "replay",
+        "repo": "demo-fixtures/loop-lab-harness"
+      }
+    },
+    {
+      "id": "hh-002",
+      "timestamp": "2026-05-17T04:30:01.000Z",
+      "type": "track_selected",
+      "stage": "track_panel",
+      "message": "Harness / Skills Track selected.",
+      "severity": "info",
+      "details": {
+        "track": "Harness / Skills Track"
+      }
+    },
+    {
+      "id": "hh-003",
+      "timestamp": "2026-05-17T04:30:02.000Z",
+      "type": "panel_selected",
+      "stage": "track_panel",
+      "message": "Five-lens replay panel loaded for a harness-heavy submission.",
+      "severity": "success",
+      "details": {
+        "panel": [
+          "sam-altman",
+          "andrej-karpathy",
+          "ilya-sutskever",
+          "brian-chesky",
+          "harrison-chase"
+        ],
+        "canonicalPreset": "Harness / Skills Track"
+      }
+    },
+    {
+      "id": "hh-004",
+      "timestamp": "2026-05-17T04:30:03.000Z",
+      "type": "stage_completed",
+      "stage": "track_panel",
+      "message": "Track and panel selection complete.",
+      "severity": "success",
+      "details": {
+        "panel_size": 5
+      }
+    },
+    {
+      "id": "hh-005",
+      "timestamp": "2026-05-17T04:30:04.000Z",
+      "type": "stage_completed",
+      "stage": "intake",
+      "message": "Replay intake complete.",
+      "severity": "success",
+      "details": {
+        "confidence": 1
+      }
+    },
+    {
+      "id": "hh-006",
+      "timestamp": "2026-05-17T04:30:05.000Z",
+      "type": "stage_started",
+      "stage": "stack_detection",
+      "message": "Detecting stack from fixture manifest.",
+      "severity": "info",
+      "details": {
+        "files": [
+          "package.json",
+          "tsconfig.json",
+          "vite.config.ts"
+        ]
+      }
+    },
+    {
+      "id": "hh-007",
+      "timestamp": "2026-05-17T04:30:06.000Z",
+      "type": "stack_detected",
+      "stage": "stack_detection",
+      "message": "Vite + TypeScript app with a separate harness/loop runner under scripts/.",
+      "severity": "success",
+      "details": {
+        "framework": "Vite",
+        "language": "TypeScript",
+        "extras": [
+          "scripts/loop-runner.mjs",
+          "scripts/recovery.mjs"
+        ]
+      }
+    },
+    {
+      "id": "hh-008",
+      "timestamp": "2026-05-17T04:30:07.000Z",
+      "type": "stage_completed",
+      "stage": "stack_detection",
+      "message": "Stack detection complete.",
+      "severity": "success",
+      "details": {
+        "duration_ms": 2000
+      }
+    },
+    {
+      "id": "hh-009",
+      "timestamp": "2026-05-17T04:30:08.000Z",
+      "type": "stage_started",
+      "stage": "documentation_review",
+      "message": "Reading SPEC, AGENT_PROMPT, FORET, and submission notes.",
+      "severity": "info",
+      "details": {
+        "docs": [
+          "SPEC.md",
+          "AGENT_PROMPT.md",
+          "FORET.md",
+          "SUBMISSION.md",
+          "RECOVERY.md"
+        ]
+      }
+    },
+    {
+      "id": "hh-010",
+      "timestamp": "2026-05-17T04:30:09.000Z",
+      "type": "file_found",
+      "stage": "documentation_review",
+      "message": "Detailed spec, agent prompt, recovery guide, and submission summary all present.",
+      "severity": "success",
+      "details": {
+        "files": [
+          "SPEC.md",
+          "AGENT_PROMPT.md",
+          "FORET.md",
+          "RECOVERY.md",
+          "SUBMISSION.md"
+        ]
+      }
+    },
+    {
+      "id": "hh-011",
+      "timestamp": "2026-05-17T04:30:10.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Harrison rewards the spec for explicit acceptance criteria.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 14,
+        "reason": "SPEC.md states acceptance criteria, success metrics, and behavioral constraints up front.",
+        "evidence": [
+          "SPEC.md ships eight numbered acceptance criteria"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "harness_agent_engineering.spec_clarity"
+      }
+    },
+    {
+      "id": "hh-012",
+      "timestamp": "2026-05-17T04:30:11.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Andrej credits the documentation as honest engineering writing.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 6,
+        "reason": "FORET.md tracks decisions, dead ends, and recovery actions clearly.",
+        "evidence": [
+          "FORET.md updates with timestamps after each loop"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:FORET.md",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "hh-013",
+      "timestamp": "2026-05-17T04:30:12.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Sam acknowledges the impact framing but flags ambition gap.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "sam-altman",
+        "delta": 13,
+        "reason": "Audience is clear, but most of the writing energy went into harness rigor rather than ambition.",
+        "evidence": [
+          "SUBMISSION.md leads with engineering rigor, not user pain"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SUBMISSION.md",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "hh-014",
+      "timestamp": "2026-05-17T04:30:13.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Andrej awards moderate impact.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "andrej-karpathy",
+        "delta": 10,
+        "reason": "The audience is plausible, but the docs are about the system, not the people using it.",
+        "evidence": [
+          "SUBMISSION.md cites the rubric more than the user"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SUBMISSION.md",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "hh-015",
+      "timestamp": "2026-05-17T04:30:14.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian credits the docs for clarity but flags the missing user story.",
+      "severity": "warning",
+      "details": {
+        "criterion": "impact",
+        "judge": "brian-chesky",
+        "delta": 11,
+        "reason": "Audience is described, but I cannot picture the moment of value yet.",
+        "evidence": [
+          "README opens with architecture, not the user experience"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.useful_workflow"
+      }
+    },
+    {
+      "id": "hh-016",
+      "timestamp": "2026-05-17T04:30:15.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Harrison gives moderate impact credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "harrison-chase",
+        "delta": 12,
+        "reason": "Solid problem framing; the harness rigor itself helps the impact story.",
+        "evidence": [
+          "SPEC.md links audience to harness verification steps"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "impact.audience_clarity"
+      }
+    },
+    {
+      "id": "hh-017",
+      "timestamp": "2026-05-17T04:30:16.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Ilya gives moderate impact credit and notes the depth angle.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "ilya-sutskever",
+        "delta": 11,
+        "reason": "Audience is plausible; depth of harness implies the team takes the problem seriously.",
+        "evidence": [
+          "FORET.md records lessons from previous loops"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:FORET.md",
+        "rubric_clause_ref": "impact.practical_value"
+      }
+    },
+    {
+      "id": "hh-018",
+      "timestamp": "2026-05-17T04:30:17.000Z",
+      "type": "stage_completed",
+      "stage": "documentation_review",
+      "message": "Documentation review complete.",
+      "severity": "success",
+      "details": {
+        "docs": 5
+      }
+    },
+    {
+      "id": "hh-019",
+      "timestamp": "2026-05-17T04:30:18.000Z",
+      "type": "stage_started",
+      "stage": "prompt_discovery",
+      "message": "Looking for prompt, task decomposition, and recovery evidence.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "hh-020",
+      "timestamp": "2026-05-17T04:30:19.000Z",
+      "type": "file_found",
+      "stage": "prompt_discovery",
+      "message": "AGENT_PROMPT.md, TASK_GRAPH.md, and RECOVERY.md all present.",
+      "severity": "success",
+      "details": {
+        "files": [
+          "AGENT_PROMPT.md",
+          "TASK_GRAPH.md",
+          "RECOVERY.md"
+        ]
+      }
+    },
+    {
+      "id": "hh-021",
+      "timestamp": "2026-05-17T04:30:20.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Harrison gives near-max harness credit for the depth of the autonomous loop.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 14,
+        "reason": "Prompt, task graph, recovery flow, and per-loop logging all in place; this is the strongest harness on the bench.",
+        "evidence": [
+          "AGENT_PROMPT.md defines a loop with verify-then-improve steps",
+          "TASK_GRAPH.md decomposes work into a dependency-tracked plan",
+          "RECOVERY.md describes resume-from-failure behavior"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "hh-022",
+      "timestamp": "2026-05-17T04:30:21.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Andrej rewards the harness for being inspectable.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "andrej-karpathy",
+        "delta": 14,
+        "reason": "Every harness artifact is short, readable, and version-controlled with the code.",
+        "evidence": [
+          "All harness docs live in the repo root and link to one another"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:TASK_GRAPH.md",
+        "rubric_clause_ref": "harness_agent_engineering.spec_clarity"
+      }
+    },
+    {
+      "id": "hh-023",
+      "timestamp": "2026-05-17T04:30:22.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Ilya gives strong originality credit for the recursive harness design.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "ilya-sutskever",
+        "delta": 12,
+        "reason": "The recovery loop reads its own previous report and improves the next iteration — that is the kind of mechanism worth shipping.",
+        "evidence": [
+          "RECOVERY.md describes 'read previous loop output, decide next focus'"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:RECOVERY.md",
+        "rubric_clause_ref": "originality.creative_use_of_agents"
+      }
+    },
+    {
+      "id": "hh-024",
+      "timestamp": "2026-05-17T04:30:23.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Ilya also rewards harness depth in the harness dimension.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "ilya-sutskever",
+        "delta": 13,
+        "reason": "The mechanism rewards each loop with the prior loop's reflection — non-trivial agent design.",
+        "evidence": [
+          "scripts/loop-runner.mjs reads scripts/recovery output before planning"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:scripts/loop-runner.mjs",
+        "rubric_clause_ref": "harness_agent_engineering.task_decomposition"
+      }
+    },
+    {
+      "id": "hh-025",
+      "timestamp": "2026-05-17T04:30:24.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Sam credits the harness but flags that this energy could have gone into product polish.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "sam-altman",
+        "delta": 12,
+        "reason": "Harness rigor is real and useful, but the same engineering minutes did not reach the user.",
+        "evidence": [
+          "Most repo activity is in scripts/, not in the user-facing UI"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:scripts",
+        "rubric_clause_ref": "harness_agent_engineering.evidence_logging"
+      }
+    },
+    {
+      "id": "hh-026",
+      "timestamp": "2026-05-17T04:30:25.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Brian is the lowest harness voice on the panel.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": 14,
+        "reason": "The harness exists and is documented, but no user sees this and there is no product story carrying it.",
+        "evidence": [
+          "Harness lives in scripts/ and docs/; the UI never shows it"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:scripts",
+        "rubric_clause_ref": "harness_agent_engineering.submission_report_readiness"
+      }
+    },
+    {
+      "id": "hh-027",
+      "timestamp": "2026-05-17T04:30:26.000Z",
+      "type": "stage_completed",
+      "stage": "prompt_discovery",
+      "message": "Prompt discovery complete; the harness is the strongest signal in the submission.",
+      "severity": "success",
+      "details": {
+        "files": 3
+      }
+    },
+    {
+      "id": "hh-028",
+      "timestamp": "2026-05-17T04:30:27.000Z",
+      "type": "stage_started",
+      "stage": "structure_inspection",
+      "message": "Inspecting source layout, harness scripts, and tests.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "hh-029",
+      "timestamp": "2026-05-17T04:30:28.000Z",
+      "type": "evidence_found",
+      "stage": "structure_inspection",
+      "message": "Source split between src/app, src/evaluator, scripts/, and tests/.",
+      "severity": "success",
+      "details": {
+        "directories": [
+          "src/app",
+          "src/evaluator",
+          "scripts",
+          "tests",
+          "fixtures"
+        ]
+      }
+    },
+    {
+      "id": "hh-030",
+      "timestamp": "2026-05-17T04:30:29.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Andrej rewards clear architectural separation.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 11,
+        "reason": "Evaluator and UI are properly isolated; scripts/ contains the harness in plain Node.",
+        "evidence": [
+          "src/evaluator/ is import-free of any UI code"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "directory:src/evaluator",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "hh-031",
+      "timestamp": "2026-05-17T04:30:30.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Harrison rewards inspectability of scripts/ and tests/.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 16,
+        "reason": "Every harness step has a script; every script has a test; this is operational rigor.",
+        "evidence": [
+          "tests/loop-runner.test.mjs exercises the loop end-to-end"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "directory:tests",
+        "rubric_clause_ref": "technical_execution.tests_pass"
+      }
+    },
+    {
+      "id": "hh-032",
+      "timestamp": "2026-05-17T04:30:31.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Ilya credits coherent architecture.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "ilya-sutskever",
+        "delta": 15,
+        "reason": "The structure tells a story; nothing is hidden behind dynamic wiring.",
+        "evidence": [
+          "scripts/loop-runner.mjs and src/evaluator/ share named contracts"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:src",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "hh-033",
+      "timestamp": "2026-05-17T04:30:32.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Sam credits competence but worries about product surface.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "sam-altman",
+        "delta": 13,
+        "reason": "Engineering is competent, but most of it does not turn into anything a user touches.",
+        "evidence": [
+          "src/app/ contains four small files; scripts/ contains eleven"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:src/app",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "hh-034",
+      "timestamp": "2026-05-17T04:30:33.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Brian gives technical execution a flat score.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 13,
+        "reason": "Plumbing is fine, but the front-end is starved compared to the harness layer.",
+        "evidence": [
+          "src/app/ has no marketing-grade copy or visuals"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "directory:src/app",
+        "rubric_clause_ref": "technical_execution.reproducibility"
+      }
+    },
+    {
+      "id": "hh-035",
+      "timestamp": "2026-05-17T04:30:34.000Z",
+      "type": "stage_completed",
+      "stage": "structure_inspection",
+      "message": "Structure inspection complete.",
+      "severity": "success",
+      "details": {
+        "directories": 5
+      }
+    },
+    {
+      "id": "hh-036",
+      "timestamp": "2026-05-17T04:30:35.000Z",
+      "type": "stage_started",
+      "stage": "verification",
+      "message": "Replay reports the captured verification log.",
+      "severity": "info",
+      "details": {
+        "commands": [
+          "npm run validate",
+          "npm run test",
+          "npm run loop"
+        ]
+      }
+    },
+    {
+      "id": "hh-037",
+      "timestamp": "2026-05-17T04:30:36.000Z",
+      "type": "command_completed",
+      "stage": "verification",
+      "message": "npm run validate and npm run test succeeded in the captured log.",
+      "severity": "success",
+      "details": {
+        "command": "npm run validate && npm run test",
+        "exit_code": 0
+      }
+    },
+    {
+      "id": "hh-038",
+      "timestamp": "2026-05-17T04:30:37.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Harrison credits the build/test loop evidence.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 14,
+        "reason": "Verification is a first-class loop step with captured exit codes and durations.",
+        "evidence": [
+          "scripts/loop-runner.mjs records each step's exit code and timestamp"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:scripts/loop-runner.mjs",
+        "rubric_clause_ref": "harness_agent_engineering.build_test_loop"
+      }
+    },
+    {
+      "id": "hh-039",
+      "timestamp": "2026-05-17T04:30:38.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Andrej credits the verification rigor.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "andrej-karpathy",
+        "delta": 12,
+        "reason": "Captured logs are durable evidence, not screenshots; this is what verification should look like.",
+        "evidence": [
+          "ledger/ contains JSON logs for every loop iteration"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "directory:ledger",
+        "rubric_clause_ref": "harness_agent_engineering.build_test_loop"
+      }
+    },
+    {
+      "id": "hh-040",
+      "timestamp": "2026-05-17T04:30:39.000Z",
+      "type": "stage_completed",
+      "stage": "verification",
+      "message": "Verification complete; loop-runner evidence is strong.",
+      "severity": "success",
+      "details": {
+        "commands_passed": 3,
+        "commands_failed": 0
+      }
+    },
+    {
+      "id": "hh-041",
+      "timestamp": "2026-05-17T04:30:40.000Z",
+      "type": "stage_started",
+      "stage": "scoring",
+      "message": "Applying lens scoring for originality and demo polish.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "hh-042",
+      "timestamp": "2026-05-17T04:30:41.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison awards originality for the recursive harness design.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "harrison-chase",
+        "delta": 8,
+        "reason": "Self-reflecting loop is interesting agent engineering even if the product surface is plain.",
+        "evidence": [
+          "RECOVERY.md describes feedback-driven planning"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:RECOVERY.md",
+        "rubric_clause_ref": "originality.creative_use_of_agents"
+      }
+    },
+    {
+      "id": "hh-043",
+      "timestamp": "2026-05-17T04:30:42.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej gives originality a measured credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "andrej-karpathy",
+        "delta": 7,
+        "reason": "Recursive harness is interesting but not unprecedented; the implementation matters more than the framing.",
+        "evidence": [
+          "TASK_GRAPH.md is structurally similar to existing tools"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:TASK_GRAPH.md",
+        "rubric_clause_ref": "originality.framing"
+      }
+    },
+    {
+      "id": "hh-044",
+      "timestamp": "2026-05-17T04:30:43.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam gives moderate originality credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "sam-altman",
+        "delta": 9,
+        "reason": "Distinct enough to talk about; not so distinct that it would build a market alone.",
+        "evidence": [
+          "Submission claims novelty in workflow, not in concept"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SUBMISSION.md",
+        "rubric_clause_ref": "originality.framing"
+      }
+    },
+    {
+      "id": "hh-045",
+      "timestamp": "2026-05-17T04:30:44.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian gives originality a flat score.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "brian-chesky",
+        "delta": 7,
+        "reason": "Without a memorable product moment, novelty does not register.",
+        "evidence": [
+          "Demo storyboard never surfaces the recursive aspect"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "originality.differentiated"
+      }
+    },
+    {
+      "id": "hh-046",
+      "timestamp": "2026-05-17T04:30:45.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam gives the demo a low-to-moderate score.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "sam-altman",
+        "delta": 7,
+        "reason": "The harness story is interesting to engineers, but most judges will need narration to follow it.",
+        "evidence": [
+          "DEMO.md scripts a 3-minute talk track that depends on the presenter"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.first_screen"
+      }
+    },
+    {
+      "id": "hh-047",
+      "timestamp": "2026-05-17T04:30:46.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej gives the demo a modest score.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "andrej-karpathy",
+        "delta": 6,
+        "reason": "Functional and honest, but the demo does little to highlight the harness work.",
+        "evidence": [
+          "DEMO.md is text-heavy and relies on inspection"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.smooth_flow"
+      }
+    },
+    {
+      "id": "hh-048",
+      "timestamp": "2026-05-17T04:30:47.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya gives the demo a low score.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "ilya-sutskever",
+        "delta": 5,
+        "reason": "The interesting mechanism never reaches the visible part of the product.",
+        "evidence": [
+          "Demo storyboard treats the harness as background"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.fixtures"
+      }
+    },
+    {
+      "id": "hh-049",
+      "timestamp": "2026-05-17T04:30:48.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian gives demo a low score and flags it as the project's biggest gap.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 6,
+        "reason": "There is no first screen that makes value obvious; judges will leave without the punchline.",
+        "evidence": [
+          "DEMO.md opens with terminology rather than user value"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.first_screen"
+      }
+    },
+    {
+      "id": "hh-050",
+      "timestamp": "2026-05-17T04:30:49.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison gives the demo a fair but low score.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "harrison-chase",
+        "delta": 5,
+        "reason": "The demo undersells the harness investment.",
+        "evidence": [
+          "DEMO.md does not surface the loop's reasoning trail"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:DEMO.md",
+        "rubric_clause_ref": "demo_quality.fixtures"
+      }
+    },
+    {
+      "id": "hh-051",
+      "timestamp": "2026-05-17T04:30:50.000Z",
+      "type": "deduction_applied",
+      "stage": "scoring",
+      "message": "No marketing-grade first-screen artifact found.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 0,
+        "reason": "Missing first-screen value statement flagged for the report.",
+        "evidence": [
+          "public/ folder lacks any hero image or copy file"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:demo-hero-asset",
+        "rubric_clause_ref": "demo_quality.first_screen"
+      }
+    },
+    {
+      "id": "hh-052",
+      "timestamp": "2026-05-17T04:30:51.000Z",
+      "type": "stage_completed",
+      "stage": "scoring",
+      "message": "Five-lens scoring complete; Harness shows the demo-defining split.",
+      "severity": "success",
+      "details": {
+        "splits": 1
+      }
+    },
+    {
+      "id": "hh-053",
+      "timestamp": "2026-05-17T04:30:52.000Z",
+      "type": "stage_started",
+      "stage": "panel_interpretation",
+      "message": "Computing panel spread for harness and demo.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "hh-054",
+      "timestamp": "2026-05-17T04:30:53.000Z",
+      "type": "panel_split_detected",
+      "stage": "panel_interpretation",
+      "message": "Meaningful Harness / Agent Engineering split detected between Harrison and Brian.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "consensus": "low",
+        "meaningful": true,
+        "highestJudge": "harrison-chase",
+        "highestReason": "Prompt, task graph, recovery flow, captured loop logs, and verification step are all in place — strongest harness on the bench.",
+        "lowestJudge": "brian-chesky",
+        "lowestReason": "The harness is real but invisible to users; the product story never makes the rigor legible in the demo window.",
+        "resolutionNote": "Harrison and Andrej see the strongest agent-process work in the field; Brian penalizes because the demo never lets the harness pay off for a judge in a hurry."
+      }
+    },
+    {
+      "id": "hh-055",
+      "timestamp": "2026-05-17T04:30:54.000Z",
+      "type": "stage_completed",
+      "stage": "panel_interpretation",
+      "message": "Panel interpretation complete with one meaningful split.",
+      "severity": "success",
+      "details": {
+        "splits": 1
+      }
+    },
+    {
+      "id": "hh-056",
+      "timestamp": "2026-05-17T04:30:55.000Z",
+      "type": "stage_started",
+      "stage": "report_generation",
+      "message": "Generating harness-heavy report from final session state.",
+      "severity": "info",
+      "details": {}
+    },
+    {
+      "id": "hh-057",
+      "timestamp": "2026-05-17T04:30:56.000Z",
+      "type": "report_generated",
+      "stage": "report_generation",
+      "message": "Report generated emphasizing harness rigor and the demo-readability gap.",
+      "severity": "success",
+      "details": {
+        "sections": [
+          "scorecard",
+          "per-judge",
+          "evidence",
+          "panel-splits",
+          "suggested-improvements"
+        ]
+      }
+    },
+    {
+      "id": "hh-058",
+      "timestamp": "2026-05-17T04:30:57.000Z",
+      "type": "stage_completed",
+      "stage": "report_generation",
+      "message": "Report generation complete.",
+      "severity": "success",
+      "details": {
+        "duration_ms": 2000
+      }
+    },
+    {
+      "id": "hh-059",
+      "timestamp": "2026-05-17T04:30:58.000Z",
+      "type": "evaluation_completed",
+      "stage": "report_generation",
+      "message": "Harness-heavy replay evaluation complete.",
+      "severity": "success",
+      "details": {
+        "fixture": "harness-heavy-replay"
+      }
+    }
+  ]
+}

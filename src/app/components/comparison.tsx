@@ -19,6 +19,16 @@ const fixtureRoles: Record<string, { role: string; purpose: string }> = {
     role: "Main demo",
     purpose: "High-scoring harness run with the required Harrison/Brian split.",
   },
+  "harness-heavy-replay": {
+    role: "Harness-vs-demo split",
+    purpose:
+      "Very strong agent process with a thin demo surface. Harrison and Andrej score it highly; Brian penalizes because the rigor never reaches the user.",
+  },
+  "impact-heavy-replay": {
+    role: "Impact-vs-novelty split",
+    purpose:
+      "Strong product story with thin originality and harness evidence. Sam and Brian score it high while Ilya and Andrej hold back.",
+  },
   "medium-submission-replay": {
     role: "Calibration",
     purpose: "Checks that runnable-but-light submissions land in the middle.",
