@@ -44,9 +44,24 @@ Ralph Ledger's core demo is: submit a GitHub repo, local path, or fixture; choos
   - Harrison Chase: agent harness
 - Support track-aware panel presets for Overall Ralphthon, Impact Track, Harness / Skills Track, Technical Execution, and Demo Readiness.
 
+## Spec Hardening (2026-05-17)
+
+`SPEC.md` was reviewed before its first `/goal` run and tightened in five places. Each change exists to prevent a specific failure mode of the unattended build — keep them in mind when editing the spec further.
+
+1. **Phase 0 / Walking Skeleton ordering** (§Build Order). Without it, the agent would spread thin across all 5 judges, 7 views, 9 stages, and ship a shallow version of everything. Phase 0 forces 2 judges (Harrison + Brian), Replay mode, and 3 core views to be demoable end-to-end before anything else.
+2. **Replay Fixture Mode promoted to canonical demo path** (§Demo Reliability Modes). GitHub URL Mode is now Phase 2 / stretch. Cloning + `npm install` against an unknown repo during a 3-min judging window is the single highest-risk path; Replay protects against Wi-Fi, GitHub, and install failures and is the only mode required by Phase 0.
+3. **Consensus math normalized to 0–1** (§Consensus Math). Original formula applied `bias × raw_points` then capped at dimension max — Harrison's 1.40× on a Harness/30 dimension would silently saturate and kill the Panel Splits view's hero moment. New formula clamps after normalization so bias multipliers shape the spread, not just the ceiling.
+4. **Confidence Model defined once** (§Confidence Model). "Confidence" was referenced 14× across rubric, events, and report with no definition. Now: 1.0 observed / 0.7 inferred / 0.4 user-claim / 0.0 missing. Single source of truth so the agent doesn't invent per-module variants.
+5. **Acceptance Criteria + Panel DoD collapsed** into pointers at §Final Product Success Metrics. Three overlapping checklists would have drifted; the Success Metrics block is self-scorable and is now the single bar for "done".
+
+Plus naming guardrail at the top: product is **Ralph Ledger**, the directory is `ex-screentime` for legacy reasons — do not rename anything based on the directory.
+
 ## Open Questions
 
 - Should the GitHub repo be private or public?
-- Which exact stack should be used?
+- Which exact stack should be used? (SPEC suggests React + Vite + TypeScript + Node + JSON/JSONL file-backed data, no DB, no auth, no API keys required.)
 - Which dev server port should be reserved in `../PROJECTS.md`?
-- Should the MVP include real GitHub cloning, local path evaluation, replay fixtures first, or all three in the first autonomous build pass?
+
+## Resolved Questions
+
+- **Which input mode should the MVP build first?** Replay Fixture Mode, per Phase 0 of §Build Order. Local Path is Phase 1, GitHub URL is Phase 2.
