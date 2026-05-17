@@ -74,6 +74,19 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Use `npm run validate` to guard each fixture's event schema, expected score band, completion event, and the strong fixture's required Harrison/Brian harness disagreement.
 - Use `npm run test:reducer` to guard reducer math and detail validation directly.
 
+## UI Audit Pass (2026-05-17)
+
+Ran `/audit` on the Ralph Ledger cockpit and applied every P1–P3 finding in commit `23e4243`. The audit started at 13/20 (Acceptable); estimated post-fix score is 18/20 (Excellent). Keep these patterns when extending the UI:
+
+- **Token discipline.** Every card surface goes through `var(--card-bg)`; every circular judge marker uses `color: var(--marker-fg)`. Never inline `#fffaf1` or `color: white` — the audit explicitly flagged 20+ such drift instances. Token set lives at the top of `src/app/styles/base.css`.
+- **Focus-visible is a baseline.** `base.css` ships a `--focus-ring` (light-bg) and `--focus-ring-on-dark` (used on `.button--primary` and the active tab). New interactive elements inherit the baseline automatically; only override when the background is dark.
+- **Touch targets ≥ 44 px** for buttons, inputs, selects, summary toggles, tab buttons, and the panel-choice label. `.pill` is 32 px when static and 36 px when rendered as a button (`button.pill`). Don't shrink these to "look tighter."
+- **Tabs use WAI-ARIA Tabs pattern.** The deck inspector is `role="tablist"` with roving `tabIndex`, arrow/Home/End keyboard handler (`handleTabKey` in `App.tsx`), and a `tabRefs` map for `.focus()` calls. The deck content is `role="tabpanel"` with `tabIndex={0}` so the panel is reachable via Tab after a tab is activated. Never go back to a `<nav>` wrapping styled buttons.
+- **Stage progress is an `<ol>`.** `aria-current="step"` marks the in-progress stage; `.stage-step.is-done span::after` paints a `✓` so screen-reader-free users with color-vision deficiency can still distinguish done from current.
+- **Memoize fixture replays.** `FIXTURE_FINAL_STATES` at the top of `components.tsx` precomputes each fixture's final reducer state at module load. `FixtureComparison` wraps the per-panel scoring in `useMemo([panel])`. If you add fixture sorts or new comparison columns, keep the data inside the same memo.
+- **Font weights snap to 100-step.** Drop 750/760/850 — they round inconsistently across system fonts. Use 700 / 800 / 900.
+- **Smallest text floor is 0.72 rem** for any label colored with `var(--muted)`. Below that, contrast on `var(--card-bg)` fails AAA and feels noisy.
+
 ## Spec Hardening (2026-05-17)
 
 `SPEC.md` was reviewed before its first `/goal` run and tightened in five places. Each change exists to prevent a specific failure mode of the unattended build — keep them in mind when editing the spec further.
