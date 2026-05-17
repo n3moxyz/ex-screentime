@@ -20,7 +20,7 @@ Open `http://127.0.0.1:5173/`, paste a GitHub repo URL, choose `Harness`, `Impac
 
 - Primary intake is now GitHub URL, three evaluation tracks, and Start.
 - A visible `Run safe replay demo` button is one click from a cold screen and runs the strong fixture without requiring URL entry.
-- GitHub URL Mode clones allowlisted public repos with `git clone --depth 1 --filter=blob:none --single-branch`, runs the same static inspection pipeline as Local Path Mode against the cloned tree, and cleans up the temp directory whether the clone succeeds or fails. Non-allowlisted URLs are rejected with a clear message and replay stays one click away.
+- GitHub URL Mode clones any public `https://github.com/<org>/<repo>` URL with `git clone --depth 1 --no-tags --no-recurse-submodules --filter=blob:none --single-branch` (plus `protocol.file.allow=never`, `protocol.ext.allow=never`, `core.symlinks=false`), runs the same static inspection pipeline as Local Path Mode against the cloned tree, and cleans up the temp directory whether the clone succeeds or fails. Ralph Ledger never executes the cloned code — no install, build, test, hooks, or submodule fetches — so opening the input to any public repo is safe; the safety comes from the static pipeline, not from a URL gate.
 - The strong deterministic replay fixture is hidden as the default safe baseline.
 - Harness-heavy and impact-heavy calibration fixtures surface the educational panel splits (Harrison/Andrej vs Brian on harness; Sam/Brian vs Ilya/Andrej on impact) alongside medium and weak fixtures in Compare Fixtures.
 - Live Evaluation View renders staged events.
@@ -67,8 +67,7 @@ Visual smoke opens the app in headless system Chrome at desktop and mobile width
 
 ## Known Limits
 
-- GitHub URL Mode only accepts allowlisted public repos (`src/evaluator/github-inspect.ts`). Ralph Ledger does not sandbox arbitrary code, so unknown URLs are rejected by design rather than executed.
-- GitHub URL Mode and Local Path Mode are both static-only: they read safe files but do not execute documented build, test, or install commands.
+- GitHub URL Mode and Local Path Mode are both static-only: they read safe files (capped at 120 KB each) but do not execute documented build, test, or install commands. GitHub URL Mode accepts any `https://github.com/<org>/<repo>` URL; the suggestion list in the UI is informational, not a gate.
 - Replay evidence is pre-recorded and labeled as replay in the top bar; the report's `What Was Inspected` section says explicitly which mode produced it.
 - The GitHub remote still needs to be renamed or recreated as `n3moxyz/ralph-ledger` before a public handoff if the original scaffold remote remains in use.
 

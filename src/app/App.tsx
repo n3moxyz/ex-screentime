@@ -141,7 +141,7 @@ export function App() {
   const [localLoading, setLocalLoading] = useState(false);
   const [githubStatus, setGithubStatus] = useState("");
   const [githubLoading, setGithubLoading] = useState(false);
-  const [githubAllowlist, setGithubAllowlist] = useState<string[]>([]);
+  const [githubSuggestions, setGithubSuggestions] = useState<string[]>([]);
   const [replaySpeed, setReplaySpeed] = useState<ReplaySpeed>(getInitialReplaySpeed);
   const fixture = localFixture ?? (getFixtureById(selectedFixtureId) as ReplayFixture);
   const [selectedCriterion, setSelectedCriterion] =
@@ -311,12 +311,12 @@ export function App() {
       try {
         const response = await fetch("/api/github-inspect");
         if (!response.ok) return;
-        const payload = (await response.json()) as { allowlist?: string[] };
-        if (!cancelled && Array.isArray(payload.allowlist)) {
-          setGithubAllowlist(payload.allowlist);
+        const payload = (await response.json()) as { suggestions?: string[] };
+        if (!cancelled && Array.isArray(payload.suggestions)) {
+          setGithubSuggestions(payload.suggestions);
         }
       } catch {
-        /* allowlist is informational; ignore fetch failure */
+        /* suggestion list is informational; ignore fetch failure */
       }
     })();
     return () => {
@@ -332,7 +332,7 @@ export function App() {
     }
     setGithubLoading(true);
     setGithubStatus(
-      "Cloning into a temp directory. Ralph Ledger does not sandbox arbitrary repos; the allowlist is enforced.",
+      "Cloning into a temp directory. Ralph Ledger only reads files; it does not execute the cloned repo.",
     );
     try {
       const response = await fetch("/api/github-inspect", {
@@ -582,37 +582,41 @@ export function App() {
             <p>
               {fixture.meta.mode === "local-static"
                 ? fixture.meta.submittedRepoUrl
-                  ? "GitHub Clone Mode statically inspected a cloned working tree. Ralph Ledger does not sandbox arbitrary code, so only allowlisted repos can be cloned."
+                  ? "GitHub Clone Mode statically inspected a cloned working tree. Ralph Ledger reads files only and never executes repo commands."
                   : "Local Path Mode reads safe files and source layout only. It does not run install, build, test, or arbitrary repo commands."
-                : "GitHub URL Mode previews the safe replay baseline. Use the GitHub clone fallback to statically inspect an allowlisted repo, or run the safe replay demo for the canonical judging path."}
+                : "GitHub URL Mode previews the safe replay baseline. Use the GitHub clone fallback to statically inspect any public GitHub repo, or run the safe replay demo for the canonical judging path."}
             </p>
           </div>
 
           <details className="fallback-panel">
             <summary>
               <GitBranch size={16} aria-hidden="true" />
-              <span>GitHub clone (allowlist only)</span>
+              <span>Clone & inspect from GitHub</span>
             </summary>
             <p>
-              Clones a vetted public repo with <code>--depth 1</code> into a temp directory, runs the
-              same static inspection as Local Path Mode, and never executes install or build commands.
-              Ralph Ledger does <strong>not</strong> sandbox arbitrary code; only allowlisted repos are
-              accepted.
+              Clones any public <code>https://github.com/&lt;org&gt;/&lt;repo&gt;</code> URL with{" "}
+              <code>--depth 1 --filter=blob:none --single-branch --no-recurse-submodules</code> into
+              a temp directory, runs the same static inspection as Local Path Mode against the
+              cloned tree, then deletes the temp directory. Ralph Ledger does <strong>not</strong>{" "}
+              execute install, build, test, hooks, or submodule fetches — it only reads files.
             </p>
-            {githubAllowlist.length > 0 && (
-              <ul className="github-allowlist">
-                {githubAllowlist.map((url) => (
-                  <li key={url}>
-                    <button
-                      type="button"
-                      className="github-allowlist__pick"
-                      onClick={() => setGithubUrl(url)}
-                    >
-                      {url}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+            {githubSuggestions.length > 0 && (
+              <>
+                <p className="github-suggestion-label">Examples to try:</p>
+                <ul className="github-suggestion-list">
+                  {githubSuggestions.map((url) => (
+                    <li key={url}>
+                      <button
+                        type="button"
+                        className="github-suggestion__pick"
+                        onClick={() => setGithubUrl(url)}
+                      >
+                        {url}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
             <button
               className="button button--wide"

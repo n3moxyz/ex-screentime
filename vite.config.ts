@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
-import { buildGithubFixture, GITHUB_ALLOWLIST_VALUES } from "./src/evaluator/github-inspect";
+import { buildGithubFixture, GITHUB_SUGGESTION_VALUES } from "./src/evaluator/github-inspect";
 import { buildLocalFixture, LocalInspectError } from "./src/evaluator/local-inspect";
 
 const readBody = (req: IncomingMessage) =>
@@ -46,7 +46,7 @@ const inspectionPlugin = (): Plugin => ({
 
     server.middlewares.use("/api/github-inspect", async (req, res) => {
       if (req.method === "GET") {
-        sendJson(res, 200, { allowlist: GITHUB_ALLOWLIST_VALUES });
+        sendJson(res, 200, { suggestions: GITHUB_SUGGESTION_VALUES });
         return;
       }
       if (req.method !== "POST") {

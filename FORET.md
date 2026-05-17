@@ -13,7 +13,7 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Package and product identity are Ralph Ledger (`package.json` name: `ralph-ledger`).
 - Product direction is defined in `SPEC.md`.
 - Phase 0 walking skeleton, Phase 1 cockpit slice, and Phase 2 stretch items are all landed.
-- Canonical safe baseline is Replay Fixture Mode using JSON fixtures in `src/fixtures/`. The intake supports GitHub URL, three tracks, an always-visible `Run safe replay demo` button that bypasses URL entry, and a `GitHub clone (allowlist only)` fallback that clones an allowlisted public repo into a temp dir and runs the static inspection pipeline against it.
+- Canonical safe baseline is Replay Fixture Mode using JSON fixtures in `src/fixtures/`. The intake supports GitHub URL, three tracks, an always-visible `Run safe replay demo` button that bypasses URL entry, and a `Clone & inspect from GitHub` fallback that clones any public `https://github.com/<org>/<repo>` URL into a temp dir and runs the static inspection pipeline against it. The previous allowlist became an informational "Examples to try" list — safety comes from the static pipeline (no code execution, capped file reads, depth-1 clone, no submodules, no hooks), not from a URL gate.
 - Fixture set includes strong, harness-heavy, impact-heavy, medium, and weak submissions for calibration. Harness-heavy and impact-heavy are dedicated Phase 2 fixtures that sharpen the educational panel splits in Compare Fixtures.
 - The app has a live event feed, incremental scorecard, evidence inspector, rubric view, panel split view, and in-app judge report.
 - The canonical `Phase 0 Split Demo` panel still uses Harrison Chase and Brian Chesky, preserving the required harness-vs-demo disagreement.
@@ -119,7 +119,7 @@ Plus naming guardrail at the top: product, docs, and package identity should con
 - Which dev server port should be reserved in `../PROJECTS.md`?
 - Should Local Path Mode and GitHub URL Mode run only static inspection forever, or eventually execute documented commands behind an explicit trust gate?
 - Should the GitHub remote be renamed from its original scaffold name to `n3moxyz/ralph-ledger` before the next public handoff?
-- The GitHub allowlist is hard-coded in `src/evaluator/github-inspect.ts`. Should it be loaded from a config file so judges can extend it without recompiling?
+- The "Examples to try" suggestion list is hard-coded in `src/evaluator/github-inspect.ts`. Should it be loaded from a config file so judges can prefill their own quick-picks without recompiling?
 
 ## Resolved Questions
 
@@ -127,7 +127,7 @@ Plus naming guardrail at the top: product, docs, and package identity should con
 - **Which stack is used?** React + Vite + TypeScript + Node/npm + JSON fixture data, with no DB, auth, or API keys required.
 - **When should Phase 1 replace projected Sam/Andrej/Ilya scoring with authored per-event replay deltas?** Done in the strong, medium, and weak replay fixtures, plus the Phase 2 harness-heavy and impact-heavy fixtures.
 - **Should Local Path Mode run only static inspection first?** Yes. It is static-only and command execution remains deferred behind a future trust gate.
-- **How does GitHub URL Mode handle untrusted code?** It only accepts allowlisted public repos and runs the same static pipeline as Local Path Mode against a cloned working tree. It does not execute install, build, or test commands. Non-allowlisted URLs are rejected with a clear error and the safe replay path remains one click away.
+- **How does GitHub URL Mode handle untrusted code?** It accepts any public `https://github.com/<org>/<repo>` URL and runs the same static pipeline as Local Path Mode against a cloned working tree. It never executes the cloned code (no install, build, test, hooks, or submodule fetches); the clone itself runs with `--depth 1 --no-tags --no-recurse-submodules --filter=blob:none --single-branch` and disables `protocol.file`, `protocol.ext`, and symlink restoration to be belt-and-suspenders on the git-clone side. Resource guards (25s timeout, 50 MB post-clone ceiling, 120 KB per-file read cap) bound the worst case. The safe replay path stays one click away if a clone fails for any reason.
 
 ## Verification Notes
 

@@ -5,19 +5,22 @@ import path from "node:path";
 import { buildLocalFixture, LocalInspectError } from "./local-inspect";
 import type { ReplayFixture } from "./types";
 
-const GITHUB_ALLOWLIST = new Set([
+const GITHUB_SUGGESTIONS = [
   "https://github.com/n3moxyz/ralph-ledger",
   "https://github.com/n3moxyz/etskills",
   "https://github.com/anthropics/claude-code",
-]);
+];
 
 const CLONE_TIMEOUT_MS = 25_000;
 const MAX_CLONE_BYTES = 50 * 1024 * 1024;
 
 const normalizeUrl = (raw: string) => {
   const trimmed = raw.trim().replace(/\.git$/, "").replace(/\/$/, "");
-  if (!/^https:\/\/github\.com\/[^/]+\/[^/]+/.test(trimmed)) {
-    throw new LocalInspectError("Only public https://github.com/<org>/<repo> URLs are accepted.", 400);
+  if (!/^https:\/\/github\.com\/[^/]+\/[^/]+$/.test(trimmed)) {
+    throw new LocalInspectError(
+      "Only public https://github.com/<org>/<repo> URLs are accepted.",
+      400,
+    );
   }
   return trimmed;
 };
@@ -63,10 +66,17 @@ const cloneRepo = (url: string, target: string) =>
     const child = spawn(
       "git",
       [
+        "-c",
+        "protocol.file.allow=never",
+        "-c",
+        "protocol.ext.allow=never",
+        "-c",
+        "core.symlinks=false",
         "clone",
         "--depth",
         "1",
         "--no-tags",
+        "--no-recurse-submodules",
         "--filter=blob:none",
         "--single-branch",
         url,
@@ -106,17 +116,10 @@ const cloneRepo = (url: string, target: string) =>
     });
   });
 
-export const GITHUB_ALLOWLIST_VALUES = [...GITHUB_ALLOWLIST];
+export const GITHUB_SUGGESTION_VALUES = [...GITHUB_SUGGESTIONS];
 
 export const buildGithubFixture = async (rawUrl: string): Promise<ReplayFixture> => {
   const url = normalizeUrl(rawUrl);
-  if (!GITHUB_ALLOWLIST.has(url)) {
-    throw new LocalInspectError(
-      `${url} is not on the GitHub allowlist. Ralph Ledger does not sandbox arbitrary repos; add it to GITHUB_ALLOWLIST after vetting.`,
-      403,
-    );
-  }
-
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "ralph-ledger-clone-"));
   try {
     await cloneRepo(url, tempDir);
