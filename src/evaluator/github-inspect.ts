@@ -6,7 +6,7 @@ import { buildLocalFixture, LocalInspectError } from "./local-inspect";
 import type { ReplayFixture } from "./types";
 
 const GITHUB_SUGGESTIONS = [
-  "https://github.com/n3moxyz/ex-screentime",
+  "https://github.com/n3moxyz/ralph-ledger",
   "https://github.com/anthropics/claude-code",
   "https://github.com/sindresorhus/is-plain-obj",
 ];

@@ -69,7 +69,7 @@ Visual smoke opens the app in headless system Chrome at desktop and mobile width
 
 - GitHub URL Mode and Local Path Mode are both static-only: they read safe files (capped at 120 KB each) but do not execute documented build, test, or install commands. GitHub URL Mode accepts any `https://github.com/<org>/<repo>` URL; the suggestion list in the UI is informational, not a gate.
 - Replay evidence is pre-recorded and labeled as replay in the top bar; the report's `What Was Inspected` section says explicitly which mode produced it.
-- The GitHub remote still needs to be renamed or recreated as `n3moxyz/ralph-ledger` before a public handoff if the original scaffold remote remains in use.
+- The GitHub remote and local folder now use `n3moxyz/ralph-ledger`; no scaffold-era repo name should appear in the working tree or repo config.
 
 ## Self-Score
 

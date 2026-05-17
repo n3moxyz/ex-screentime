@@ -61,7 +61,7 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 
 - Started with a minimal repo scaffold, then selected a local-first React/Vite/TypeScript stack for Phase 0.
 - Keep the default branch as `main` to match sibling projects.
-- Use `n3moxyz/ralph-ledger` as the expected GitHub repository path once the remote repository rename is complete.
+- Use `n3moxyz/ralph-ledger` as the canonical GitHub repository path.
 - Build Ralph Ledger as a generic submission assessor, not a self-assessment-only tool.
 - Use an evidence-first trust model: every score should trace back to observed evidence, inference, missing evidence, user claims, or judge interpretation.
 - Treat `SPEC.md` as the artifact that will be submitted with a final Codex `/goal` prompt for a multi-hour autonomous build/test/evaluate/improve loop.
@@ -104,6 +104,7 @@ Review follow-ups tightened the evaluator surface:
 - Added `scripts/report-unit.mjs` to verify Markdown/JSON report exports include rubric labels, panel judges, and final score.
 - Split the old monolithic `src/app/components.tsx` into focused component-region files under `src/app/components/`; `components.tsx` is now only a small barrel.
 - Removed the scaffold-era project-name explanations from docs; docs now consistently present the project as Ralph Ledger.
+- After the repository rename, scrubbed the remaining scaffold-era URL from GitHub Clone Mode examples, refreshed handoff docs, updated the ignored session snapshot, and pointed `origin` at `https://github.com/n3moxyz/ralph-ledger.git`.
 
 ## Phase 2 Landing (2026-05-17)
 
@@ -133,7 +134,6 @@ Plus naming guardrail at the top: product, docs, and package identity should con
 - Should the GitHub repo be private or public?
 - Which dev server port should be reserved in `../PROJECTS.md`?
 - Should Local Path Mode and GitHub URL Mode run only static inspection forever, or eventually execute documented commands behind an explicit trust gate?
-- Should the GitHub remote be renamed from its original scaffold name to `n3moxyz/ralph-ledger` before the next public handoff?
 - The "Examples to try" suggestion list is hard-coded in `src/evaluator/github-inspect.ts`. Should it be loaded from a config file so judges can prefill their own quick-picks without recompiling?
 
 ## Resolved Questions
@@ -142,6 +142,7 @@ Plus naming guardrail at the top: product, docs, and package identity should con
 - **Which stack is used?** React + Vite + TypeScript + Node/npm + JSON fixture data, with no DB, auth, or API keys required.
 - **When should Phase 1 replace projected Sam/Andrej/Ilya scoring with authored per-event replay deltas?** Done in the strong, medium, and weak replay fixtures, plus the Phase 2 harness-heavy and impact-heavy fixtures.
 - **Should Local Path Mode run only static inspection first?** Yes. It is static-only and command execution remains deferred behind a future trust gate.
+- **Should the GitHub remote be renamed from its original scaffold name to `n3moxyz/ralph-ledger` before the next public handoff?** Done. The local `origin` remote now points at `https://github.com/n3moxyz/ralph-ledger.git`.
 - **How does GitHub URL Mode handle untrusted code?** It accepts any public `https://github.com/<org>/<repo>` URL and runs the same static pipeline as Local Path Mode against a cloned working tree. It never executes the cloned code (no install, build, test, hooks, or submodule fetches); the clone itself runs with `--depth 1 --no-tags --no-recurse-submodules --filter=blob:none --single-branch` and disables `protocol.file`, `protocol.ext`, and symlink restoration to be belt-and-suspenders on the git-clone side. Resource guards (25s timeout, 50 MB post-clone ceiling, 120 KB per-file read cap) bound the worst case. The safe replay path stays one click away if a clone fails for any reason.
 
 ## Verification Notes
