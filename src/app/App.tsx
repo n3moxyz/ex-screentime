@@ -157,6 +157,14 @@ export function App() {
     compare: null,
     report: null,
   });
+  const lowerGridRef = useRef<HTMLDivElement | null>(null);
+
+  const openDeckAndScroll = (deck: DeckId) => {
+    setActiveDeck(deck);
+    requestAnimationFrame(() => {
+      lowerGridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
   const replayDelayMs = replaySpeed === "fast" ? 35 : 620;
   const focus = getTrackFocus(track);
 
@@ -655,7 +663,7 @@ export function App() {
               state={state}
               panel={panel}
               track={track}
-              onOpenDeck={setActiveDeck}
+              onOpenDeck={openDeckAndScroll}
               onSelectCriterion={setSelectedCriterion}
             />
           )}
@@ -744,7 +752,11 @@ export function App() {
         </section>
       </section>
 
-      <section className="lower-grid" aria-label="Evidence, rubric, and report workspace">
+      <section
+        className="lower-grid"
+        aria-label="Evidence, rubric, and report workspace"
+        ref={lowerGridRef}
+      >
         <div
           className="deck-tabs"
           role="tablist"

@@ -71,14 +71,16 @@ export function FixtureComparison({
     <section className="comparison-view" aria-label="Fixture comparison">
       <div className="panel-heading">
         <div>
-          <p className="eyebrow">Fixture comparison</p>
-          <h3>Calibration across strong, medium, and weak replays</h3>
+          <p className="eyebrow">Calibration band</p>
+          <h3>Where does this score sit?</h3>
         </div>
         <span className="pill">{panel.length} lens panel</span>
       </div>
       <p className="muted">
-        Fixtures are not extra demos for their own sake. They prove the evaluator can separate a
-        strong harness submission from a middling runnable app and a weak missing-evidence repo.
+        Five reference submissions with deliberately different shapes. Compare your current run's
+        score against them to gauge what it means — is it harness-strong, demo-strong, missing
+        evidence, or something in between? Click <strong>Load fixture</strong> on any card to
+        replay it through the same cockpit.
       </p>
       <div className="comparison-grid">
         {rows.map(({ fixture: item, total, harnessSpread, role, purpose }) => {
@@ -109,7 +111,7 @@ export function FixtureComparison({
                 disabled={active}
                 onClick={() => onChooseFixture(item.meta.id)}
               >
-                {active ? "Selected" : "Use fixture"}
+                {active ? "Currently loaded" : "Load fixture"}
               </button>
             </article>
           );

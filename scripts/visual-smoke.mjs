@@ -68,13 +68,13 @@ const runViewport = async (name, viewport) => {
   );
   await page.getByText("Why this score").waitFor({ timeout: 5000 });
   await page.getByRole("tab", { name: /Compare fixtures/i }).click();
-  await page.getByText("Calibration across strong, medium, and weak replays").waitFor({
+  await page.getByText("Where does this score sit?").waitFor({
     timeout: 5000,
   });
   await page.getByRole("tab", { name: /Rubric/i }).click();
   await page.getByText("Confidence model").waitFor({ timeout: 5000 });
   await page.getByRole("tab", { name: /Compare fixtures/i }).click();
-  await page.getByText("Calibration across strong, medium, and weak replays").waitFor({
+  await page.getByText("Where does this score sit?").waitFor({
     timeout: 5000,
   });
   let hasHorizontalOverflow = await page.evaluate(
