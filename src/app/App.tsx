@@ -184,14 +184,15 @@ export function App() {
     panelPreset !== "Custom" || (panel.length >= 3 && panel.length <= 5);
   const submittedGithubUrl = githubUrl.trim();
   const isGithubPreview = fixture.meta.mode !== "local-static" && submittedGithubUrl.length > 0;
-  const sessionMeta = useMemo(
-    () => ({
+  const sessionMeta = useMemo(() => {
+    const submittedRepoUrl =
+      fixture.meta.submittedRepoUrl ?? (isGithubPreview ? submittedGithubUrl : undefined);
+    return {
       ...fixture.meta,
       track,
-      submittedRepoUrl: isGithubPreview ? submittedGithubUrl : undefined,
-    }),
-    [fixture.meta, isGithubPreview, submittedGithubUrl, track],
-  );
+      submittedRepoUrl,
+    };
+  }, [fixture.meta, isGithubPreview, submittedGithubUrl, track]);
   const report = useMemo(
     () => generateReportMarkdown(state, sessionMeta, panel),
     [panel, sessionMeta, state],
@@ -278,7 +279,7 @@ export function App() {
 
   const runSafeReplayDemo = () => {
     const demoFixture = replayFixtures[0];
-    const demoTrack = demoFixture.meta.track;
+    const demoTrack = track;
     setLocalFixture(null);
     setSelectedFixtureId(demoFixture.meta.id);
     setGithubUrl("");
@@ -358,11 +359,12 @@ export function App() {
         throw new Error(payload.error ?? "GitHub inspection failed.");
       }
       const nextFixture = payload as ReplayFixture;
+      const selectedTrack = track;
       setLocalFixture(nextFixture);
-      setTrack(nextFixture.meta.track);
-      setPanelPreset(nextFixture.meta.track);
-      setPanel(TRACK_PRESETS[nextFixture.meta.track] ?? TRACK_PRESETS["Harness / Skills Track"]);
-      setSelectedCriterion(getTrackFocus(nextFixture.meta.track).leadCriteria[0]);
+      setTrack(selectedTrack);
+      setPanelPreset(selectedTrack);
+      setPanel(TRACK_PRESETS[selectedTrack] ?? TRACK_PRESETS["Harness / Skills Track"]);
+      setSelectedCriterion(getTrackFocus(selectedTrack).leadCriteria[0]);
       setActiveDeck("evidence");
       setRunning(false);
       setCursor(0);

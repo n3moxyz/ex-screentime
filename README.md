@@ -1,6 +1,6 @@
 # Ralph Ledger
 
-Ralph Ledger is a live, transparent assessment cockpit for Ralphthon hackathon submissions. The current build includes the Phase 0 walking skeleton from `SPEC.md`: run a deterministic evaluation stream, watch evidence arrive, inspect score movements, see the Harrison Chase / Brian Chesky harness split, and read the final judge report. It also includes the main Phase 1 cockpit features: authored five-lens replay scoring, track-aware panels, custom panel override, static Local Path Mode, and fixture comparison.
+Ralph Ledger is a live, transparent assessment cockpit for Ralphthon hackathon submissions. The current build includes the Phase 0 walking skeleton from `SPEC.md`: run a deterministic evaluation stream, watch evidence arrive, inspect score movements, see the Harrison Chase / Brian Chesky harness split, and read the final judge report. It also includes the main Phase 1 cockpit features plus Phase 2 GitHub URL Mode: authored five-lens replay scoring, track-aware panels, custom panel override, static inspection, fixture comparison, and public GitHub clone intake.
 
 ## Local Setup
 
@@ -35,9 +35,9 @@ The dev server runs at `http://127.0.0.1:5173/`.
 5. Watch the stage strip, event feed, scorecard, evidence inspector, panel split, and judge report update from the same structured events.
 6. Export the final report as Markdown or JSON from the Judge Report tab.
 
-The main screen intentionally hides fixture choice. The strong replay fixture is the default safe baseline because it creates the required Harrison/Brian harness disagreement and avoids Wi-Fi, GitHub, install, and arbitrary-code-execution risk during judging. The medium and weak fixtures remain available only in `Compare fixtures` as calibration paths.
+The main screen intentionally hides fixture choice. Pasting a public GitHub URL and pressing Start performs a depth-1 clone into a temp directory, runs the read-only static inspection pipeline, and deletes the temp directory. Ralph Ledger never executes repo code.
 
-GitHub URL fetching is still Phase 2. In the current build, the pasted URL is captured for the user flow while the hidden strong replay baseline drives the live score stream.
+The strong replay fixture remains the one-click safe baseline because it creates the required Harrison/Brian harness disagreement and avoids Wi-Fi, GitHub, install, and arbitrary-code-execution risk during judging. The medium, weak, harness-heavy, and impact-heavy fixtures remain available in `Compare fixtures` as calibration paths.
 
 Track selection now picks the evaluator panel automatically. `Panel details` is an advanced override for calibration or custom lens testing; it is not part of the normal user path.
 
@@ -45,6 +45,6 @@ The top bar includes a visible replay speed toggle so live demos no longer need 
 
 All five judge lenses now have authored score-delta events in the strong, medium, and weak replay fixtures. `Phase 0 Split Demo` keeps the original Harrison/Brian canonical score stable, while the track presets use the same event stream with broader panels.
 
-## Local Path Mode
+## Static Inspection
 
-Local Path Mode is static-only and read-only. Open `Local static fallback`, enter an absolute local repo path, click `Inspect static path`, then start the generated event stream. Ralph Ledger inspects safe docs, manifests, scripts, fixtures, judge files, and source layout. It does **not** run install, build, test, or arbitrary repo commands.
+GitHub URL Mode and the Local Path Mode engine are static-only and read-only. They inspect safe docs, manifests, scripts, fixtures, judge files, and source layout. They do **not** run install, build, test, hooks, submodules, or arbitrary repo commands. The standalone Local Path UI is no longer in the primary surface, but the local inspection endpoint and fixture generator remain covered by `npm run test:local-inspect`.

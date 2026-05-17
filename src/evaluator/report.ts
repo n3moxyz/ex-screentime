@@ -72,14 +72,14 @@ const buildWeaknesses = (mode: InspectionMode, hasSubmittedUrl: boolean) => {
     case "github-clone":
       return [
         "GitHub URL Mode reads files from a clone but does not run install, build, or tests.",
-        "Ralph Ledger does not sandbox hostile code; only known-good public repos should be evaluated.",
+        "Untrusted repos are inspected only statically; runtime behavior remains unverified.",
       ];
     case "replay":
     default:
       return [
         hasSubmittedUrl
           ? "The submitted GitHub URL was captured but not fetched or cloned in this build."
-          : "GitHub URL Mode is intentionally deferred.",
+          : "Replay fixtures use curated evidence instead of live static inspection.",
         "Replay fixtures use curated event logs rather than live repo verification.",
       ];
   }
@@ -91,7 +91,7 @@ const buildDemoReadiness = (mode: InspectionMode, meta: FixtureMeta) => {
       mode === "local-static"
         ? "Static Local Path Mode against a known-good repo"
         : mode === "github-clone"
-          ? "GitHub URL Mode with a vetted public repo and replay fallback ready"
+          ? "GitHub URL Mode with a public repo and replay fallback ready"
           : "Replay Fixture Mode using the strongest deterministic baseline"
     }.`,
     "Safe replay demo is one click from a cold screen; URL entry is not required to start a working session.",
@@ -261,9 +261,9 @@ export const generateReportMarkdown = (
     const uniqueMissing = [...new Set(missingItems.map((item) => item.artifactRef))].slice(0, 8);
     uniqueMissing.forEach((artifact) => lines.push(`- Add or verify ${artifact}.`));
   } else if (mode === "replay" && hasSubmittedUrl) {
-    lines.push("- Wire the captured GitHub URL through the live clone-and-inspect path.");
+    lines.push("- Use Clone & inspect when static evidence from the submitted GitHub URL is needed.");
   } else if (mode === "replay") {
-    lines.push("- Add live local or GitHub inspection only after the replay path stays reliable.");
+    lines.push("- Use GitHub URL Mode or Local Path fixture generation when live static evidence is needed.");
   } else {
     lines.push("- Layer documented command execution behind an explicit trust gate before claiming verified runtime behavior.");
   }

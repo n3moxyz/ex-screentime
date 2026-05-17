@@ -4,7 +4,7 @@
 
 Ralph Ledger is a transparent assessment cockpit for Ralphthon submissions. It replays a structured evaluation event log through a live UI so judges can see evidence arrive, scores move, confidence change, deductions apply, and judge lenses disagree.
 
-The current build implements the Phase 0 walking skeleton from `SPEC.md`, the full Phase 1 evaluator-cockpit slice, and the Phase 2 stretch items: a one-click safe replay path, polished Markdown/JSON exports, harness-heavy and impact-heavy calibration fixtures, and a GitHub URL Mode that clones allowlisted public repos and runs the static inspection pipeline against them.
+The current build implements the Phase 0 walking skeleton from `SPEC.md`, the full Phase 1 evaluator-cockpit slice, and the Phase 2 stretch items: a one-click safe replay path, polished Markdown/JSON exports, harness-heavy and impact-heavy calibration fixtures, and a GitHub URL Mode that clones public repos and runs the static inspection pipeline against them.
 
 ## Demo
 
@@ -14,12 +14,12 @@ npm install
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173/`, paste a GitHub repo URL, choose `Harness`, `Impact`, or `Overall Ralphthon`, then start the evaluation. From a cold screen the `Run safe replay demo` button is always one click away — it bypasses URL entry and runs the strong fixture against the chosen track. The `GitHub clone (allowlist only)` fallback panel will clone an allowlisted public repo and run the same static inspection pipeline used by Local Path Mode.
+Open `http://127.0.0.1:5173/`, paste a GitHub repo URL, choose `Harness`, `Impact`, or `Overall Ralphthon`, then start the evaluation. From a cold screen the `Run safe replay demo` button is always one click away — it bypasses URL entry and runs the strong fixture against the chosen track. GitHub URL Mode clones any public `https://github.com/<org>/<repo>` URL and runs the same static inspection pipeline used by Local Path Mode.
 
 ## What Works
 
 - Primary intake is now GitHub URL, three evaluation tracks, and Start.
-- A visible `Run safe replay demo` button is one click from a cold screen and runs the strong fixture without requiring URL entry.
+- A visible `Run safe replay demo` button is one click from a cold screen and runs the strong fixture against the selected track without requiring URL entry.
 - GitHub URL Mode clones any public `https://github.com/<org>/<repo>` URL with `git clone --depth 1 --no-tags --no-recurse-submodules --filter=blob:none --single-branch` (plus `protocol.file.allow=never`, `protocol.ext.allow=never`, `core.symlinks=false`), runs the same static inspection pipeline as Local Path Mode against the cloned tree, and cleans up the temp directory whether the clone succeeds or fails. Ralph Ledger never executes the cloned code — no install, build, test, hooks, or submodule fetches — so opening the input to any public repo is safe; the safety comes from the static pipeline, not from a URL gate.
 - The strong deterministic replay fixture is hidden as the default safe baseline.
 - Harness-heavy and impact-heavy calibration fixtures surface the educational panel splits (Harrison/Andrej vs Brian on harness; Sam/Brian vs Ilya/Andrej on impact) alongside medium and weak fixtures in Compare Fixtures.
@@ -32,7 +32,7 @@ Open `http://127.0.0.1:5173/`, paste a GitHub repo URL, choose `Harness`, `Impac
 - Advanced panel details still support Phase 0 split and custom 3 to 5 evaluator lens testing.
 - Track presets foreground the relevant rubric dimensions in the scorecard and evidence inspector.
 - Replay speed is visible in the top bar and can be toggled without editing the URL.
-- Local Path Mode is available behind `Local static fallback`, performs read-only static inspection of safe files, and emits the same structured event stream without running repo commands.
+- Local Path Mode remains as the shared read-only static inspection engine behind `/api/local-inspect`, GitHub URL Mode, and `npm run test:local-inspect`; it emits the same structured event stream without running repo commands.
 - Local Path Mode scoring now uses the shared judge and rubric constants from `src/evaluator/*`.
 - Panel Splits View shows the required Harness / Agent Engineering disagreement.
 - Compare Fixtures view explains why strong, medium, and weak fixtures exist and shows their scores under the selected panel.
@@ -63,7 +63,7 @@ Result: passing. `npm run smoke:visual` requires the dev server to be running. A
 - Medium fixture: 61 events, Phase 0 score 48.5/100, five-lens score 49.6/100.
 - Weak fixture: 53 events, Phase 0 score 5.0/100, five-lens score 5.3/100.
 
-Visual smoke opens the app in headless system Chrome at desktop and mobile widths, verifies the visible fast replay chip, fills the GitHub URL intake, verifies the demo fixture dropdown is not exposed in the primary flow, checks simplified track switching, checks Local Path Mode against this repo through the fallback drawer, switches back to the strong calibration fixture through Compare Fixtures, checks the advanced panel override, starts the evaluation, waits for completion, opens the Rubric and Judge Report tabs, verifies the final score text, triggers JSON export, checks for horizontal overflow, and writes ignored screenshots to `ledger/visual-smoke-*.png`.
+Visual smoke opens the app in headless system Chrome at desktop and mobile widths, verifies the visible fast replay chip, fills the GitHub URL intake, verifies the demo fixture dropdown is not exposed in the primary flow, checks simplified track switching, checks the advanced panel override, starts the safe replay evaluation, waits for completion, opens Compare Fixtures, Rubric, and Judge Report tabs, verifies the final score text, triggers JSON export, checks for horizontal overflow, and writes ignored screenshots to `ledger/visual-smoke-*.png`.
 
 ## Known Limits
 
