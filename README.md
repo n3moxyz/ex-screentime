@@ -1,6 +1,6 @@
-# ralphtontest
+# ex-screentime
 
-Initial project repository scaffold for `ralphtontest`.
+Initial project repository scaffold for `ex-screentime`.
 
 ## Status
 
@@ -13,4 +13,3 @@ cp .env.example .env.local
 ```
 
 No dependencies are required yet.
-

@@ -1,8 +1,8 @@
-# ralphtontest
+# ex-screentime
 
 ## Overview
 
-`ralphtontest` is a new project scaffold in the ClaudeProjs workspace. Keep this file updated as the project gains a real stack, commands, architecture, and deployment target.
+`ex-screentime` is a new project scaffold in the ClaudeProjs workspace. Keep this file updated as the project gains a real stack, commands, architecture, and deployment target.
 
 ## First Run
 
@@ -35,4 +35,3 @@ No application architecture has been chosen yet. When implementation starts, doc
 - Keep `.env.example` current whenever environment variables change.
 - Update `FORET.md` after meaningful features, refactors, or bug fixes.
 - Follow the workspace conventions in `/Users/edwardtmc/dev/ClaudeProjs/AGENTS.md`.
-

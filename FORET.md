@@ -1,14 +1,14 @@
-# FORET — ralphtontest
+# FORET — ex-screentime
 
 > **F**oundation **O**f **R**eference, **E**xperience & **T**echnical context
 
 ## What Is This?
 
-`ralphtontest` is a newly scaffolded project repository. Its product purpose and technical stack are still TBD.
+`ex-screentime` is a newly scaffolded project repository. Its product purpose and technical stack are still TBD.
 
 ## Current State
 
-- Local folder exists under `/Users/edwardtmc/dev/ClaudeProjs/projects/ralphtontest`.
+- Local checkout currently exists under `/Users/edwardtmc/dev/ClaudeProjs/projects/ralphtontest`.
 - Repo scaffold includes `README.md`, `AGENTS.md`, `CLAUDE.md`, `.env.example`, `.gitignore`, and this FORET.
 - No application code, package manager, database, or deployment target has been selected yet.
 
@@ -28,7 +28,7 @@
 
 - Start with a minimal repo scaffold before selecting a stack.
 - Keep the default branch as `main` to match sibling projects.
-- Use `n3moxyz/ralphtontest` as the expected GitHub repository path unless renamed.
+- Use `n3moxyz/ex-screentime` as the expected GitHub repository path.
 
 ## Open Questions
 
@@ -36,4 +36,3 @@
 - Should the GitHub repo be private or public?
 - Which stack should be used?
 - Which dev server port should be reserved in `../PROJECTS.md`?
-
