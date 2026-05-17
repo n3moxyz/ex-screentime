@@ -1,12 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-
-const root = process.cwd();
-const fixturesDir = path.join(root, "src", "fixtures");
-const fixturePaths = fs
-  .readdirSync(fixturesDir)
-  .filter((file) => file.endsWith(".fixture.json"))
-  .map((file) => path.join(fixturesDir, file));
+import { pathToFileURL } from "node:url";
 
 const requiredEventFields = ["id", "timestamp", "type", "stage", "message", "severity"];
 const allowedEventTypes = new Set([
@@ -81,8 +75,8 @@ const maxByCriterion = {
 };
 const phaseZeroPanel = ["harrison-chase", "brian-chesky"];
 
-const validateFixture = (fixturePath) => {
-  const fixture = JSON.parse(fs.readFileSync(fixturePath, "utf8"));
+export const validateFixtureObject = (fixture, file = "fixture", options = {}) => {
+  const allowedModes = new Set(options.allowedModes ?? ["replay"]);
   const failures = [];
   const totals = Object.fromEntries(
     Object.keys(maxByCriterion).map((criterion) => [
@@ -94,8 +88,8 @@ const validateFixture = (fixturePath) => {
     [...allowedJudges].map((judge) => [judge, new Set()]),
   );
 
-  if (!fixture.meta || fixture.meta.mode !== "replay") {
-    failures.push("Fixture must include meta.mode = replay.");
+  if (!fixture.meta || !allowedModes.has(fixture.meta.mode)) {
+    failures.push(`Fixture must include meta.mode = ${[...allowedModes].join(" or ")}.`);
   }
 
   if (!Array.isArray(fixture.events) || fixture.events.length < 20) {
@@ -287,7 +281,7 @@ const validateFixture = (fixturePath) => {
   }
 
   return {
-    file: path.basename(fixturePath),
+    file,
     eventCount: fixture.events.length,
     idCount: ids.size,
     failures,
@@ -296,24 +290,46 @@ const validateFixture = (fixturePath) => {
   };
 };
 
-const results = fixturePaths.map(validateFixture);
-const failures = results.flatMap((result) =>
-  result.failures.map((failure) => `${result.file}: ${failure}`),
-);
+export const validateFixturePath = (fixturePath, options = {}) =>
+  validateFixtureObject(
+    JSON.parse(fs.readFileSync(fixturePath, "utf8")),
+    path.basename(fixturePath),
+    options,
+  );
 
-if (failures.length) {
-  console.error("Fixture validation failed:");
-  failures.forEach((failure) => console.error(`- ${failure}`));
-  process.exit(1);
+export const getReplayFixturePaths = (root = process.cwd()) => {
+  const fixturesDir = path.join(root, "src", "fixtures");
+  return fs
+    .readdirSync(fixturesDir)
+    .filter((file) => file.endsWith(".fixture.json"))
+    .map((file) => path.join(fixturesDir, file));
+};
+
+export const runFixtureValidation = (fixturePaths = getReplayFixturePaths()) => {
+  const results = fixturePaths.map((fixturePath) => validateFixturePath(fixturePath));
+  const failures = results.flatMap((result) =>
+    result.failures.map((failure) => `${result.file}: ${failure}`),
+  );
+
+  if (failures.length) {
+    console.error("Fixture validation failed:");
+    failures.forEach((failure) => console.error(`- ${failure}`));
+    process.exit(1);
+  }
+
+  const summary = results
+    .map(
+      (result) =>
+        `${result.file}: ${result.eventCount} events, score ${result.panelScore.toFixed(
+          1,
+        )}, harness spread ${result.harnessSpread.toFixed(1)}`,
+    )
+    .join("; ");
+
+  console.log(`Fixture validation passed for ${results.length} fixtures. ${summary}.`);
+};
+
+const isCli = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (isCli) {
+  runFixtureValidation();
 }
-
-const summary = results
-  .map(
-    (result) =>
-      `${result.file}: ${result.eventCount} events, score ${result.panelScore.toFixed(
-        1,
-      )}, harness spread ${result.harnessSpread.toFixed(1)}`,
-  )
-  .join("; ");
-
-console.log(`Fixture validation passed for ${results.length} fixtures. ${summary}.`);

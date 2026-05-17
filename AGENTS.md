@@ -1,8 +1,8 @@
-# ex-screentime
+# Ralph Ledger
 
 ## Overview
 
-`ex-screentime` is the working repo for **Ralph Ledger**, a transparent Ralphthon submission assessor. The directory name is legacy; do not rename product copy away from Ralph Ledger.
+Ralph Ledger is a transparent Ralphthon submission assessor. It evaluates hackathon repos through staged evidence gathering, judge-lens scoring, panel interpretation, and exportable reports.
 
 ## First Run
 
@@ -20,10 +20,13 @@ The dev server uses `http://127.0.0.1:5173/`.
 | --- | --- |
 | `npm run dev` | Start the local Vite app |
 | `npm run validate` | Validate replay fixture shape, five-lens score coverage, score bands, and required panel split |
+| `npm run test:reducer` | Run direct reducer behavior tests |
+| `npm run test:local-inspect` | Validate the generated Local Path Mode fixture from this repo |
+| `npm run test:report` | Validate Markdown/JSON report exports from the strong fixture |
 | `npm run typecheck` | Run TypeScript static checks |
 | `npm run build` | Build the production app |
 | `npm run smoke:visual` | With the dev server and system Chrome available, run desktop/mobile headless Chrome smoke tests |
-| `npm run check` | Run validate, typecheck, and build |
+| `npm run check` | Run validation, evaluator tests, typecheck, and build |
 
 ## Architecture
 

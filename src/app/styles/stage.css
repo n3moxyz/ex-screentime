@@ -76,6 +76,7 @@
 
 .stage-step span {
   display: inline-grid;
+  position: relative;
   place-items: center;
   width: 22px;
   height: 22px;

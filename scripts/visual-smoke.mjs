@@ -42,7 +42,7 @@ const runViewport = async (name, viewport) => {
   await page.goto(appUrl, { waitUntil: "networkidle", timeout: 15000 });
   await page.getByRole("heading", { name: "Ralph Ledger" }).waitFor({ timeout: 5000 });
   await page.getByRole("button", { name: "Fast replay" }).waitFor({ timeout: 5000 });
-  await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ex-screentime");
+  await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ralph-ledger");
   if ((await page.getByLabel("Demo fixture").count()) !== 0) {
     consoleErrors.push(`${name}: primary intake still exposes the demo fixture dropdown`);
   }
@@ -73,7 +73,7 @@ const runViewport = async (name, viewport) => {
     undefined,
     { timeout: 15000 },
   );
-  await page.getByRole("button", { name: /Compare fixtures/i }).click();
+  await page.getByRole("tab", { name: /Compare fixtures/i }).click();
   await page.getByText("Calibration across strong, medium, and weak replays").waitFor({
     timeout: 5000,
   });
@@ -81,7 +81,7 @@ const runViewport = async (name, viewport) => {
     .locator(".comparison-card", { hasText: "Strong Harness Replay" })
     .getByRole("button", { name: /Use fixture/i })
     .click();
-  await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ex-screentime");
+  await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ralph-ledger");
   await page.getByText("Local static fallback").click();
   await page.getByRole("button", { name: /Start evaluation/i }).click();
   await page.waitForFunction(
@@ -89,9 +89,9 @@ const runViewport = async (name, viewport) => {
     undefined,
     { timeout: 15000 },
   );
-  await page.getByRole("button", { name: /Rubric/i }).click();
+  await page.getByRole("tab", { name: /Rubric/i }).click();
   await page.getByText("Confidence model").waitFor({ timeout: 5000 });
-  await page.getByRole("button", { name: /Compare fixtures/i }).click();
+  await page.getByRole("tab", { name: /Compare fixtures/i }).click();
   await page.getByText("Calibration across strong, medium, and weak replays").waitFor({
     timeout: 5000,
   });
@@ -99,9 +99,9 @@ const runViewport = async (name, viewport) => {
     () => document.documentElement.scrollWidth > window.innerWidth + 2,
   );
   if (hasHorizontalOverflow) {
-    consoleErrors.push(`${name}: rubric view has horizontal overflow`);
+    consoleErrors.push(`${name}: comparison view has horizontal overflow`);
   }
-  await page.getByRole("button", { name: /Judge report/i }).click();
+  await page.getByRole("tab", { name: /Judge report/i }).click();
   const jsonExport = page.getByRole("button", { name: /JSON/i });
   await jsonExport.waitFor({ timeout: 5000 });
   await page.waitForFunction(

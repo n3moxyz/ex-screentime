@@ -50,6 +50,28 @@ const makeSplit = ({ details: detailOverrides = {}, ...eventOverrides } = {}) =>
   ...eventOverrides,
 });
 
+const makeStageCompleted = ({ stage = "intake", ...eventOverrides } = {}) => ({
+  id: `test-stage-${Math.random().toString(36).slice(2)}`,
+  timestamp: "2026-05-17T00:00:00.000Z",
+  type: "stage_completed",
+  stage,
+  message: "test stage completed",
+  severity: "success",
+  details: {},
+  ...eventOverrides,
+});
+
+const makeEvaluationCompleted = (eventOverrides = {}) => ({
+  id: `test-complete-${Math.random().toString(36).slice(2)}`,
+  timestamp: "2026-05-17T00:00:00.000Z",
+  type: "evaluation_completed",
+  stage: "report_generation",
+  message: "test evaluation completed",
+  severity: "success",
+  details: {},
+  ...eventOverrides,
+});
+
 try {
   const reducer = await server.ssrLoadModule("/src/evaluator/reducer.ts");
   const {
@@ -58,6 +80,7 @@ try {
     getAgreementLevel,
     getCriterionPanelScore,
     getPanelSpread,
+    getTotalScore,
   } = reducer;
 
   let state = createInitialState();
@@ -85,6 +108,14 @@ try {
   );
 
   state = createInitialState();
+  state = applyEvent(state, makeScoreDelta({ details: { judge: "sam-altman", delta: 2.3 } }));
+  assert.equal(
+    getAgreementLevel(state.criteria.impact, ["sam-altman", "andrej-karpathy"]),
+    "high",
+    "less than 12 percent spread is high agreement",
+  );
+
+  state = createInitialState();
   state = applyEvent(state, makeScoreDelta({ details: { judge: "sam-altman", delta: 2.4 } }));
   assert.deepEqual(
     getPanelSpread(state.criteria.impact, ["sam-altman", "andrej-karpathy"]),
@@ -102,6 +133,30 @@ try {
     "low",
     "25 percent spread is low agreement",
   );
+
+  state = createInitialState();
+  state = applyEvent(state, makeScoreDelta({ details: { criterion: "impact", delta: 6 } }));
+  state = applyEvent(
+    state,
+    makeScoreDelta({ details: { criterion: "technical_execution", delta: 4 } }),
+  );
+  assert.equal(
+    getTotalScore(state, ["sam-altman"]),
+    10,
+    "getTotalScore sums criterion panel scores into the 0-100 headline score",
+  );
+
+  state = createInitialState();
+  state = applyEvent(state, makeStageCompleted({ stage: "verification" }));
+  state = applyEvent(state, makeStageCompleted({ stage: "verification" }));
+  assert.deepEqual(
+    state.completedStages,
+    ["verification"],
+    "stage_completed events are deduped by stage",
+  );
+
+  state = applyEvent(createInitialState(), makeEvaluationCompleted());
+  assert.equal(state.completed, true, "evaluation_completed sets completed true");
 
   const malformedSplitState = applyEvent(
     createInitialState(),

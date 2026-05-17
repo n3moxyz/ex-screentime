@@ -1,6 +1,6 @@
 # Ralph Ledger Specification
 
-> **Naming:** Product name is **Ralph Ledger**. The repo directory is `ex-screentime` for legacy reasons — ignore it, do not rename anything based on it. The umbrella event is **Ralphthon**; the unattended build runner is **Ralph Loop**. Use these names consistently in code, docs, UI copy, and the final SUBMISSION.md.
+> **Naming:** Product name is **Ralph Ledger**. The umbrella event is **Ralphthon**; the unattended build runner is **Ralph Loop**. Use these names consistently in code, docs, UI copy, and the final `SUBMISSION.md`.
 
 ## One-Line Pitch
 
@@ -16,7 +16,7 @@ The main demo must show the evaluation process unfolding live. Scores should cha
 
 ## Implementation Status — 2026-05-17
 
-Phase 0 is implemented as a local React/Vite/TypeScript app with Replay Fixture Mode, deterministic strong/medium/weak fixture logs, live event replay, incremental scorecard, evidence inspector, rubric view, Harrison Chase / Brian Chesky panel split, and Markdown/JSON judge report export. Verification includes fixture validation, scoring validation, typecheck/build, audit, and desktop/mobile headless Chrome smoke tests.
+Phase 0 is implemented as a local React/Vite/TypeScript app with Replay Fixture Mode, deterministic strong/medium/weak fixture logs, live event replay, incremental scorecard, evidence inspector, rubric view, Harrison Chase / Brian Chesky panel split, and Markdown/JSON judge report export. Verification includes fixture validation, scoring validation, reducer tests, Local Path Mode generation tests, report export tests, typecheck/build, audit, and desktop/mobile headless Chrome smoke tests.
 
 The app now includes the main Phase 1 cockpit slice: authored five-lens replay scoring for the strong, medium, and weak fixtures; five-lens track presets; custom 3-to-5 lens selection; track-focused scorecard ordering; fixture comparison; improved report export; and static-only Local Path Mode. The `Phase 0 Split Demo` preset remains the canonical judging path for preserving the required Harrison/Brian split and final-score expectation. Local Path Mode reads safe files and source layout without executing commands. GitHub URL Mode remains deferred per the build order below.
 

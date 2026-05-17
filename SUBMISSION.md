@@ -38,7 +38,9 @@ Open `http://127.0.0.1:5173/`, paste a GitHub repo URL, choose `Harness`, `Impac
 - Judge Report View can export the current report as Markdown or JSON.
 - Scorecard includes a score-change rail for the latest visible deltas.
 - `npm run validate` checks fixture schema, completion, expected score bands, five-lens score coverage, and the strong fixture's Harrison/Brian harness split.
-- `npm run test:reducer` directly checks reducer clamp behavior, spread/agreement boundaries, and malformed event-detail handling.
+- `npm run test:reducer` directly checks reducer clamp behavior, headline total scoring, spread/agreement boundaries, stage dedupe, completion state, and malformed event-detail handling.
+- `npm run test:local-inspect` generates and validates a Local Path Mode fixture from this repo, including every judge × criterion score delta.
+- `npm run test:report` checks Markdown and JSON exports from the strong fixture's final state.
 
 ## Verification
 
@@ -50,7 +52,7 @@ npm audit --audit-level=moderate
 npm run smoke:visual
 ```
 
-Result: passing. `npm run smoke:visual` requires the dev server to be running. Audit reports 0 vulnerabilities. `npm run check` now includes fixture validation, reducer unit tests, typecheck, and production build. Fixture validation reports:
+Result: passing. `npm run smoke:visual` requires the dev server to be running. Audit reports 0 vulnerabilities. `npm run check` now includes fixture validation, reducer tests, Local Path Mode fixture generation tests, report export tests, typecheck, and production build. Fixture validation reports:
 
 - Strong fixture: 73 events, Phase 0 score 72.7/100, five-lens score 74.9/100, 9.2-point Harrison/Brian harness spread.
 - Medium fixture: 61 events, Phase 0 score 48.5/100, five-lens score 49.6/100.
@@ -63,7 +65,7 @@ Visual smoke opens the app in headless system Chrome at desktop and mobile width
 - GitHub URL Mode captures the URL in the primary flow, but live remote fetching is intentionally deferred.
 - Local Path Mode is static-only and does not execute documented commands yet.
 - Replay evidence is pre-recorded and labeled as replay; it is not presented as live repo verification.
-- `src/app/App.tsx` is smaller after extracting view components, but further component-level splitting will still help if the cockpit grows.
+- The GitHub remote still needs to be renamed or recreated as `n3moxyz/ralph-ledger` before a public handoff if the original scaffold remote remains in use.
 
 ## Self-Score
 
@@ -72,5 +74,5 @@ Visual smoke opens the app in headless system Chrome at desktop and mobile width
 | Demo Success | 8/10 | Main flow is URL, three-way track, and Start; calibration fixtures, advanced panel override, and static local inspection remain available. |
 | Trust Success | 8/10 | Score movements include evidence, confidence, references, judge lens, missing evidence, and report notes. |
 | Harness Track Success | 8/10 | Spec, prompt, five-lens fixture events, local static inspection, validation, and report are inspectable. |
-| Technical Success | 8/10 | Build/typecheck/fixture validation/reducer tests/audit pass, plus desktop and mobile visual smoke. |
+| Technical Success | 8/10 | Build/typecheck/fixture validation/reducer/local-inspect/report tests/audit pass, plus desktop and mobile visual smoke. |
 | Demo Quality Success | 8/10 | Main flow is reliable with visible score movement and panel disagreement. |

@@ -2,8 +2,6 @@
 
 Ralph Ledger is a live, transparent assessment cockpit for Ralphthon hackathon submissions. The current build includes the Phase 0 walking skeleton from `SPEC.md`: run a deterministic evaluation stream, watch evidence arrive, inspect score movements, see the Harrison Chase / Brian Chesky harness split, and read the final judge report. It also includes the main Phase 1 cockpit features: authored five-lens replay scoring, track-aware panels, custom panel override, static Local Path Mode, and fixture comparison.
 
-The repo directory is still `ex-screentime` for legacy reasons; the product name is Ralph Ledger.
-
 ## Local Setup
 
 ```bash
@@ -21,10 +19,12 @@ The dev server runs at `http://127.0.0.1:5173/`.
 | `npm run dev` | Start the Vite dev server |
 | `npm run validate` | Validate replay fixture schema, five-lens scoring coverage, score bands, and required Harrison/Brian split |
 | `npm run test:reducer` | Run direct reducer unit tests for clamps, agreement/spread boundaries, and malformed event details |
+| `npm run test:local-inspect` | Generate a static Local Path Mode fixture from this repo and validate its judge/rubric coverage |
+| `npm run test:report` | Verify Markdown and JSON report exports against the strong fixture's final state |
 | `npm run typecheck` | Run TypeScript static checks |
 | `npm run build` | Build the production bundle |
 | `npm run smoke:visual` | With the dev server and system Chrome available, verify desktop/mobile viewports and save ignored screenshots |
-| `npm run check` | Run fixture validation, reducer unit tests, typecheck, and production build |
+| `npm run check` | Run fixture validation, evaluator unit tests, typecheck, and production build |
 
 ## Primary Flow
 

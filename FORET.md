@@ -1,16 +1,16 @@
-# FORET — ex-screentime
+# FORET — Ralph Ledger
 
 > **F**oundation **O**f **R**eference, **E**xperience & **T**echnical context
 
 ## What Is This?
 
-`ex-screentime` is now the working repo for **Ralph Ledger**, a live, transparent assessment harness for autonomous hackathon submissions.
+Ralph Ledger is a live, transparent assessment harness for autonomous hackathon submissions.
 
 Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or Overall Ralphthon, watch an AI judge panel evaluate the submission in real time, inspect score changes, evidence, deductions, confidence, and panel disagreement, then export a judge-ready report.
 
 ## Current State
 
-- Local checkout currently exists under `/Users/edwardtmc/dev/ClaudeProjs/projects/ex-screentime`.
+- Package and product identity are Ralph Ledger (`package.json` name: `ralph-ledger`).
 - Product direction is defined in `SPEC.md`.
 - Phase 0 walking skeleton is implemented as a local Vite/React/TypeScript app.
 - Canonical safe baseline is Replay Fixture Mode using JSON fixtures in `src/fixtures/`, but the primary intake now starts with a GitHub URL field.
@@ -25,7 +25,9 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Local Path Mode logic lives in `src/evaluator/local-inspect.ts` and imports the shared judge/rubric constants instead of duplicating them in Vite config.
 - Fixture selection has been removed from the primary sidebar. The strong fixture is the hidden default baseline; medium and weak remain available through the `Compare fixtures` tab to explain calibration.
 - Replay speed is visible as a top-bar control instead of only being hidden behind `?speed=fast`.
-- Reducer unit tests cover score clamping, spread/agreement thresholds, malformed `score_delta` details, and malformed `panel_split_detected` details.
+- Reducer unit tests cover score clamping, headline total scoring, spread/agreement thresholds, stage-completion dedupe, completion state, malformed `score_delta` details, and malformed `panel_split_detected` details.
+- Local inspection tests generate a fixture from this repo through `buildLocalFixture(".")`, reuse fixture validation, and require every judge × criterion score-delta combination.
+- Report tests generate Markdown and JSON from the strong fixture's final state and require rubric labels, panel judges, and final score coverage.
 - No database, auth, external AI API, or required secrets are used.
 
 ## Codebase Structure
@@ -55,7 +57,7 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 
 - Started with a minimal repo scaffold, then selected a local-first React/Vite/TypeScript stack for Phase 0.
 - Keep the default branch as `main` to match sibling projects.
-- Use `n3moxyz/ex-screentime` as the expected GitHub repository path.
+- Use `n3moxyz/ralph-ledger` as the expected GitHub repository path once the remote repository rename is complete.
 - Build Ralph Ledger as a generic submission assessor, not a self-assessment-only tool.
 - Use an evidence-first trust model: every score should trace back to observed evidence, inference, missing evidence, user claims, or judge interpretation.
 - Treat `SPEC.md` as the artifact that will be submitted with a final Codex `/goal` prompt for a multi-hour autonomous build/test/evaluate/improve loop.
@@ -72,7 +74,7 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Keep `vite.config.ts` as a thin middleware wrapper; evaluator logic should live under `src/evaluator/`.
 - Build Phase 0 before broadening: replay fixture, live evaluation, scorecard, Harrison/Brian panel split, and judge report.
 - Use `npm run validate` to guard each fixture's event schema, expected score band, completion event, and the strong fixture's required Harrison/Brian harness disagreement.
-- Use `npm run test:reducer` to guard reducer math and detail validation directly.
+- Use `npm run test:reducer`, `npm run test:local-inspect`, and `npm run test:report` to guard evaluator math, generated local fixtures, and export output directly.
 
 ## UI Audit Pass (2026-05-17)
 
@@ -83,9 +85,21 @@ Ran `/audit` on the Ralph Ledger cockpit and applied every P1–P3 finding in co
 - **Touch targets ≥ 44 px** for buttons, inputs, selects, summary toggles, tab buttons, and the panel-choice label. `.pill` is 32 px when static and 36 px when rendered as a button (`button.pill`). Don't shrink these to "look tighter."
 - **Tabs use WAI-ARIA Tabs pattern.** The deck inspector is `role="tablist"` with roving `tabIndex`, arrow/Home/End keyboard handler (`handleTabKey` in `App.tsx`), and a `tabRefs` map for `.focus()` calls. The deck content is `role="tabpanel"` with `tabIndex={0}` so the panel is reachable via Tab after a tab is activated. Never go back to a `<nav>` wrapping styled buttons.
 - **Stage progress is an `<ol>`.** `aria-current="step"` marks the in-progress stage; `.stage-step.is-done span::after` paints a `✓` so screen-reader-free users with color-vision deficiency can still distinguish done from current.
-- **Memoize fixture replays.** `FIXTURE_FINAL_STATES` at the top of `components.tsx` precomputes each fixture's final reducer state at module load. `FixtureComparison` wraps the per-panel scoring in `useMemo([panel])`. If you add fixture sorts or new comparison columns, keep the data inside the same memo.
+- **Memoize fixture replays.** `FIXTURE_FINAL_STATES` in `src/app/components/comparison.tsx` precomputes each fixture's final reducer state at module load. `FixtureComparison` wraps the per-panel scoring in `useMemo([panel])`. If you add fixture sorts or new comparison columns, keep the data inside the same memo.
 - **Font weights snap to 100-step.** Drop 750/760/850 — they round inconsistently across system fonts. Use 700 / 800 / 900.
 - **Smallest text floor is 0.72 rem** for any label colored with `var(--muted)`. Below that, contrast on `var(--card-bg)` fails AAA and feels noisy.
+
+## Evaluator Hardening Pass (2026-05-17)
+
+Review follow-ups tightened the evaluator surface:
+
+- Fixed the current-stage marker positioning by anchoring it to the circular stage badge.
+- Made `scripts/validate-fixture.mjs` importable so generated fixtures can reuse the same event/schema validator as replay JSON fixtures.
+- Added `scripts/local-inspect-unit.mjs` for `buildLocalFixture(".")`, including full judge × criterion score-delta coverage.
+- Expanded `scripts/reducer-unit.mjs` to cover headline total score, high agreement, stage-completion dedupe, and evaluation completion state.
+- Added `scripts/report-unit.mjs` to verify Markdown/JSON report exports include rubric labels, panel judges, and final score.
+- Split the old monolithic `src/app/components.tsx` into focused component-region files under `src/app/components/`; `components.tsx` is now only a small barrel.
+- Removed the scaffold-era project-name explanations from docs; docs now consistently present the project as Ralph Ledger.
 
 ## Spec Hardening (2026-05-17)
 
@@ -97,14 +111,14 @@ Ran `/audit` on the Ralph Ledger cockpit and applied every P1–P3 finding in co
 4. **Confidence Model defined once** (§Confidence Model). "Confidence" was referenced 14× across rubric, events, and report with no definition. Now: 1.0 observed / 0.7 inferred / 0.4 user-claim / 0.0 missing. Single source of truth so the agent doesn't invent per-module variants.
 5. **Acceptance Criteria + Panel DoD collapsed** into pointers at §Final Product Success Metrics. Three overlapping checklists would have drifted; the Success Metrics block is self-scorable and is now the single bar for "done".
 
-Plus naming guardrail at the top: product is **Ralph Ledger**, the directory is `ex-screentime` for legacy reasons — do not rename anything based on the directory.
+Plus naming guardrail at the top: product, docs, and package identity should consistently use **Ralph Ledger**.
 
 ## Open Questions
 
 - Should the GitHub repo be private or public?
 - Which dev server port should be reserved in `../PROJECTS.md`?
 - Should Local Path Mode run only static inspection first, or also execute documented commands after an explicit trust gate?
-- If the cockpit grows further, which extracted app components should become feature folders?
+- Should the GitHub remote be renamed from its original scaffold name to `n3moxyz/ralph-ledger` before the next public handoff?
 
 ## Resolved Questions
 
@@ -115,7 +129,7 @@ Plus naming guardrail at the top: product is **Ralph Ledger**, the directory is 
 
 ## Verification Notes
 
-- `npm run check` passes: fixture validation, reducer unit tests, TypeScript typecheck, and Vite production build.
+- `npm run check` passes: fixture validation, reducer unit tests, Local Path Mode fixture generation tests, report export tests, TypeScript typecheck, and Vite production build.
 - `npm audit --audit-level=moderate` reports 0 vulnerabilities after upgrading to Vite 8.
 - `npm run smoke:visual` passes with the dev server running; it covers desktop and mobile headless Chrome, visible fast replay chip, GitHub URL intake, hidden fixture dropdown verification, simplified track switching, Local Path Mode through the fallback drawer, fixture switching through Compare Fixtures, advanced panel override, Rubric/Report tabs, JSON export, final report score text, horizontal overflow checks, and ignored screenshots in `ledger/`.
 - Fixture validation now rejects malformed score deltas, invalid evidence kinds, empty artifact/rubric references, non-string evidence items, missing stage completion, out-of-band fixture scores, and weak Harrison/Brian harness splits.

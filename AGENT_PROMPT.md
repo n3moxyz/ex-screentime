@@ -49,7 +49,7 @@ npm run smoke:visual
 
 If a check fails, fix the failure before expanding scope.
 
-`npm run validate` must keep passing for every replay fixture. It checks event shape, timestamp order, required stage completion, report generation, expected score band, five-lens authored score coverage, completion event, and the required strong-fixture Harrison/Brian harness split.
+`npm run validate` must keep passing for every replay fixture. It checks event shape, timestamp order, required stage completion, report generation, expected score band, five-lens authored score coverage, completion event, and the required strong-fixture Harrison/Brian harness split. `npm run check` also runs reducer, local-inspection, and report-export tests.
 
 `npm run smoke:visual` requires the dev server to be running.
 
