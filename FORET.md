@@ -6,23 +6,23 @@
 
 `ex-screentime` is now the working repo for **Ralph Ledger**, a live, transparent assessment harness for autonomous hackathon submissions.
 
-Ralph Ledger's core demo is: submit a GitHub repo, local path, or fixture; choose an evaluation track; watch an AI judge panel evaluate the submission in real time; inspect score changes, evidence, deductions, confidence, and panel disagreement; then export a judge-ready report.
+Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or Overall Ralphthon, watch an AI judge panel evaluate the submission in real time, inspect score changes, evidence, deductions, confidence, and panel disagreement, then export a judge-ready report.
 
 ## Current State
 
 - Local checkout currently exists under `/Users/edwardtmc/dev/ClaudeProjs/projects/ex-screentime`.
 - Product direction is defined in `SPEC.md`.
 - Phase 0 walking skeleton is implemented as a local Vite/React/TypeScript app.
-- Canonical demo path is Replay Fixture Mode using JSON fixtures in `src/fixtures/`.
+- Canonical safe baseline is Replay Fixture Mode using JSON fixtures in `src/fixtures/`, but the primary intake now starts with a GitHub URL field.
 - Fixture set now includes strong, medium, and weak submissions for calibration.
 - The app has a live event feed, incremental scorecard, evidence inspector, rubric view, panel split view, and in-app judge report.
 - The canonical `Phase 0 Split Demo` panel still uses Harrison Chase and Brian Chesky, preserving the required harness-vs-demo disagreement.
 - All five evaluator lenses now have authored per-event replay score deltas in the strong, medium, and weak fixtures.
-- Five-lens track presets are now selectable for Overall, Impact, Harness / Skills, Technical Execution, and Demo Readiness.
-- Custom panel selection supports 3 to 5 lenses.
+- Three primary tracks are now selectable: Harness, Impact, and Overall Ralphthon.
+- Track selection automatically picks the evaluator panel; advanced panel details still support Phase 0 split and custom 3 to 5 lens testing.
 - Track presets reorder the scorecard around the selected track's lead evidence.
-- Local Path Mode exists as a conservative static inspection path. It reads safe docs, manifests, source layout, scripts, fixtures, and judge files through Vite dev middleware and emits the same event stream without executing repo commands.
-- Fixture selection and the `Compare fixtures` tab now explain the purpose of each replay: strong is the main demo, medium calibrates mid-range submissions, and weak guards the low-score path.
+- Local Path Mode exists as a conservative static inspection path behind the `Local static fallback` drawer. It reads safe docs, manifests, source layout, scripts, fixtures, and judge files through Vite dev middleware and emits the same event stream without executing repo commands.
+- Fixture selection has been removed from the primary sidebar. The strong fixture is the hidden default baseline; medium and weak remain available through the `Compare fixtures` tab to explain calibration.
 - No database, auth, external AI API, or required secrets are used.
 
 ## Codebase Structure
@@ -61,8 +61,9 @@ Ralph Ledger's core demo is: submit a GitHub repo, local path, or fixture; choos
   - Ilya Sutskever: originality and intelligence
   - Brian Chesky: demo and product experience
   - Harrison Chase: agent harness
-- Support track-aware panel presets for Overall Ralphthon, Impact Track, Harness / Skills Track, Technical Execution, and Demo Readiness.
+- Support track-aware panels for Overall Ralphthon, Impact Track, and Harness / Skills Track.
 - Keep `Phase 0 Split Demo` as a preset even after five-lens presets, because it protects the original judging demo and final score expectation.
+- Keep the normal user path simple: GitHub URL, three-way evaluation track, Start.
 - Keep Local Path Mode static-only until a trust gate and command-capture model are designed.
 - Build Phase 0 before broadening: replay fixture, live evaluation, scorecard, Harrison/Brian panel split, and judge report.
 - Use `npm run validate` to guard each fixture's event schema, expected score band, completion event, and the strong fixture's required Harrison/Brian harness disagreement.
@@ -97,6 +98,6 @@ Plus naming guardrail at the top: product is **Ralph Ledger**, the directory is 
 
 - `npm run check` passes: fixture validation, TypeScript typecheck, and Vite production build.
 - `npm audit --audit-level=moderate` reports 0 vulnerabilities after upgrading to Vite 8.
-- `npm run smoke:visual` passes with the dev server running; it covers desktop and mobile headless Chrome, Local Path Mode, fixture switching, panel preset switching, Compare Fixtures, Rubric/Report tabs, JSON export, final report score text, horizontal overflow checks, and ignored screenshots in `ledger/`.
+- `npm run smoke:visual` passes with the dev server running; it covers desktop and mobile headless Chrome, GitHub URL intake, hidden fixture dropdown verification, simplified track switching, Local Path Mode through the fallback drawer, fixture switching through Compare Fixtures, advanced panel override, Rubric/Report tabs, JSON export, final report score text, horizontal overflow checks, and ignored screenshots in `ledger/`.
 - Fixture validation now rejects malformed score deltas, invalid evidence kinds, empty artifact/rubric references, non-string evidence items, missing stage completion, out-of-band fixture scores, and weak Harrison/Brian harness splits.
 - Scoring validation requires authored score coverage for every judge and rubric dimension and checks Phase 0 plus five-lens score bands.

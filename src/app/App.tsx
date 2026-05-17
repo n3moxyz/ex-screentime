@@ -63,15 +63,27 @@ const fixtureRoles: Record<string, { role: string; purpose: string }> = {
   },
 };
 
-const trackOptions = [
-  "Harness / Skills Track",
-  "Overall Ralphthon",
-  "Impact Track",
-  "Technical Execution",
-  "Demo Readiness",
+const trackOptions: Array<{ value: string; label: string }> = [
+  { value: "Harness / Skills Track", label: "Harness" },
+  { value: "Impact Track", label: "Impact" },
+  { value: "Overall Ralphthon", label: "Overall Ralphthon" },
 ];
 
-const panelPresetOptions = ["Phase 0 Split Demo", ...trackOptions, "Custom"];
+const panelPresetOptions = [
+  "Harness / Skills Track",
+  "Impact Track",
+  "Overall Ralphthon",
+  "Phase 0 Split Demo",
+  "Custom",
+];
+
+const panelPresetLabels: Record<string, string> = {
+  "Harness / Skills Track": "Harness panel",
+  "Impact Track": "Impact panel",
+  "Overall Ralphthon": "Overall panel",
+  "Phase 0 Split Demo": "Phase 0 split",
+  Custom: "Custom panel",
+};
 
 const trackGuidance: Record<
   string,
@@ -101,18 +113,6 @@ const trackGuidance: Record<
     evidence: "Problem clarity, audience urgency, workflow usefulness, and adoption path.",
     reportLead: "Final report opens with user value and practical adoption.",
   },
-  "Technical Execution": {
-    leadCriteria: ["technical_execution", "harness_agent_engineering", "demo_quality"],
-    label: "Verification evidence first",
-    evidence: "Stack detection, architecture, build/test checks, and deterministic fixtures.",
-    reportLead: "Final report opens with runnable proof and engineering risks.",
-  },
-  "Demo Readiness": {
-    leadCriteria: ["demo_quality", "impact", "technical_execution"],
-    label: "Demo evidence first",
-    evidence: "First-screen clarity, seeded data, replay reliability, screenshots, and report flow.",
-    reportLead: "Final report includes a concise judging-window story.",
-  },
 };
 
 const getTrackFocus = (track: string) => trackGuidance[track] ?? trackGuidance["Harness / Skills Track"];
@@ -121,6 +121,7 @@ export function App() {
   const [cursor, setCursor] = useState(0);
   const [running, setRunning] = useState(false);
   const [selectedFixtureId, setSelectedFixtureId] = useState(replayFixtures[0].meta.id);
+  const [githubUrl, setGithubUrl] = useState("");
   const [localPath, setLocalPath] = useState("");
   const [localFixture, setLocalFixture] = useState<ReplayFixture | null>(null);
   const [localStatus, setLocalStatus] = useState("");
@@ -129,8 +130,10 @@ export function App() {
   const [selectedCriterion, setSelectedCriterion] =
     useState<CriterionId>("harness_agent_engineering");
   const [track, setTrack] = useState(replayFixtures[0].meta.track);
-  const [panelPreset, setPanelPreset] = useState("Phase 0 Split Demo");
-  const [panel, setPanel] = useState<JudgeId[]>(PHASE_ZERO_PANEL);
+  const [panelPreset, setPanelPreset] = useState(replayFixtures[0].meta.track);
+  const [panel, setPanel] = useState<JudgeId[]>(
+    TRACK_PRESETS[replayFixtures[0].meta.track] ?? PHASE_ZERO_PANEL,
+  );
   const [activeDeck, setActiveDeck] = useState<"evidence" | "rubric" | "compare" | "report">(
     "evidence",
   );
@@ -138,7 +141,6 @@ export function App() {
   const focus = getTrackFocus(track);
 
   const state = useMemo(() => replayEvents(fixture.events, cursor), [cursor, fixture.events]);
-  const sessionMeta = useMemo(() => ({ ...fixture.meta, track }), [fixture.meta, track]);
   const orderedRubric = useMemo(() => {
     const focused = focus.leadCriteria
       .map((criterionId) => RUBRIC_BY_ID[criterionId])
@@ -149,6 +151,19 @@ export function App() {
   const totalScore = getTotalScore(state, panel);
   const progress = getStageProgress(state);
   const selected = state.criteria[selectedCriterion];
+  const hasStarted = cursor > 0;
+  const panelIsValid =
+    panelPreset !== "Custom" || (panel.length >= 3 && panel.length <= 5);
+  const submittedGithubUrl = githubUrl.trim();
+  const isGithubPreview = fixture.meta.mode !== "local-static" && submittedGithubUrl.length > 0;
+  const sessionMeta = useMemo(
+    () => ({
+      ...fixture.meta,
+      track,
+      submittedRepoUrl: isGithubPreview ? submittedGithubUrl : undefined,
+    }),
+    [fixture.meta, isGithubPreview, submittedGithubUrl, track],
+  );
   const report = useMemo(
     () => generateReportMarkdown(state, sessionMeta, panel),
     [panel, sessionMeta, state],
@@ -157,9 +172,29 @@ export function App() {
     () => generateReportJson(state, sessionMeta, panel),
     [panel, sessionMeta, state],
   );
-  const hasStarted = cursor > 0;
-  const panelIsValid =
-    panelPreset !== "Custom" || (panel.length >= 3 && panel.length <= 5);
+  const canStart =
+    panelIsValid && (fixture.meta.mode === "local-static" || submittedGithubUrl.length > 0);
+  const modeLabel =
+    fixture.meta.mode === "local-static"
+      ? "Static Local Path Mode"
+      : isGithubPreview
+        ? "GitHub URL Preview"
+        : "Replay Fixture Mode";
+  const startButtonLabel = running
+    ? "Pause"
+    : !canStart
+      ? "Paste URL first"
+      : state.completed
+        ? "Run again"
+        : hasStarted
+          ? "Resume"
+          : "Start evaluation";
+  const heroEyebrow = isGithubPreview
+    ? "Submitted GitHub repo"
+    : `Evaluating ${fixture.meta.repoLabel}`;
+  const heroSummary = isGithubPreview
+    ? `${submittedGithubUrl} is queued for the judge cockpit. Live GitHub fetching is still Phase 2, so this build runs the strongest safe replay baseline while preserving the selected track and panel.`
+    : fixture.meta.summary;
 
   useEffect(() => {
     if (!running) return;
@@ -193,13 +228,27 @@ export function App() {
 
   const chooseFixture = (fixtureId: string) => {
     const nextFixture = getFixtureById(fixtureId);
+    const nextTrack = nextFixture.meta.track;
     setLocalFixture(null);
     setLocalStatus("");
     setSelectedFixtureId(nextFixture.meta.id);
-    setTrack(nextFixture.meta.track);
+    setTrack(nextTrack);
+    setPanelPreset(nextTrack);
+    setPanel(TRACK_PRESETS[nextTrack] ?? PHASE_ZERO_PANEL);
     setRunning(false);
     setCursor(0);
-    setSelectedCriterion("harness_agent_engineering");
+    setSelectedCriterion(getTrackFocus(nextTrack).leadCriteria[0]);
+    setActiveDeck("evidence");
+  };
+
+  const updateGithubUrl = (nextUrl: string) => {
+    setGithubUrl(nextUrl);
+    if (localFixture) {
+      chooseFixture(replayFixtures[0].meta.id);
+      return;
+    }
+    setRunning(false);
+    setCursor(0);
     setActiveDeck("evidence");
   };
 
@@ -233,6 +282,7 @@ export function App() {
       }
       const nextFixture = payload as ReplayFixture;
       setLocalFixture(nextFixture);
+      setGithubUrl("");
       setTrack(nextFixture.meta.track);
       setPanelPreset(nextFixture.meta.track);
       setPanel(TRACK_PRESETS[nextFixture.meta.track] ?? TRACK_PRESETS["Harness / Skills Track"]);
@@ -284,9 +334,7 @@ export function App() {
           <h1>Ralph Ledger</h1>
         </div>
         <div className="topbar__meta" aria-label="Replay status">
-          <span className="pill pill--replay">
-            {fixture.meta.mode === "local-static" ? "Static Local Path Mode" : "Replay Fixture Mode"}
-          </span>
+          <span className="pill pill--replay">{modeLabel}</span>
           <span className="pill">No API keys</span>
           <span className="pill">{state.completed ? "Report ready" : "Live scoring"}</span>
         </div>
@@ -301,101 +349,50 @@ export function App() {
 
           <label className="field">
             <span>GitHub repo URL</span>
-            <input placeholder="Phase 2: known-good repos only" disabled />
-          </label>
-          <label className="field">
-            <span>Local repo path</span>
             <input
-              value={localPath}
-              placeholder="/absolute/path/to/repo"
-              onChange={(event) => setLocalPath(event.target.value)}
+              value={githubUrl}
+              placeholder="https://github.com/org/repo"
+              onChange={(event) => updateGithubUrl(event.target.value)}
             />
           </label>
-          <button className="button button--wide" onClick={inspectLocalPath} disabled={localLoading}>
-            <Search size={16} />
-            {localLoading ? "Inspecting..." : "Inspect static path"}
-          </button>
-          {localStatus && <p className="local-status">{localStatus}</p>}
-          <label className="field">
-            <span>Demo fixture</span>
-            <select
-              value={fixture.meta.id}
-              aria-label="Demo fixture"
-              onChange={(event) => chooseFixture(event.target.value)}
-            >
-              {replayFixtures.map((option) => (
-                <option value={option.meta.id} key={option.meta.id}>
-                  {option.meta.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <div className="fixture-note">
-            {fixture.meta.expectedScoreBand && (
-              <strong>
-                Expected {fixture.meta.expectedScoreBand.min}-{fixture.meta.expectedScoreBand.max}
-              </strong>
-            )}
-            <span>
-              {fixture.events.length}{" "}
-              {fixture.meta.mode === "local-static" ? "inspection events" : "replay events"}
-            </span>
-            {fixture.meta.requiredHarnessSplit && <em>Required harness split</em>}
-          </div>
-          <div className="fixture-role-card">
+
+          <div className="run-context-card">
             <strong>
               {fixture.meta.mode === "local-static"
-                ? "Static local inspection"
-                : fixtureRoles[fixture.meta.id]?.role ?? "Replay fixture"}
+                ? "Local static inspection ready"
+                : submittedGithubUrl
+                  ? "Ready for track and panel"
+                  : "Paste a GitHub URL to begin"}
             </strong>
             <p>
               {fixture.meta.mode === "local-static"
-                ? "Read-only repo inspection. Ralph Ledger emits the same event stream without running commands."
-                : fixtureRoles[fixture.meta.id]?.purpose ?? fixture.meta.summary}
+                ? "This fallback reads safe files only and emits the same structured evaluation stream."
+                : submittedGithubUrl
+                  ? "The strongest replay baseline stays hidden as the reliable demo engine until live GitHub cloning lands."
+                  : "Then choose Harness, Impact, or Overall Ralphthon and start the evaluation."}
             </p>
           </div>
+
           <label className="field">
             <span>Evaluation track</span>
             <select value={track} onChange={(event) => chooseTrack(event.target.value)}>
               {trackOptions.map((option) => (
-                <option key={option}>{option}</option>
+                <option value={option.value} key={option.value}>
+                  {option.label}
+                </option>
               ))}
             </select>
           </label>
-          <label className="field">
-            <span>Panel preset</span>
-            <select value={panelPreset} onChange={(event) => choosePanelPreset(event.target.value)}>
-              {panelPresetOptions.map((option) => (
-                <option key={option}>{option}</option>
-              ))}
-            </select>
-          </label>
-          <PanelPicker
-            activePanel={panel}
-            preset={panelPreset}
-            valid={panelIsValid}
-            onToggleJudge={toggleJudge}
-          />
           <TrackFocusCard focus={focus} />
 
           <div className="button-row">
             <button
               className="button button--primary"
               onClick={running ? () => setRunning(false) : startReplay}
-              disabled={!panelIsValid}
+              disabled={!canStart}
             >
               {running ? <Pause size={16} /> : <Play size={16} />}
-              {running
-                ? "Pause"
-                : state.completed
-                  ? fixture.meta.mode === "local-static"
-                    ? "Inspect again"
-                    : "Replay again"
-                  : hasStarted
-                    ? "Resume"
-                    : fixture.meta.mode === "local-static"
-                      ? "Start inspection"
-                      : "Start replay"}
+              {startButtonLabel}
             </button>
             <button className="button" onClick={resetReplay}>
               <RefreshCcw size={16} />
@@ -403,14 +400,72 @@ export function App() {
             </button>
           </div>
 
+          <details className="fallback-panel panel-advanced">
+            <summary>
+              <SlidersHorizontal size={16} aria-hidden="true" />
+              <span>Panel details</span>
+            </summary>
+            <p>
+              The track picks the judging panel automatically. Override this only for calibration
+              or custom lens testing.
+            </p>
+            <label className="field">
+              <span>Panel override</span>
+              <select
+                value={panelPreset}
+                onChange={(event) => choosePanelPreset(event.target.value)}
+              >
+                {panelPresetOptions.map((option) => (
+                  <option value={option} key={option}>
+                    {panelPresetLabels[option] ?? option}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <PanelPicker
+              activePanel={panel}
+              preset={panelPreset}
+              valid={panelIsValid}
+              onToggleJudge={toggleJudge}
+            />
+          </details>
+
           <div className="mode-note">
             <ShieldCheck size={18} aria-hidden="true" />
             <p>
               {fixture.meta.mode === "local-static"
                 ? "Local Path Mode reads safe files and source layout only. It does not run install, build, test, or arbitrary repo commands."
-                : "Scores are replayed from a saved event log. The same structured events drive the live feed, scorecard, evidence trail, split analysis, and report."}
+                : "GitHub URL Mode is not fetching remote code yet. The saved strong replay is the default safe baseline; calibration fixtures live in Compare."}
             </p>
           </div>
+
+          <details className="fallback-panel">
+            <summary>
+              <Search size={16} aria-hidden="true" />
+              <span>Local static fallback</span>
+            </summary>
+            <p>
+              Use this for a repo already on disk. Ralph Ledger reads safe files only and never runs
+              project commands.
+            </p>
+            <label className="field">
+              <span>Local repo path</span>
+              <input
+                value={localPath}
+                placeholder="/absolute/path/to/repo"
+                onChange={(event) => setLocalPath(event.target.value)}
+              />
+            </label>
+            <button
+              className="button button--wide"
+              onClick={inspectLocalPath}
+              disabled={localLoading}
+            >
+              <Search size={16} />
+              {localLoading ? "Inspecting..." : "Inspect static path"}
+            </button>
+            {localStatus && <p className="local-status">{localStatus}</p>}
+          </details>
 
           <div className="section-heading section-heading--spaced">
             <SlidersHorizontal size={18} aria-hidden="true" />
@@ -431,9 +486,9 @@ export function App() {
         <section className="stage" aria-label="Live evaluation view">
           <div className="stage__hero">
             <div>
-              <p className="eyebrow">Evaluating {fixture.meta.repoLabel}</p>
+              <p className="eyebrow">{heroEyebrow}</p>
               <h2>Watch the score move as evidence arrives.</h2>
-              <p className="stage__summary">{fixture.meta.summary}</p>
+              <p className="stage__summary">{heroSummary}</p>
             </div>
             <div className="score-seal" aria-label={`Current score ${fmt(totalScore)} out of 100`}>
               <span>{fmt(totalScore)}</span>
@@ -769,7 +824,7 @@ function EventFeed({ events }: { events: LedgerEvent[] }) {
     return (
       <div className="empty-feed">
         <Clock3 size={20} aria-hidden="true" />
-        <p>Ready to replay the canonical Phase 0 event log.</p>
+        <p>Ready to run the evaluation stream.</p>
       </div>
     );
   }

@@ -20,6 +20,7 @@ export const generateReportMarkdown = (
   const total = getTotalScore(state, panel);
   const hasPanelSplit = Object.values(state.panelSplits).some((split) => split?.meaningful);
   const isLocalStatic = meta.mode === "local-static";
+  const hasSubmittedUrl = Boolean(meta.submittedRepoUrl);
   const strengths = [
     isLocalStatic
       ? "Local Path Mode inspected safe files without executing arbitrary commands."
@@ -35,7 +36,9 @@ export const generateReportMarkdown = (
         "Static inspection can observe files and scripts, but it cannot prove runtime behavior.",
       ]
     : [
-        "GitHub URL Mode is intentionally deferred.",
+        hasSubmittedUrl
+          ? "The submitted GitHub URL was captured but not fetched or cloned in this build."
+          : "GitHub URL Mode is intentionally deferred.",
         "Replay fixtures use curated event logs rather than live repo verification.",
       ];
   const missingItems = RUBRIC.flatMap((item) =>
@@ -52,6 +55,7 @@ export const generateReportMarkdown = (
     `Fixture: ${meta.name}`,
     `Track: ${meta.track}`,
     `Mode: ${meta.mode}`,
+    ...(meta.submittedRepoUrl ? [`Submitted URL: ${meta.submittedRepoUrl}`] : []),
     ...(meta.sourcePath ? [`Source path: ${meta.sourcePath}`] : []),
     `Panel: ${panel.map((judge) => JUDGES[judge].name).join(", ")}`,
     `Final score: ${fmt(total)} / 100`,
@@ -61,7 +65,9 @@ export const generateReportMarkdown = (
     "",
     isLocalStatic
       ? "Ralph Ledger evaluated the submission through read-only static inspection. It inspected safe documentation, manifests, scripts, fixtures, and source layout, then emitted the same structured events used by the replay UI. It did not execute repo commands."
-      : "Ralph Ledger evaluated the submission by replaying a structured evidence log through the same scoring state used by the live UI. Every visible score movement retains its reason, confidence, artifact reference, rubric clause, and judge lens.",
+      : hasSubmittedUrl
+        ? "Ralph Ledger captured the submitted GitHub URL for the user flow, then evaluated the session by replaying the strongest safe baseline event log. It did not fetch, clone, install, build, or test the remote repo in this build. Every visible score movement retains its reason, confidence, artifact reference, rubric clause, and judge lens."
+        : "Ralph Ledger evaluated the submission by replaying a structured evidence log through the same scoring state used by the live UI. Every visible score movement retains its reason, confidence, artifact reference, rubric clause, and judge lens.",
     "",
     "## Selected Panel",
   ];
@@ -166,10 +172,13 @@ export const generateReportJson = (
     name: meta.name,
     repoLabel: meta.repoLabel,
     track: meta.track,
+    submittedRepoUrl: meta.submittedRepoUrl,
     sourcePath: meta.sourcePath,
   },
   inspection: {
     commandExecution: false,
+    githubFetch: false,
+    replayBaseline: meta.mode === "replay",
     staticOnly: meta.mode === "local-static",
   },
   panel: panel.map((judge) => ({

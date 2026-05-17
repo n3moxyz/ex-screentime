@@ -138,6 +138,7 @@ export interface FixtureMeta {
   panel: JudgeId[];
   repoLabel: string;
   summary: string;
+  submittedRepoUrl?: string;
   sourcePath?: string;
   expectedScoreBand?: {
     min: number;

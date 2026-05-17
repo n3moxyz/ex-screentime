@@ -170,47 +170,22 @@ button {
   color: #8f8273;
 }
 
-.fixture-note {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin: -4px 0 14px;
-  color: var(--muted);
-  font-size: 0.74rem;
-  font-weight: 800;
-}
-
-.fixture-note strong,
-.fixture-note em {
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: #fffaf1;
-  padding: 3px 7px;
-  color: var(--green);
-  font-style: normal;
-}
-
-.fixture-note em {
-  color: var(--rust);
-}
-
-.fixture-role-card {
-  margin: -3px 0 14px;
-  border: 1px solid color-mix(in oklch, var(--green) 30%, var(--line));
+.run-context-card {
+  margin: -2px 0 14px;
+  border: 1px solid color-mix(in oklch, var(--green) 34%, var(--line));
   border-radius: 7px;
   background: color-mix(in oklch, var(--green) 6%, #fffaf1);
   padding: 10px;
 }
 
-.fixture-role-card strong {
+.run-context-card strong {
   display: block;
   color: var(--green);
   font-size: 0.78rem;
   text-transform: uppercase;
 }
 
-.fixture-role-card p {
+.run-context-card p {
   margin: 5px 0 0;
   color: var(--muted);
   font-size: 0.82rem;
@@ -281,6 +256,71 @@ button {
   color: color-mix(in oklch, var(--green) 78%, var(--ink));
   font-size: 0.86rem;
   line-height: 1.45;
+}
+
+.fallback-panel {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: color-mix(in oklch, var(--paper-2) 34%, var(--panel));
+  padding: 0;
+}
+
+.fallback-panel summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 11px;
+  color: var(--ink);
+  font-size: 0.84rem;
+  font-weight: 850;
+  list-style: none;
+  cursor: pointer;
+}
+
+.fallback-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.fallback-panel summary::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.fallback-panel[open] {
+  padding-bottom: 10px;
+}
+
+.fallback-panel[open] summary::after {
+  content: "-";
+}
+
+.fallback-panel > p {
+  margin: 0 11px 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.fallback-panel .field {
+  margin: 0 10px 10px;
+}
+
+.fallback-panel .button--wide {
+  width: calc(100% - 20px);
+  margin: 0 10px 10px;
+}
+
+.fallback-panel .local-status {
+  margin: 0 10px;
+}
+
+.fallback-panel .panel-picker {
+  margin: 0 10px;
 }
 
 .panel-picker {

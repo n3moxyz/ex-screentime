@@ -151,18 +151,4 @@ export const TRACK_PRESETS: Record<string, JudgeId[]> = {
     "andrej-karpathy",
     "harrison-chase",
   ],
-  "Technical Execution": [
-    "andrej-karpathy",
-    "harrison-chase",
-    "ilya-sutskever",
-    "brian-chesky",
-    "sam-altman",
-  ],
-  "Demo Readiness": [
-    "brian-chesky",
-    "sam-altman",
-    "andrej-karpathy",
-    "harrison-chase",
-    "ilya-sutskever",
-  ],
 };
