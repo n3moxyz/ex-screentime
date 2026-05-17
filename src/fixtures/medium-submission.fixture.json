@@ -1,0 +1,1069 @@
+{
+  "meta": {
+    "id": "medium-submission-replay",
+    "name": "Medium Submission Replay",
+    "mode": "replay",
+    "track": "Harness / Skills Track",
+    "panel": [
+      "sam-altman",
+      "andrej-karpathy",
+      "ilya-sutskever",
+      "brian-chesky",
+      "harrison-chase"
+    ],
+    "repoLabel": "demo-fixtures/steady-ship",
+    "summary": "A runnable submission with basic docs, a coherent app, and some deterministic checks. It scores in the middle because the autonomous harness evidence exists only as light planning notes.",
+    "expectedScoreBand": {
+      "min": 45,
+      "max": 70
+    },
+    "requiredHarnessSplit": false
+  },
+  "events": [
+    {
+      "id": "med-001",
+      "timestamp": "2026-05-17T04:10:00.000Z",
+      "type": "stage_started",
+      "stage": "intake",
+      "message": "Replay fixture session created for demo-fixtures/steady-ship.",
+      "severity": "info",
+      "details": {
+        "mode": "replay",
+        "repo": "demo-fixtures/steady-ship"
+      }
+    },
+    {
+      "id": "med-002",
+      "timestamp": "2026-05-17T04:10:01.000Z",
+      "type": "track_selected",
+      "stage": "track_panel",
+      "message": "Harness / Skills Track selected.",
+      "severity": "info",
+      "details": {
+        "track": "Harness / Skills Track"
+      }
+    },
+    {
+      "id": "med-003",
+      "timestamp": "2026-05-17T04:10:02.000Z",
+      "type": "panel_selected",
+      "stage": "track_panel",
+      "message": "Five-lens replay panel data loaded; Phase 0 Split Demo remains the default view.",
+      "severity": "success",
+      "details": {
+        "panel": [
+          "sam-altman",
+          "andrej-karpathy",
+          "ilya-sutskever",
+          "brian-chesky",
+          "harrison-chase"
+        ],
+        "canonicalPreset": "Phase 0 Split Demo"
+      }
+    },
+    {
+      "id": "med-003a",
+      "timestamp": "2026-05-17T04:10:02.500Z",
+      "type": "stage_completed",
+      "stage": "track_panel",
+      "message": "Track and panel selection complete.",
+      "severity": "success",
+      "details": {
+        "panel_size": 2
+      }
+    },
+    {
+      "id": "med-004",
+      "timestamp": "2026-05-17T04:10:03.000Z",
+      "type": "stage_completed",
+      "stage": "intake",
+      "message": "Replay intake complete.",
+      "severity": "success",
+      "details": {
+        "confidence": 1
+      }
+    },
+    {
+      "id": "med-005",
+      "timestamp": "2026-05-17T04:10:04.000Z",
+      "type": "stage_started",
+      "stage": "stack_detection",
+      "message": "Detecting stack from fixture manifest.",
+      "severity": "info",
+      "details": {
+        "files": [
+          "package.json",
+          "src/App.tsx"
+        ]
+      }
+    },
+    {
+      "id": "med-006",
+      "timestamp": "2026-05-17T04:10:05.000Z",
+      "type": "stack_detected",
+      "stage": "stack_detection",
+      "message": "React and TypeScript detected with a simple npm script set.",
+      "severity": "success",
+      "details": {
+        "framework": "React",
+        "language": "TypeScript"
+      }
+    },
+    {
+      "id": "med-007",
+      "timestamp": "2026-05-17T04:10:06.000Z",
+      "type": "score_delta",
+      "stage": "stack_detection",
+      "message": "Technical execution increased for a conventional runnable stack.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 5,
+        "reason": "The stack is familiar and likely reproducible.",
+        "evidence": [
+          "package.json includes dev and build scripts"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:package.json",
+        "rubric_clause_ref": "technical_execution.commands_exist"
+      }
+    },
+    {
+      "id": "med-008",
+      "timestamp": "2026-05-17T04:10:07.000Z",
+      "type": "score_delta",
+      "stage": "stack_detection",
+      "message": "Brian credits the simple stack as demo-friendly.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 5,
+        "reason": "A familiar stack lowers demo risk.",
+        "evidence": [
+          "React app can be started with one documented command"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "technical_execution.reproducibility"
+      }
+    },
+    {
+      "id": "med-009",
+      "timestamp": "2026-05-17T04:10:08.000Z",
+      "type": "stage_completed",
+      "stage": "stack_detection",
+      "message": "Stack detection complete.",
+      "severity": "success",
+      "details": {
+        "duration_ms": 3000
+      }
+    },
+    {
+      "id": "med-010",
+      "timestamp": "2026-05-17T04:10:09.000Z",
+      "type": "stage_started",
+      "stage": "documentation_review",
+      "message": "Reading README, SPEC, and submission notes.",
+      "severity": "info",
+      "details": {
+        "docs": [
+          "README.md",
+          "SPEC.md",
+          "SUBMISSION.md"
+        ]
+      }
+    },
+    {
+      "id": "med-011",
+      "timestamp": "2026-05-17T04:10:10.000Z",
+      "type": "file_found",
+      "stage": "documentation_review",
+      "message": "README and SPEC found with basic setup instructions.",
+      "severity": "success",
+      "details": {
+        "files": [
+          "README.md",
+          "SPEC.md"
+        ]
+      }
+    },
+    {
+      "id": "med-012",
+      "timestamp": "2026-05-17T04:10:11.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Impact increased for a clear but modest user problem.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "harrison-chase",
+        "delta": 7,
+        "reason": "The docs name the user and workflow, but the ambition remains scoped.",
+        "evidence": [
+          "README explains the target workflow in one paragraph"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "med-013",
+      "timestamp": "2026-05-17T04:10:12.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian credits product clarity.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "brian-chesky",
+        "delta": 8,
+        "reason": "The user value is understandable even if the scope is not huge.",
+        "evidence": [
+          "SUBMISSION.md has a concise demo summary"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SUBMISSION.md",
+        "rubric_clause_ref": "impact.useful_workflow"
+      }
+    },
+    {
+      "id": "med-014",
+      "timestamp": "2026-05-17T04:10:13.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Originality increased for a mildly distinctive workflow.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "harrison-chase",
+        "delta": 6,
+        "reason": "The project has a useful angle but not a deep new mechanism.",
+        "evidence": [
+          "SPEC describes a focused evaluator workflow"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "originality.framing"
+      }
+    },
+    {
+      "id": "med-015",
+      "timestamp": "2026-05-17T04:10:14.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian credits the demo notes.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 6,
+        "reason": "The demo instructions are present, but the first-screen story is ordinary.",
+        "evidence": [
+          "README includes a basic demo path"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "demo_quality.demo_instructions"
+      }
+    },
+    {
+      "id": "med-016",
+      "timestamp": "2026-05-17T04:10:15.000Z",
+      "type": "stage_completed",
+      "stage": "documentation_review",
+      "message": "Documentation review complete.",
+      "severity": "success",
+      "details": {
+        "docs_found": 3
+      }
+    },
+    {
+      "id": "med-017",
+      "timestamp": "2026-05-17T04:10:16.000Z",
+      "type": "stage_started",
+      "stage": "prompt_discovery",
+      "message": "Searching for autonomous prompt and loop evidence.",
+      "severity": "info",
+      "details": {
+        "patterns": [
+          "AGENT_PROMPT.md",
+          "logs",
+          "task graph"
+        ]
+      }
+    },
+    {
+      "id": "med-018",
+      "timestamp": "2026-05-17T04:10:17.000Z",
+      "type": "file_found",
+      "stage": "prompt_discovery",
+      "message": "A short agent prompt note was found.",
+      "severity": "success",
+      "details": {
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "kind": "observed"
+      }
+    },
+    {
+      "id": "med-019",
+      "timestamp": "2026-05-17T04:10:18.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Harrison gives partial harness credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 7,
+        "reason": "There is a prompt, but little evidence of recovery or repeated evaluation loops.",
+        "evidence": [
+          "AGENT_PROMPT.md exists with a short build instruction"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "med-020",
+      "timestamp": "2026-05-17T04:10:19.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Brian sees the harness as useful but not demo-defining.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": 4,
+        "reason": "The prompt is present, but the live product story does not revolve around it.",
+        "evidence": [
+          "Prompt evidence is shallow and not connected to a report"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.task_decomposition"
+      }
+    },
+    {
+      "id": "med-021",
+      "timestamp": "2026-05-17T04:10:20.000Z",
+      "type": "stage_completed",
+      "stage": "prompt_discovery",
+      "message": "Prompt discovery complete with partial evidence.",
+      "severity": "warning",
+      "details": {
+        "prompt_evidence": "partial"
+      }
+    },
+    {
+      "id": "med-021a",
+      "timestamp": "2026-05-17T04:10:20.300Z",
+      "type": "stage_started",
+      "stage": "structure_inspection",
+      "message": "Inspecting source layout and generated artifacts.",
+      "severity": "info",
+      "details": {
+        "paths": [
+          "src",
+          "README.md"
+        ]
+      }
+    },
+    {
+      "id": "med-021b",
+      "timestamp": "2026-05-17T04:10:20.600Z",
+      "type": "stage_completed",
+      "stage": "structure_inspection",
+      "message": "Project structure inspection complete with a simple app layout.",
+      "severity": "success",
+      "details": {
+        "entrypoints": [
+          "src/App.tsx"
+        ]
+      }
+    },
+    {
+      "id": "med-022",
+      "timestamp": "2026-05-17T04:10:21.000Z",
+      "type": "stage_started",
+      "stage": "verification",
+      "message": "Running documented verification checks from fixture evidence.",
+      "severity": "info",
+      "details": {
+        "commands": [
+          "npm run build"
+        ]
+      }
+    },
+    {
+      "id": "med-023",
+      "timestamp": "2026-05-17T04:10:22.000Z",
+      "type": "command_completed",
+      "stage": "verification",
+      "message": "npm run build exited 0.",
+      "severity": "success",
+      "details": {
+        "command": "npm run build",
+        "exit_code": 0,
+        "duration_ms": 1800
+      }
+    },
+    {
+      "id": "med-024",
+      "timestamp": "2026-05-17T04:10:23.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Technical execution increased after build passed.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 8,
+        "reason": "The build command completed successfully.",
+        "evidence": [
+          "npm run build exited 0"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "command:npm run build",
+        "rubric_clause_ref": "technical_execution.verification"
+      }
+    },
+    {
+      "id": "med-025",
+      "timestamp": "2026-05-17T04:10:24.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Brian credits the passed build.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 8,
+        "reason": "The main demo can be built from documented commands.",
+        "evidence": [
+          "npm run build exited 0"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "command:npm run build",
+        "rubric_clause_ref": "technical_execution.build_succeeds"
+      }
+    },
+    {
+      "id": "med-026",
+      "timestamp": "2026-05-17T04:10:25.000Z",
+      "type": "file_missing",
+      "stage": "verification",
+      "message": "No automated test command was found.",
+      "severity": "warning",
+      "details": {
+        "artifact_ref": "script:test",
+        "kind": "missing"
+      }
+    },
+    {
+      "id": "med-027",
+      "timestamp": "2026-05-17T04:10:26.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Demo quality loses a point for missing test-backed confidence.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": -1,
+        "reason": "The demo can build, but there is no test or screenshot evidence.",
+        "evidence": [
+          "No test command found"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:test-script",
+        "rubric_clause_ref": "demo_quality.visual_evidence"
+      }
+    },
+    {
+      "id": "med-028",
+      "timestamp": "2026-05-17T04:10:27.000Z",
+      "type": "stage_completed",
+      "stage": "verification",
+      "message": "Verification complete with missing test evidence.",
+      "severity": "warning",
+      "details": {
+        "commands_passed": 1,
+        "missing": [
+          "test script"
+        ]
+      }
+    },
+    {
+      "id": "med-029",
+      "timestamp": "2026-05-17T04:10:28.000Z",
+      "type": "stage_started",
+      "stage": "scoring",
+      "message": "Applying rubric synthesis.",
+      "severity": "info",
+      "details": {
+        "math": "phase-zero panel mean"
+      }
+    },
+    {
+      "id": "med-030",
+      "timestamp": "2026-05-17T04:10:29.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison adds harness credit for basic task decomposition.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 8,
+        "reason": "The prompt includes a task sequence, though not a full feedback loop.",
+        "evidence": [
+          "AGENT_PROMPT.md lists build steps"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.task_decomposition"
+      }
+    },
+    {
+      "id": "med-031",
+      "timestamp": "2026-05-17T04:10:30.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian adds harness credit once it supports the report.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": 7,
+        "reason": "The harness evidence helps, but it is not yet a memorable product moment.",
+        "evidence": [
+          "Report mentions prompt evidence but not repeated loop logs"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "view:judge-report",
+        "rubric_clause_ref": "harness_agent_engineering.report_readiness"
+      }
+    },
+    {
+      "id": "med-032",
+      "timestamp": "2026-05-17T04:10:31.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Originality and demo quality receive final moderate credits.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "brian-chesky",
+        "delta": 7,
+        "reason": "The project has a distinct enough frame, though it stays close to expected hackathon tooling.",
+        "evidence": [
+          "Assessment flow is structured but not deeply novel"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "originality.differentiation"
+      }
+    },
+    {
+      "id": "med-033",
+      "timestamp": "2026-05-17T04:10:32.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison gives moderate demo credit.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "harrison-chase",
+        "delta": 7,
+        "reason": "The fixture path is reliable, even if not especially polished.",
+        "evidence": [
+          "Replay data is deterministic"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "mode:replay-fixture",
+        "rubric_clause_ref": "demo_quality.fixture_reliability"
+      }
+    },
+    {
+      "id": "med-034",
+      "timestamp": "2026-05-17T04:10:33.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian adds final demo credit for a coherent but plain flow.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 5,
+        "reason": "The demo is understandable, but it lacks a standout moment.",
+        "evidence": [
+          "Primary flow completes but panel disagreement is mild"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "view:live-evaluation",
+        "rubric_clause_ref": "demo_quality.primary_flow"
+      }
+    },
+    {
+      "id": "med-5l-001",
+      "timestamp": "2026-05-17T04:10:34.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "sam-altman",
+        "delta": 10.5,
+        "reason": "The product direction is useful but the urgency and adoption path are only lightly developed.",
+        "evidence": [
+          "README describes a helpful assessment workflow without a strong organizer rollout."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.practical_value"
+      }
+    },
+    {
+      "id": "med-5l-002",
+      "timestamp": "2026-05-17T04:10:35.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "sam-altman",
+        "delta": 11.5,
+        "reason": "The app builds, but missing test evidence keeps technical confidence moderate.",
+        "evidence": [
+          "npm run build exits 0; no automated test command is found."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "command:npm run build",
+        "rubric_clause_ref": "technical_execution.build_succeeds"
+      }
+    },
+    {
+      "id": "med-5l-003",
+      "timestamp": "2026-05-17T04:10:36.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "sam-altman",
+        "delta": 7.2,
+        "reason": "The concept has a useful angle but is close to expected hackathon tooling.",
+        "evidence": [
+          "Spec frames transparent assessment but lacks a deeper mechanism."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "originality.differentiation"
+      }
+    },
+    {
+      "id": "med-5l-004",
+      "timestamp": "2026-05-17T04:10:37.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored demo quality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "sam-altman",
+        "delta": 9.8,
+        "reason": "The flow is understandable enough for judging, but the first ten seconds are not especially memorable.",
+        "evidence": [
+          "Fixture replay and basic report are present."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "view:live-evaluation",
+        "rubric_clause_ref": "demo_quality.primary_flow"
+      }
+    },
+    {
+      "id": "med-5l-005",
+      "timestamp": "2026-05-17T04:10:38.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored harness agent engineering scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "sam-altman",
+        "delta": 11.8,
+        "reason": "Planning notes exist, but the autonomous loop is not proven through logs or recovery evidence.",
+        "evidence": [
+          "AGENT_PROMPT.md lists steps but no repeated build/test loop evidence is present."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.task_decomposition"
+      }
+    },
+    {
+      "id": "med-5l-006",
+      "timestamp": "2026-05-17T04:10:39.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored harness agent engineering scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "sam-altman",
+        "delta": -1,
+        "reason": "The lack of recovery evidence limits confidence in autonomous operation.",
+        "evidence": [
+          "No failure-recovery log found."
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:failure-recovery-log",
+        "rubric_clause_ref": "harness_agent_engineering.failure_recovery"
+      }
+    },
+    {
+      "id": "med-5l-007",
+      "timestamp": "2026-05-17T04:10:40.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "andrej-karpathy",
+        "delta": 6.6,
+        "reason": "The user value is plausible but not technically sharpened.",
+        "evidence": [
+          "Docs identify an assessment use case without strong workflow proof."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.user_workflow"
+      }
+    },
+    {
+      "id": "med-5l-008",
+      "timestamp": "2026-05-17T04:10:41.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 16,
+        "reason": "A passing build and simple structure deserve solid credit despite missing tests.",
+        "evidence": [
+          "Documented build command exits 0 and source layout is coherent."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "command:npm run build",
+        "rubric_clause_ref": "technical_execution.verification"
+      }
+    },
+    {
+      "id": "med-5l-009",
+      "timestamp": "2026-05-17T04:10:42.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored technical execution scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": -1,
+        "reason": "No automated tests means the implementation is less reproducible than it should be.",
+        "evidence": [
+          "No test script found."
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:test-script",
+        "rubric_clause_ref": "technical_execution.tests"
+      }
+    },
+    {
+      "id": "med-5l-010",
+      "timestamp": "2026-05-17T04:10:43.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "andrej-karpathy",
+        "delta": 6.8,
+        "reason": "The mechanism is clear but conventional.",
+        "evidence": [
+          "The app follows a familiar evaluator dashboard pattern."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "view:scorecard",
+        "rubric_clause_ref": "originality.novel_framing"
+      }
+    },
+    {
+      "id": "med-5l-011",
+      "timestamp": "2026-05-17T04:10:44.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored demo quality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "andrej-karpathy",
+        "delta": 8.5,
+        "reason": "Replay reliability helps the demo, though presentation polish is moderate.",
+        "evidence": [
+          "Deterministic replay data exists."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "mode:replay-fixture",
+        "rubric_clause_ref": "demo_quality.fixture_reliability"
+      }
+    },
+    {
+      "id": "med-5l-012",
+      "timestamp": "2026-05-17T04:10:45.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored harness agent engineering scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "andrej-karpathy",
+        "delta": 14,
+        "reason": "There is some agent scaffolding, but no strong evidence of closed-loop autonomous work.",
+        "evidence": [
+          "Prompt and report mention agent work without logs."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.loop_evidence"
+      }
+    },
+    {
+      "id": "med-5l-013",
+      "timestamp": "2026-05-17T04:10:46.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "ilya-sutskever",
+        "delta": 7.2,
+        "reason": "The problem is real enough, but the submission does not reveal a deep thesis about evaluation.",
+        "evidence": [
+          "Docs describe judge feedback rather than a richer intelligence mechanism."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md",
+        "rubric_clause_ref": "impact.relevance"
+      }
+    },
+    {
+      "id": "med-5l-014",
+      "timestamp": "2026-05-17T04:10:47.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "ilya-sutskever",
+        "delta": 13,
+        "reason": "The implementation is competent but not unusually elegant or deeply verified.",
+        "evidence": [
+          "Build passes; test evidence is absent."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "command:npm run build",
+        "rubric_clause_ref": "technical_execution.build_succeeds"
+      }
+    },
+    {
+      "id": "med-5l-015",
+      "timestamp": "2026-05-17T04:10:48.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "ilya-sutskever",
+        "delta": 9.5,
+        "reason": "There is a distinctive framing around transparent scoring, but the idea remains underdeveloped.",
+        "evidence": [
+          "Rubric and report exist, but panel disagreement is mild."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "view:rubric",
+        "rubric_clause_ref": "originality.assessment_model"
+      }
+    },
+    {
+      "id": "med-5l-016",
+      "timestamp": "2026-05-17T04:10:49.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored demo quality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "ilya-sutskever",
+        "delta": 7.5,
+        "reason": "The demo works, but this lens sees limited conceptual drama in the presentation.",
+        "evidence": [
+          "Primary flow completes with a moderate report."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "view:judge-report",
+        "rubric_clause_ref": "demo_quality.story"
+      }
+    },
+    {
+      "id": "med-5l-017",
+      "timestamp": "2026-05-17T04:10:50.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored harness agent engineering scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "ilya-sutskever",
+        "delta": 13.2,
+        "reason": "The harness has a seed of iterative structure, but no evidence of reflection or recovery.",
+        "evidence": [
+          "No build/test/evaluate/improve log found."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:iteration-log",
+        "rubric_clause_ref": "harness_agent_engineering.evidence_logging"
+      }
+    },
+    {
+      "id": "med-035",
+      "timestamp": "2026-05-17T04:10:52.000Z",
+      "type": "stage_completed",
+      "stage": "scoring",
+      "message": "Rubric scoring complete.",
+      "severity": "success",
+      "details": {
+        "score_band": "medium"
+      }
+    },
+    {
+      "id": "med-036",
+      "timestamp": "2026-05-17T04:10:53.000Z",
+      "type": "stage_started",
+      "stage": "panel_interpretation",
+      "message": "Computing consensus across judge lenses.",
+      "severity": "info",
+      "details": {
+        "panel": [
+          "harrison-chase",
+          "brian-chesky"
+        ]
+      }
+    },
+    {
+      "id": "med-037",
+      "timestamp": "2026-05-17T04:10:54.000Z",
+      "type": "stage_completed",
+      "stage": "panel_interpretation",
+      "message": "Panel mostly agrees this is a solid middle submission.",
+      "severity": "success",
+      "details": {
+        "splits": 0
+      }
+    },
+    {
+      "id": "med-038",
+      "timestamp": "2026-05-17T04:10:55.000Z",
+      "type": "stage_started",
+      "stage": "report_generation",
+      "message": "Generating judge-ready report.",
+      "severity": "info",
+      "details": {
+        "format": "in-app markdown"
+      }
+    },
+    {
+      "id": "med-039",
+      "timestamp": "2026-05-17T04:10:56.000Z",
+      "type": "report_generated",
+      "stage": "report_generation",
+      "message": "Judge report generated with medium-score recommendations.",
+      "severity": "success",
+      "details": {
+        "sections": [
+          "summary",
+          "scorecard",
+          "missing evidence"
+        ]
+      }
+    },
+    {
+      "id": "med-040",
+      "timestamp": "2026-05-17T04:10:57.000Z",
+      "type": "stage_completed",
+      "stage": "report_generation",
+      "message": "Report generation complete.",
+      "severity": "success",
+      "details": {
+        "export": "static view"
+      }
+    },
+    {
+      "id": "med-041",
+      "timestamp": "2026-05-17T04:10:58.000Z",
+      "type": "evaluation_completed",
+      "stage": "report_generation",
+      "message": "Replay evaluation complete.",
+      "severity": "success",
+      "details": {
+        "score_band": "medium"
+      }
+    }
+  ]
+}

@@ -14,6 +14,12 @@ A user submits a GitHub repo URL, local repo path, or demo fixture. Ralph Ledger
 
 The main demo must show the evaluation process unfolding live. Scores should change in real time as evidence is discovered. Every score movement must be inspectable, with the rubric criterion, reason, evidence, deductions, confidence, raw reference, and active judge lens that caused the change.
 
+## Implementation Status — 2026-05-17
+
+Phase 0 is implemented as a local React/Vite/TypeScript app with Replay Fixture Mode, deterministic strong/medium/weak fixture logs, live event replay, incremental scorecard, evidence inspector, rubric view, Harrison Chase / Brian Chesky panel split, and Markdown/JSON judge report export. Verification includes fixture validation, scoring validation, typecheck/build, audit, and desktop/mobile headless Chrome smoke tests.
+
+The app now includes the main Phase 1 cockpit slice: authored five-lens replay scoring for the strong, medium, and weak fixtures; five-lens track presets; custom 3-to-5 lens selection; track-focused scorecard ordering; fixture comparison; improved report export; and static-only Local Path Mode. The `Phase 0 Split Demo` preset remains the canonical judging path for preserving the required Harrison/Brian split and final-score expectation. Local Path Mode reads safe files and source layout without executing commands. GitHub URL Mode remains deferred per the build order below.
+
 ## Build Order (Walking Skeleton First)
 
 The autonomous build MUST ship Phase 0 end-to-end before starting any Phase 1 work. Phase 0 is the bulletproof demo path; if the run ends at 40% of plan, Phase 0 alone must be demoable.

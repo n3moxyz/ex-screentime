@@ -1,0 +1,1322 @@
+{
+  "meta": {
+    "id": "strong-harness-replay",
+    "name": "Strong Harness Replay",
+    "mode": "replay",
+    "track": "Harness / Skills Track",
+    "panel": [
+      "sam-altman",
+      "andrej-karpathy",
+      "ilya-sutskever",
+      "brian-chesky",
+      "harrison-chase"
+    ],
+    "repoLabel": "demo-fixtures/ralph-loop-lab",
+    "summary": "A strong autonomous-build submission with a clear spec, visible Ralph Loop prompt, deterministic checks, and a judge-ready report. The harness evidence is stronger than the product storytelling, which produces the required Harrison/Brian split.",
+    "expectedScoreBand": {
+      "min": 70,
+      "max": 90
+    },
+    "requiredHarnessSplit": true
+  },
+  "events": [
+    {
+      "id": "evt-001",
+      "timestamp": "2026-05-17T04:00:00.000Z",
+      "type": "stage_started",
+      "stage": "intake",
+      "message": "Replay fixture session created for demo-fixtures/ralph-loop-lab.",
+      "severity": "info",
+      "details": {
+        "mode": "replay",
+        "repo": "demo-fixtures/ralph-loop-lab"
+      }
+    },
+    {
+      "id": "evt-002",
+      "timestamp": "2026-05-17T04:00:01.000Z",
+      "type": "track_selected",
+      "stage": "track_panel",
+      "message": "Harness / Skills Track selected.",
+      "severity": "info",
+      "details": {
+        "track": "Harness / Skills Track"
+      }
+    },
+    {
+      "id": "evt-003",
+      "timestamp": "2026-05-17T04:00:02.000Z",
+      "type": "panel_selected",
+      "stage": "track_panel",
+      "message": "Five-lens replay panel data loaded; Phase 0 Split Demo remains the default view.",
+      "severity": "success",
+      "details": {
+        "panel": [
+          "sam-altman",
+          "andrej-karpathy",
+          "ilya-sutskever",
+          "brian-chesky",
+          "harrison-chase"
+        ],
+        "canonicalPreset": "Phase 0 Split Demo"
+      }
+    },
+    {
+      "id": "evt-003a",
+      "timestamp": "2026-05-17T04:00:02.500Z",
+      "type": "stage_completed",
+      "stage": "track_panel",
+      "message": "Track and panel selection complete.",
+      "severity": "success",
+      "details": {
+        "panel_size": 2
+      }
+    },
+    {
+      "id": "evt-004",
+      "timestamp": "2026-05-17T04:00:03.000Z",
+      "type": "stage_completed",
+      "stage": "intake",
+      "message": "Replay intake complete; no network or arbitrary code execution required.",
+      "severity": "success",
+      "details": {
+        "confidence": 1
+      }
+    },
+    {
+      "id": "evt-005",
+      "timestamp": "2026-05-17T04:00:04.000Z",
+      "type": "stage_started",
+      "stage": "stack_detection",
+      "message": "Detecting stack from fixture manifest.",
+      "severity": "info",
+      "details": {
+        "files": [
+          "package.json",
+          "vite.config.ts",
+          "tsconfig.json"
+        ]
+      }
+    },
+    {
+      "id": "evt-006",
+      "timestamp": "2026-05-17T04:00:05.000Z",
+      "type": "stack_detected",
+      "stage": "stack_detection",
+      "message": "React, Vite, TypeScript, and JSON fixture data detected.",
+      "severity": "success",
+      "details": {
+        "framework": "React",
+        "bundler": "Vite",
+        "language": "TypeScript"
+      }
+    },
+    {
+      "id": "evt-007",
+      "timestamp": "2026-05-17T04:00:06.000Z",
+      "type": "score_delta",
+      "stage": "stack_detection",
+      "message": "Technical execution increased after stack detection.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 3.4,
+        "reason": "Stack is local-first, typed, and fixture-driven.",
+        "evidence": [
+          "package.json, vite.config.ts, and tsconfig.json are present in the fixture"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:package.json",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "evt-008",
+      "timestamp": "2026-05-17T04:00:07.000Z",
+      "type": "score_delta",
+      "stage": "stack_detection",
+      "message": "Brian also credits the reproducible stack.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 2.8,
+        "reason": "Demo stack is simple enough to explain during judging.",
+        "evidence": [
+          "Vite app with no database or auth dependency"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:vite.config.ts",
+        "rubric_clause_ref": "technical_execution.reproducibility"
+      }
+    },
+    {
+      "id": "evt-009",
+      "timestamp": "2026-05-17T04:00:08.000Z",
+      "type": "stage_completed",
+      "stage": "stack_detection",
+      "message": "Stack detection complete.",
+      "severity": "success",
+      "details": {
+        "duration_ms": 4000
+      }
+    },
+    {
+      "id": "evt-010",
+      "timestamp": "2026-05-17T04:00:09.000Z",
+      "type": "stage_started",
+      "stage": "documentation_review",
+      "message": "Reading product and process documents.",
+      "severity": "info",
+      "details": {
+        "docs": [
+          "README.md",
+          "SPEC.md",
+          "AGENTS.md",
+          "FORET.md",
+          "SUBMISSION.md"
+        ]
+      }
+    },
+    {
+      "id": "evt-011",
+      "timestamp": "2026-05-17T04:00:10.000Z",
+      "type": "file_found",
+      "stage": "documentation_review",
+      "message": "SPEC.md and AGENTS.md found with explicit autonomous-build guardrails.",
+      "severity": "success",
+      "details": {
+        "files": [
+          "SPEC.md",
+          "AGENTS.md"
+        ]
+      }
+    },
+    {
+      "id": "evt-012",
+      "timestamp": "2026-05-17T04:00:11.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Impact score increased after clear audience and judging problem were found.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "brian-chesky",
+        "delta": 4.6,
+        "reason": "The docs frame a real judging pain: opaque autonomous hackathon assessment.",
+        "evidence": [
+          "SPEC.md names judges, teams, agent builders, and organizers as target users"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#target-users",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "evt-013",
+      "timestamp": "2026-05-17T04:00:12.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Harrison credits the evidence-first assessment model.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "harrison-chase",
+        "delta": 3.8,
+        "reason": "The product goal is directly relevant to autonomous agent submission review.",
+        "evidence": [
+          "SPEC.md requires observed, inferred, missing, claim, and judge interpretation labels"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#core-trust-principle",
+        "rubric_clause_ref": "impact.relevance"
+      }
+    },
+    {
+      "id": "evt-014",
+      "timestamp": "2026-05-17T04:00:13.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Originality increased after panel-disagreement framing was found.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "harrison-chase",
+        "delta": 3.6,
+        "reason": "The panel layer makes evaluator disagreement inspectable instead of hiding it.",
+        "evidence": [
+          "SPEC.md defines evidence transparency plus interpretation transparency"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#core-product-concept",
+        "rubric_clause_ref": "originality.non_obvious_interaction"
+      }
+    },
+    {
+      "id": "evt-015",
+      "timestamp": "2026-05-17T04:00:14.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian credits the judge-facing story but flags early explanation load.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 2.7,
+        "reason": "Final demo script is clear, but the concept still needs a strong first-screen translation.",
+        "evidence": [
+          "SPEC.md includes an 11-step final demo script"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#final-demo-script",
+        "rubric_clause_ref": "demo_quality.demo_script"
+      }
+    },
+    {
+      "id": "evt-016",
+      "timestamp": "2026-05-17T04:00:15.000Z",
+      "type": "stage_completed",
+      "stage": "documentation_review",
+      "message": "Documentation review complete.",
+      "severity": "success",
+      "details": {
+        "docs_found": 5
+      }
+    },
+    {
+      "id": "evt-017",
+      "timestamp": "2026-05-17T04:00:16.000Z",
+      "type": "stage_started",
+      "stage": "prompt_discovery",
+      "message": "Searching for autonomous prompt, loop rules, and recovery evidence.",
+      "severity": "info",
+      "details": {
+        "patterns": [
+          "AGENT_PROMPT.md",
+          "Ralph Loop",
+          "build/test/evaluate/improve"
+        ]
+      }
+    },
+    {
+      "id": "evt-018",
+      "timestamp": "2026-05-17T04:00:17.000Z",
+      "type": "evidence_found",
+      "stage": "prompt_discovery",
+      "message": "Autonomous loop instructions found.",
+      "severity": "success",
+      "details": {
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "kind": "observed"
+      }
+    },
+    {
+      "id": "evt-019",
+      "timestamp": "2026-05-17T04:00:18.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Harrison sharply increases Harness / Agent Engineering.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 12.4,
+        "reason": "The repo exposes an autonomous loop with task graph, verification, scoring, and weakest-area improvement.",
+        "evidence": [
+          "AGENT_PROMPT.md instructs build/test/evaluate/improve cycles and no-human fallback behavior"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "evt-020",
+      "timestamp": "2026-05-17T04:00:19.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Brian gives a smaller harness increase.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": 7.1,
+        "reason": "The harness is real, but the demo must still make why it matters immediately visible.",
+        "evidence": [
+          "Prompt and loop evidence exists, but user value needs presentation"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.evidence_logging"
+      }
+    },
+    {
+      "id": "evt-021",
+      "timestamp": "2026-05-17T04:00:20.000Z",
+      "type": "stage_completed",
+      "stage": "prompt_discovery",
+      "message": "Prompt and harness discovery complete.",
+      "severity": "success",
+      "details": {
+        "prompt_evidence": "strong"
+      }
+    },
+    {
+      "id": "evt-022",
+      "timestamp": "2026-05-17T04:00:21.000Z",
+      "type": "stage_started",
+      "stage": "structure_inspection",
+      "message": "Inspecting source layout, fixtures, scripts, and reporting artifacts.",
+      "severity": "info",
+      "details": {
+        "paths": [
+          "src/app",
+          "src/evaluator",
+          "src/fixtures",
+          "scripts"
+        ]
+      }
+    },
+    {
+      "id": "evt-023",
+      "timestamp": "2026-05-17T04:00:22.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Technical execution increased for separated app/evaluator/fixture layout.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 4.2,
+        "reason": "Evaluator logic, UI, fixture data, and validation scripts are separated.",
+        "evidence": [
+          "src/app, src/evaluator, src/fixtures, and scripts directories are present"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "path:src/evaluator",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "evt-024",
+      "timestamp": "2026-05-17T04:00:23.000Z",
+      "type": "score_delta",
+      "stage": "structure_inspection",
+      "message": "Originality increased for auditable score movement model.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "brian-chesky",
+        "delta": 3.2,
+        "reason": "The interaction centers changing evidence, not static charts.",
+        "evidence": [
+          "Score deltas carry judge, confidence, reason, artifact, and rubric references"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "schema:score_delta",
+        "rubric_clause_ref": "originality.interaction_model"
+      }
+    },
+    {
+      "id": "evt-025",
+      "timestamp": "2026-05-17T04:00:24.000Z",
+      "type": "stage_completed",
+      "stage": "structure_inspection",
+      "message": "Project structure inspection complete.",
+      "severity": "success",
+      "details": {
+        "entrypoints": [
+          "src/main.tsx",
+          "src/evaluator/reducer.ts"
+        ]
+      }
+    },
+    {
+      "id": "evt-026",
+      "timestamp": "2026-05-17T04:00:25.000Z",
+      "type": "stage_started",
+      "stage": "verification",
+      "message": "Running documented verification checks from fixture evidence.",
+      "severity": "info",
+      "details": {
+        "commands": [
+          "npm run validate",
+          "npm run typecheck",
+          "npm run build"
+        ]
+      }
+    },
+    {
+      "id": "evt-027",
+      "timestamp": "2026-05-17T04:00:26.000Z",
+      "type": "command_completed",
+      "stage": "verification",
+      "message": "npm run validate exited 0.",
+      "severity": "success",
+      "details": {
+        "command": "npm run validate",
+        "exit_code": 0,
+        "duration_ms": 421
+      }
+    },
+    {
+      "id": "evt-028",
+      "timestamp": "2026-05-17T04:00:27.000Z",
+      "type": "command_completed",
+      "stage": "verification",
+      "message": "npm run typecheck exited 0.",
+      "severity": "success",
+      "details": {
+        "command": "npm run typecheck",
+        "exit_code": 0,
+        "duration_ms": 1500
+      }
+    },
+    {
+      "id": "evt-029",
+      "timestamp": "2026-05-17T04:00:28.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Technical execution increased after documented checks passed.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 5.2,
+        "reason": "Validation and typecheck commands are documented and pass.",
+        "evidence": [
+          "npm run validate exited 0",
+          "npm run typecheck exited 0"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "command:npm run check",
+        "rubric_clause_ref": "technical_execution.verification"
+      }
+    },
+    {
+      "id": "evt-030",
+      "timestamp": "2026-05-17T04:00:29.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Harrison credits verification loop evidence.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 7.8,
+        "reason": "The project records verification commands as first-class evidence.",
+        "evidence": [
+          "Fixture contains command_completed events with command, exit code, and duration"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "event:command_completed",
+        "rubric_clause_ref": "harness_agent_engineering.build_test_loop_evidence"
+      }
+    },
+    {
+      "id": "evt-031",
+      "timestamp": "2026-05-17T04:00:30.000Z",
+      "type": "file_missing",
+      "stage": "verification",
+      "message": "No end-to-end browser test artifact was found in the fixture.",
+      "severity": "warning",
+      "details": {
+        "artifact_ref": "test:e2e",
+        "kind": "missing"
+      }
+    },
+    {
+      "id": "evt-032",
+      "timestamp": "2026-05-17T04:00:31.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "A deduction was applied for missing browser-level proof.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": -1.3,
+        "reason": "Fixture lacks an e2e screenshot or browser walkthrough artifact.",
+        "evidence": [
+          "No Playwright or screenshot artifact found"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:e2e-screenshot",
+        "rubric_clause_ref": "demo_quality.visual_evidence"
+      }
+    },
+    {
+      "id": "evt-033",
+      "timestamp": "2026-05-17T04:00:32.000Z",
+      "type": "stage_completed",
+      "stage": "verification",
+      "message": "Verification checks complete with one missing evidence note.",
+      "severity": "warning",
+      "details": {
+        "commands_passed": 2,
+        "missing": [
+          "e2e screenshot"
+        ]
+      }
+    },
+    {
+      "id": "evt-034",
+      "timestamp": "2026-05-17T04:00:33.000Z",
+      "type": "stage_started",
+      "stage": "scoring",
+      "message": "Applying rubric and judge lens multipliers.",
+      "severity": "info",
+      "details": {
+        "math": "normalized panel mean"
+      }
+    },
+    {
+      "id": "evt-034a",
+      "timestamp": "2026-05-17T04:00:34.100Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Impact synthesis credits the clear Ralphthon judging problem.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "harrison-chase",
+        "delta": 8.6,
+        "reason": "Transparent autonomous-submission judging is a concrete, high-leverage Ralphthon need.",
+        "evidence": [
+          "Target users, judging workflow, and trust model all point at the same problem"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#product-goal",
+        "rubric_clause_ref": "impact.practical_value"
+      }
+    },
+    {
+      "id": "evt-034b",
+      "timestamp": "2026-05-17T04:00:34.200Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian credits the same impact through the product story.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "brian-chesky",
+        "delta": 8.7,
+        "reason": "The product has a crisp audience and a judging-window story that users can feel quickly.",
+        "evidence": [
+          "Final demo script explains the value without replacing human judges"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#final-demo-script",
+        "rubric_clause_ref": "impact.user_workflow"
+      }
+    },
+    {
+      "id": "evt-034c",
+      "timestamp": "2026-05-17T04:00:34.300Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Technical synthesis credits the separated evaluator architecture.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 8.4,
+        "reason": "Typed reducer, deterministic fixture validation, and report generation are separated and inspectable.",
+        "evidence": [
+          "src/evaluator contains types, reducer, rubric, judges, and report generation"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "path:src/evaluator",
+        "rubric_clause_ref": "technical_execution.coherent_architecture"
+      }
+    },
+    {
+      "id": "evt-034d",
+      "timestamp": "2026-05-17T04:00:34.400Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian credits technical reliability for demo confidence.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": 7,
+        "reason": "A short deterministic replay gives the presenter a dependable judging flow.",
+        "evidence": [
+          "Replay fixture is under 90 seconds and validated before build"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "script:scripts/validate-fixture.mjs",
+        "rubric_clause_ref": "technical_execution.deterministic_checks"
+      }
+    },
+    {
+      "id": "evt-034e",
+      "timestamp": "2026-05-17T04:00:34.500Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Originality synthesis credits interpretation transparency.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "harrison-chase",
+        "delta": 6.5,
+        "reason": "The product treats judge disagreement as evidence instead of hiding it behind one number.",
+        "evidence": [
+          "Panel Splits View renders spread, rationale, consensus, and resolution notes"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:panel-splits",
+        "rubric_clause_ref": "originality.creative_assessment_model"
+      }
+    },
+    {
+      "id": "evt-034f",
+      "timestamp": "2026-05-17T04:00:34.600Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian credits originality when disagreement becomes legible in the demo.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "brian-chesky",
+        "delta": 6.6,
+        "reason": "The live split gives the demo a memorable moment beyond a generic analytics scorecard.",
+        "evidence": [
+          "Harrison/Brian split is the fixture's hero moment"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "event:panel_split_detected",
+        "rubric_clause_ref": "originality.differentiation"
+      }
+    },
+    {
+      "id": "evt-034g",
+      "timestamp": "2026-05-17T04:00:34.700Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian adds harness credit after report evidence connects process to judging.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": 10.7,
+        "reason": "The harness becomes more valuable once the UI ties process evidence to a judge-ready report.",
+        "evidence": [
+          "Evidence inspector and report make loop evidence understandable"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:evidence-inspector",
+        "rubric_clause_ref": "harness_agent_engineering.submission_report_readiness"
+      }
+    },
+    {
+      "id": "evt-034h",
+      "timestamp": "2026-05-17T04:00:34.800Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison credits demo reliability as useful harness evidence.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "harrison-chase",
+        "delta": 6.2,
+        "reason": "Reliable replay mode supports autonomous assessment by making the evaluator demonstrable every time.",
+        "evidence": [
+          "Replay is clearly labeled and does not depend on network, auth, or arbitrary repo execution"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "mode:replay-fixture",
+        "rubric_clause_ref": "demo_quality.safe_fallback"
+      }
+    },
+    {
+      "id": "evt-034i",
+      "timestamp": "2026-05-17T04:00:34.900Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian adds final demo credit for the inspectable click path.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 5,
+        "reason": "Judges can click from total score to the evidence trail, deduction, confidence, and report.",
+        "evidence": [
+          "Scorecard rows open the Evidence Inspector for the selected rubric category"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:scorecard",
+        "rubric_clause_ref": "demo_quality.inspectable_flow"
+      }
+    },
+    {
+      "id": "evt-035",
+      "timestamp": "2026-05-17T04:00:35.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison adds final harness credit for report readiness.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": 6.8,
+        "reason": "Submission/report readiness is wired into the final artifact.",
+        "evidence": [
+          "Judge Report View includes strengths, weaknesses, evidence, missing signals, and panel notes"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:judge-report",
+        "rubric_clause_ref": "harness_agent_engineering.submission_report_readiness"
+      }
+    },
+    {
+      "id": "evt-036",
+      "timestamp": "2026-05-17T04:00:36.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian adds demo credit for the replay-safe primary flow.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": 6.9,
+        "reason": "The demo can run in under 90 seconds without network or install risk.",
+        "evidence": [
+          "Replay Mode is the default and clearly labeled"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "mode:replay-fixture",
+        "rubric_clause_ref": "demo_quality.fixture_reliability"
+      }
+    },
+    {
+      "id": "evt-037",
+      "timestamp": "2026-05-17T04:00:37.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison gives smaller demo credit because the harness is the hero, not polish.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "harrison-chase",
+        "delta": 4.4,
+        "reason": "Replay flow is reliable, though product taste is outside this lens's main priority.",
+        "evidence": [
+          "Live event stream and scorecard update from the same fixture"
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:live-evaluation",
+        "rubric_clause_ref": "demo_quality.primary_flow"
+      }
+    },
+    {
+      "id": "evt-5l-001",
+      "timestamp": "2026-05-17T04:00:38.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "sam-altman",
+        "delta": 17,
+        "reason": "The evaluator attacks a real hackathon judging pain with a clear path from demo to organizer workflow.",
+        "evidence": [
+          "SPEC.md defines judges, teams, organizers, and agent builders as target users."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#target-users",
+        "rubric_clause_ref": "impact.practical_value"
+      }
+    },
+    {
+      "id": "evt-5l-002",
+      "timestamp": "2026-05-17T04:00:39.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "sam-altman",
+        "delta": 14,
+        "reason": "The stack is reliable enough for a judging window, though live repo intake is still deferred.",
+        "evidence": [
+          "Vite, TypeScript, fixture validation, and build scripts are documented."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:package.json",
+        "rubric_clause_ref": "technical_execution.reproducibility"
+      }
+    },
+    {
+      "id": "evt-5l-003",
+      "timestamp": "2026-05-17T04:00:40.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "sam-altman",
+        "delta": 11,
+        "reason": "Turning panel disagreement into an inspectable product primitive is differentiated.",
+        "evidence": [
+          "Panel Splits View explains disagreement instead of collapsing it into one opaque score."
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:panel-splits",
+        "rubric_clause_ref": "originality.novel_framing"
+      }
+    },
+    {
+      "id": "evt-5l-004",
+      "timestamp": "2026-05-17T04:00:41.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored demo quality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "sam-altman",
+        "delta": 13.4,
+        "reason": "The first-run story is compelling and report export gives judges a concrete artifact.",
+        "evidence": [
+          "Replay flow ends in an in-app judge report with Markdown and JSON export."
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:judge-report",
+        "rubric_clause_ref": "demo_quality.report"
+      }
+    },
+    {
+      "id": "evt-5l-005",
+      "timestamp": "2026-05-17T04:00:42.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored demo quality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "sam-altman",
+        "delta": -0.9,
+        "reason": "The demo still lacks a live external-repo proof point, so adoption confidence is not maxed.",
+        "evidence": [
+          "GitHub URL Mode remains deferred."
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:github-url-mode",
+        "rubric_clause_ref": "demo_quality.safe_fallback"
+      }
+    },
+    {
+      "id": "evt-5l-006",
+      "timestamp": "2026-05-17T04:00:43.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored harness agent engineering scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "sam-altman",
+        "delta": 23,
+        "reason": "The autonomous build prompt and validation loop show a serious path from demo to repeatable agent evaluation.",
+        "evidence": [
+          "AGENT_PROMPT.md, SPEC.md, FORET.md, and validate-fixture are all present."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.loop_evidence"
+      }
+    },
+    {
+      "id": "evt-5l-007",
+      "timestamp": "2026-05-17T04:00:44.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "andrej-karpathy",
+        "delta": 11.5,
+        "reason": "The problem is useful, though this lens discounts market ambition until live repo analysis exists.",
+        "evidence": [
+          "Docs explain the judging workflow and target users."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#product-goal",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "evt-5l-008",
+      "timestamp": "2026-05-17T04:00:45.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 18,
+        "reason": "Typed reducer state, JSON fixtures, validation, and build checks make the implementation easy to inspect.",
+        "evidence": [
+          "src/evaluator separates reducer, report, rubric, judges, and types."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "path:src/evaluator",
+        "rubric_clause_ref": "technical_execution.coherent_architecture"
+      }
+    },
+    {
+      "id": "evt-5l-009",
+      "timestamp": "2026-05-17T04:00:46.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "andrej-karpathy",
+        "delta": 9.5,
+        "reason": "The mechanism is clear and useful, but the core architecture is still a straightforward client-side replay.",
+        "evidence": [
+          "Replay events drive UI state through a pure reducer."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:src/evaluator/reducer.ts",
+        "rubric_clause_ref": "originality.assessment_model"
+      }
+    },
+    {
+      "id": "evt-5l-010",
+      "timestamp": "2026-05-17T04:00:47.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored demo quality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "andrej-karpathy",
+        "delta": 12.5,
+        "reason": "The demo is deterministic and fast, which matters more than visual flourish for technical review.",
+        "evidence": [
+          "Replay avoids network, auth, install, and arbitrary-code execution risk."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "mode:replay-fixture",
+        "rubric_clause_ref": "demo_quality.fixture_reliability"
+      }
+    },
+    {
+      "id": "evt-5l-011",
+      "timestamp": "2026-05-17T04:00:48.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored demo quality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "andrej-karpathy",
+        "delta": -1,
+        "reason": "No browser-walkthrough artifact is bundled with the fixture itself.",
+        "evidence": [
+          "No committed e2e screenshot artifact found in the evaluated fixture."
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:e2e-screenshot",
+        "rubric_clause_ref": "demo_quality.visual_evidence"
+      }
+    },
+    {
+      "id": "evt-5l-012",
+      "timestamp": "2026-05-17T04:00:49.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored harness agent engineering scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "andrej-karpathy",
+        "delta": 25,
+        "reason": "The harness evidence is explicit: spec, agent prompt, validation, failure notes, and report readiness are all inspectable.",
+        "evidence": [
+          "FORET.md records decisions and verification notes."
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:FORET.md",
+        "rubric_clause_ref": "harness_agent_engineering.evidence_logging"
+      }
+    },
+    {
+      "id": "evt-5l-013",
+      "timestamp": "2026-05-17T04:00:50.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "ilya-sutskever",
+        "delta": 12.5,
+        "reason": "The value is clear, but the deeper contribution is how the system exposes evaluator uncertainty.",
+        "evidence": [
+          "Core Trust Principle separates observed evidence, inference, missing evidence, claims, and interpretation."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#core-trust-principle",
+        "rubric_clause_ref": "impact.relevance"
+      }
+    },
+    {
+      "id": "evt-5l-014",
+      "timestamp": "2026-05-17T04:00:51.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "ilya-sutskever",
+        "delta": 15.5,
+        "reason": "The implementation is sufficiently rigorous to support reflection, though live analysis is not yet present.",
+        "evidence": [
+          "Build, typecheck, fixture validation, and visual smoke are documented."
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:SUBMISSION.md#verification",
+        "rubric_clause_ref": "technical_execution.verification"
+      }
+    },
+    {
+      "id": "evt-5l-015",
+      "timestamp": "2026-05-17T04:00:52.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "ilya-sutskever",
+        "delta": 14.5,
+        "reason": "The recursive idea of judging the judge through evidence trails and panel disagreement is strong.",
+        "evidence": [
+          "The app makes score movement and disagreement inspectable in real time."
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "view:evidence-inspector",
+        "rubric_clause_ref": "originality.creative_assessment_model"
+      }
+    },
+    {
+      "id": "evt-5l-016",
+      "timestamp": "2026-05-17T04:00:53.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored originality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "ilya-sutskever",
+        "delta": -1,
+        "reason": "The fixture remains curated rather than a live adaptive evaluator, limiting conceptual depth.",
+        "evidence": [
+          "Replay evidence is pre-recorded and labeled as replay."
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:adaptive-live-analysis",
+        "rubric_clause_ref": "originality.depth"
+      }
+    },
+    {
+      "id": "evt-5l-017",
+      "timestamp": "2026-05-17T04:00:54.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored demo quality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "ilya-sutskever",
+        "delta": 10.2,
+        "reason": "The story lands, but this lens cares less about demo polish than conceptual mechanism.",
+        "evidence": [
+          "Final demo script explains the score movement and split."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:SPEC.md#final-demo-script",
+        "rubric_clause_ref": "demo_quality.story"
+      }
+    },
+    {
+      "id": "evt-5l-018",
+      "timestamp": "2026-05-17T04:00:55.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored harness agent engineering scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "ilya-sutskever",
+        "delta": 24.5,
+        "reason": "The agent loop and rubric create a useful scaffold for iterative evaluator improvement.",
+        "evidence": [
+          "AGENT_PROMPT.md instructs repeated build, verify, score, and improve loops."
+        ],
+        "confidence": 0.9,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "evt-038",
+      "timestamp": "2026-05-17T04:00:57.000Z",
+      "type": "stage_completed",
+      "stage": "scoring",
+      "message": "Rubric scoring complete.",
+      "severity": "success",
+      "details": {
+        "score_scale": "0-100"
+      }
+    },
+    {
+      "id": "evt-039",
+      "timestamp": "2026-05-17T04:00:58.000Z",
+      "type": "stage_started",
+      "stage": "panel_interpretation",
+      "message": "Computing consensus and disagreement across judge lenses.",
+      "severity": "info",
+      "details": {
+        "panel": [
+          "harrison-chase",
+          "brian-chesky"
+        ]
+      }
+    },
+    {
+      "id": "evt-040",
+      "timestamp": "2026-05-17T04:00:59.000Z",
+      "type": "panel_split_detected",
+      "stage": "panel_interpretation",
+      "message": "Meaningful Harness / Agent Engineering split detected.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "consensus": "medium",
+        "meaningful": true,
+        "highestJudge": "harrison-chase",
+        "highestReason": "Strong prompt, explicit loop design, verification events, and report readiness.",
+        "lowestJudge": "brian-chesky",
+        "lowestReason": "Harness is strong, but the product story still has to become obvious in the first seconds.",
+        "resolutionNote": "The panel agrees the harness exists. The disagreement is whether the demo makes that harness legible quickly enough."
+      }
+    },
+    {
+      "id": "evt-041",
+      "timestamp": "2026-05-17T04:01:00.000Z",
+      "type": "stage_completed",
+      "stage": "panel_interpretation",
+      "message": "Panel interpretation complete.",
+      "severity": "success",
+      "details": {
+        "splits": 1
+      }
+    },
+    {
+      "id": "evt-042",
+      "timestamp": "2026-05-17T04:01:01.000Z",
+      "type": "stage_started",
+      "stage": "report_generation",
+      "message": "Generating judge-ready report from final session state.",
+      "severity": "info",
+      "details": {
+        "format": "in-app markdown"
+      }
+    },
+    {
+      "id": "evt-043",
+      "timestamp": "2026-05-17T04:01:02.000Z",
+      "type": "report_generated",
+      "stage": "report_generation",
+      "message": "Judge report generated with scores, evidence, deductions, confidence, and panel notes.",
+      "severity": "success",
+      "details": {
+        "sections": [
+          "summary",
+          "scorecard",
+          "evidence",
+          "missing evidence",
+          "panel disagreement"
+        ]
+      }
+    },
+    {
+      "id": "evt-044",
+      "timestamp": "2026-05-17T04:01:03.000Z",
+      "type": "stage_completed",
+      "stage": "report_generation",
+      "message": "Report generation complete.",
+      "severity": "success",
+      "details": {
+        "export": "static view"
+      }
+    },
+    {
+      "id": "evt-045",
+      "timestamp": "2026-05-17T04:01:04.000Z",
+      "type": "evaluation_completed",
+      "stage": "report_generation",
+      "message": "Replay evaluation complete.",
+      "severity": "success",
+      "details": {
+        "phase_zero": "demoable"
+      }
+    }
+  ]
+}

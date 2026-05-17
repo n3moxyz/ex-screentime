@@ -1,0 +1,904 @@
+{
+  "meta": {
+    "id": "weak-submission-replay",
+    "name": "Weak Submission Replay",
+    "mode": "replay",
+    "track": "Harness / Skills Track",
+    "panel": [
+      "sam-altman",
+      "andrej-karpathy",
+      "ilya-sutskever",
+      "brian-chesky",
+      "harrison-chase"
+    ],
+    "repoLabel": "demo-fixtures/thin-demo",
+    "summary": "A weak submission with minimal docs, missing commands, no autonomous prompt, and no verification evidence. It is useful as a calibration fixture because most score movements are deductions or low-confidence inferences.",
+    "expectedScoreBand": {
+      "min": 0,
+      "max": 45
+    },
+    "requiredHarnessSplit": false
+  },
+  "events": [
+    {
+      "id": "weak-001",
+      "timestamp": "2026-05-17T04:20:00.000Z",
+      "type": "stage_started",
+      "stage": "intake",
+      "message": "Replay fixture session created for demo-fixtures/thin-demo.",
+      "severity": "info",
+      "details": {
+        "mode": "replay",
+        "repo": "demo-fixtures/thin-demo"
+      }
+    },
+    {
+      "id": "weak-002",
+      "timestamp": "2026-05-17T04:20:01.000Z",
+      "type": "track_selected",
+      "stage": "track_panel",
+      "message": "Harness / Skills Track selected.",
+      "severity": "info",
+      "details": {
+        "track": "Harness / Skills Track"
+      }
+    },
+    {
+      "id": "weak-003",
+      "timestamp": "2026-05-17T04:20:02.000Z",
+      "type": "panel_selected",
+      "stage": "track_panel",
+      "message": "Five-lens replay panel data loaded; Phase 0 Split Demo remains the default view.",
+      "severity": "success",
+      "details": {
+        "panel": [
+          "sam-altman",
+          "andrej-karpathy",
+          "ilya-sutskever",
+          "brian-chesky",
+          "harrison-chase"
+        ],
+        "canonicalPreset": "Phase 0 Split Demo"
+      }
+    },
+    {
+      "id": "weak-003a",
+      "timestamp": "2026-05-17T04:20:02.500Z",
+      "type": "stage_completed",
+      "stage": "track_panel",
+      "message": "Track and panel selection complete.",
+      "severity": "success",
+      "details": {
+        "panel_size": 2
+      }
+    },
+    {
+      "id": "weak-004",
+      "timestamp": "2026-05-17T04:20:03.000Z",
+      "type": "stage_completed",
+      "stage": "intake",
+      "message": "Replay intake complete.",
+      "severity": "success",
+      "details": {
+        "confidence": 1
+      }
+    },
+    {
+      "id": "weak-005",
+      "timestamp": "2026-05-17T04:20:04.000Z",
+      "type": "stage_started",
+      "stage": "stack_detection",
+      "message": "Detecting stack from sparse fixture manifest.",
+      "severity": "info",
+      "details": {
+        "files": [
+          "index.html"
+        ]
+      }
+    },
+    {
+      "id": "weak-006",
+      "timestamp": "2026-05-17T04:20:05.000Z",
+      "type": "file_missing",
+      "stage": "stack_detection",
+      "message": "No package.json or documented command file found.",
+      "severity": "warning",
+      "details": {
+        "artifact_ref": "file:package.json",
+        "kind": "missing"
+      }
+    },
+    {
+      "id": "weak-007",
+      "timestamp": "2026-05-17T04:20:06.000Z",
+      "type": "score_delta",
+      "stage": "stack_detection",
+      "message": "Technical execution receives minimal static credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": 2,
+        "reason": "A static entrypoint exists, but no reproducible project command was found.",
+        "evidence": [
+          "index.html exists"
+        ],
+        "confidence": 1,
+        "evidence_kind": "observed",
+        "artifact_ref": "file:index.html",
+        "rubric_clause_ref": "technical_execution.entrypoint"
+      }
+    },
+    {
+      "id": "weak-008",
+      "timestamp": "2026-05-17T04:20:07.000Z",
+      "type": "score_delta",
+      "stage": "stack_detection",
+      "message": "Brian gives very low technical confidence.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "brian-chesky",
+        "delta": -1,
+        "reason": "No documented build or test path could be verified.",
+        "evidence": [
+          "No package scripts found"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:package-json",
+        "rubric_clause_ref": "technical_execution.commands_exist"
+      }
+    },
+    {
+      "id": "weak-009",
+      "timestamp": "2026-05-17T04:20:08.000Z",
+      "type": "stage_completed",
+      "stage": "stack_detection",
+      "message": "Stack detection complete with missing command evidence.",
+      "severity": "warning",
+      "details": {
+        "missing": [
+          "package.json",
+          "build command"
+        ]
+      }
+    },
+    {
+      "id": "weak-010",
+      "timestamp": "2026-05-17T04:20:09.000Z",
+      "type": "stage_started",
+      "stage": "documentation_review",
+      "message": "Reading sparse README notes.",
+      "severity": "info",
+      "details": {
+        "docs": [
+          "README.md"
+        ]
+      }
+    },
+    {
+      "id": "weak-011",
+      "timestamp": "2026-05-17T04:20:10.000Z",
+      "type": "file_found",
+      "stage": "documentation_review",
+      "message": "README found, but it only contains a short project claim.",
+      "severity": "warning",
+      "details": {
+        "files": [
+          "README.md"
+        ]
+      }
+    },
+    {
+      "id": "weak-012",
+      "timestamp": "2026-05-17T04:20:11.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Impact receives low-confidence claim credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "impact",
+        "judge": "harrison-chase",
+        "delta": 2.5,
+        "reason": "The README claims usefulness but does not define a clear audience or workflow.",
+        "evidence": [
+          "README says the project helps judges"
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "user-claim",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.problem_statement"
+      }
+    },
+    {
+      "id": "weak-013",
+      "timestamp": "2026-05-17T04:20:12.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian gives small impact credit for a recognizable problem.",
+      "severity": "warning",
+      "details": {
+        "criterion": "impact",
+        "judge": "brian-chesky",
+        "delta": 3,
+        "reason": "There is a stated problem, but no strong product proof.",
+        "evidence": [
+          "README has a one-line pitch"
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "user-claim",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "weak-014",
+      "timestamp": "2026-05-17T04:20:13.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Originality receives minimal credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "harrison-chase",
+        "delta": 1.5,
+        "reason": "The submission resembles a generic judging dashboard without a distinct mechanism.",
+        "evidence": [
+          "No non-obvious interaction model described"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "originality.differentiation"
+      }
+    },
+    {
+      "id": "weak-015",
+      "timestamp": "2026-05-17T04:20:14.000Z",
+      "type": "score_delta",
+      "stage": "documentation_review",
+      "message": "Brian gives low demo credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "brian-chesky",
+        "delta": -1.5,
+        "reason": "The README does not explain a short judging-window demo.",
+        "evidence": [
+          "No demo instructions found"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:demo-instructions",
+        "rubric_clause_ref": "demo_quality.demo_instructions"
+      }
+    },
+    {
+      "id": "weak-016",
+      "timestamp": "2026-05-17T04:20:15.000Z",
+      "type": "stage_completed",
+      "stage": "documentation_review",
+      "message": "Documentation review complete with weak evidence.",
+      "severity": "warning",
+      "details": {
+        "docs_found": 1
+      }
+    },
+    {
+      "id": "weak-017",
+      "timestamp": "2026-05-17T04:20:16.000Z",
+      "type": "stage_started",
+      "stage": "prompt_discovery",
+      "message": "Searching for autonomous prompt and loop evidence.",
+      "severity": "info",
+      "details": {
+        "patterns": [
+          "AGENT_PROMPT.md",
+          "SPEC.md",
+          "logs"
+        ]
+      }
+    },
+    {
+      "id": "weak-018",
+      "timestamp": "2026-05-17T04:20:17.000Z",
+      "type": "file_missing",
+      "stage": "prompt_discovery",
+      "message": "No autonomous prompt, task graph, or loop log found.",
+      "severity": "warning",
+      "details": {
+        "artifact_ref": "file:AGENT_PROMPT.md",
+        "kind": "missing"
+      }
+    },
+    {
+      "id": "weak-019",
+      "timestamp": "2026-05-17T04:20:18.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Harrison applies a harness deduction.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "harrison-chase",
+        "delta": -3,
+        "reason": "No prompt or loop evidence was found, leaving only weak inferred process credit.",
+        "evidence": [
+          "AGENT_PROMPT.md missing"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:AGENT_PROMPT.md",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "weak-020",
+      "timestamp": "2026-05-17T04:20:19.000Z",
+      "type": "score_delta",
+      "stage": "prompt_discovery",
+      "message": "Brian gives almost no harness credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "brian-chesky",
+        "delta": -2,
+        "reason": "The agentic claim is not visible in the product or documentation.",
+        "evidence": [
+          "No task decomposition or verification log found"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:loop-log",
+        "rubric_clause_ref": "harness_agent_engineering.evidence_logging"
+      }
+    },
+    {
+      "id": "weak-021",
+      "timestamp": "2026-05-17T04:20:20.000Z",
+      "type": "stage_completed",
+      "stage": "prompt_discovery",
+      "message": "Prompt discovery complete with missing evidence.",
+      "severity": "warning",
+      "details": {
+        "prompt_evidence": "missing"
+      }
+    },
+    {
+      "id": "weak-021a",
+      "timestamp": "2026-05-17T04:20:20.300Z",
+      "type": "stage_started",
+      "stage": "structure_inspection",
+      "message": "Inspecting source layout for entrypoints, tests, and fixtures.",
+      "severity": "info",
+      "details": {
+        "paths": [
+          "index.html"
+        ]
+      }
+    },
+    {
+      "id": "weak-021b",
+      "timestamp": "2026-05-17T04:20:20.600Z",
+      "type": "stage_completed",
+      "stage": "structure_inspection",
+      "message": "Project structure inspection complete with missing test and fixture directories.",
+      "severity": "warning",
+      "details": {
+        "missing": [
+          "src",
+          "tests",
+          "fixtures"
+        ]
+      }
+    },
+    {
+      "id": "weak-022",
+      "timestamp": "2026-05-17T04:20:21.000Z",
+      "type": "stage_started",
+      "stage": "verification",
+      "message": "Looking for safe documented commands.",
+      "severity": "info",
+      "details": {
+        "commands": []
+      }
+    },
+    {
+      "id": "weak-023",
+      "timestamp": "2026-05-17T04:20:22.000Z",
+      "type": "command_failed",
+      "stage": "verification",
+      "message": "No documented build or test command could be run.",
+      "severity": "warning",
+      "details": {
+        "reason": "missing package scripts",
+        "exit_code": null
+      }
+    },
+    {
+      "id": "weak-024",
+      "timestamp": "2026-05-17T04:20:23.000Z",
+      "type": "score_delta",
+      "stage": "verification",
+      "message": "Technical execution loses confidence for blocked verification.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "harrison-chase",
+        "delta": -2,
+        "reason": "Verification was blocked because no command was documented.",
+        "evidence": [
+          "No build or test command found"
+        ],
+        "confidence": 0,
+        "evidence_kind": "missing",
+        "artifact_ref": "missing:verification-command",
+        "rubric_clause_ref": "technical_execution.verification"
+      }
+    },
+    {
+      "id": "weak-025",
+      "timestamp": "2026-05-17T04:20:24.000Z",
+      "type": "stage_completed",
+      "stage": "verification",
+      "message": "Verification complete: blocked.",
+      "severity": "warning",
+      "details": {
+        "blocked": true
+      }
+    },
+    {
+      "id": "weak-026",
+      "timestamp": "2026-05-17T04:20:25.000Z",
+      "type": "stage_started",
+      "stage": "scoring",
+      "message": "Applying low-score rubric synthesis.",
+      "severity": "info",
+      "details": {
+        "math": "phase-zero panel mean"
+      }
+    },
+    {
+      "id": "weak-027",
+      "timestamp": "2026-05-17T04:20:26.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Brian adds small originality credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "brian-chesky",
+        "delta": 1.5,
+        "reason": "The concept has a recognizable category but no strong differentiation.",
+        "evidence": [
+          "README resembles a generic judging summary"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "originality.novel_framing"
+      }
+    },
+    {
+      "id": "weak-028",
+      "timestamp": "2026-05-17T04:20:27.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Harrison adds minimal demo reliability credit.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "harrison-chase",
+        "delta": 1.5,
+        "reason": "A static page may be showable, but no fixture or report is present.",
+        "evidence": [
+          "index.html exists"
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:index.html",
+        "rubric_clause_ref": "demo_quality.first_screen"
+      }
+    },
+    {
+      "id": "weak-5l-001",
+      "timestamp": "2026-05-17T04:20:28.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "sam-altman",
+        "delta": 2.8,
+        "reason": "The claimed problem could matter, but the repo gives almost no proof of user need or workflow.",
+        "evidence": [
+          "README says the project helps judges."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "user-claim",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.problem_statement"
+      }
+    },
+    {
+      "id": "weak-5l-002",
+      "timestamp": "2026-05-17T04:20:29.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored technical execution scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "sam-altman",
+        "delta": 0.5,
+        "reason": "A static entrypoint is present, but no reproducible command supports the claim.",
+        "evidence": [
+          "index.html exists; no package scripts found."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:index.html",
+        "rubric_clause_ref": "technical_execution.architecture"
+      }
+    },
+    {
+      "id": "weak-5l-003",
+      "timestamp": "2026-05-17T04:20:30.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored originality scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "originality",
+        "judge": "sam-altman",
+        "delta": 1.3,
+        "reason": "The idea is recognizable but generic.",
+        "evidence": [
+          "README resembles a short judging claim."
+        ],
+        "confidence": 0.7,
+        "evidence_kind": "inferred",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "originality.novel_framing"
+      }
+    },
+    {
+      "id": "weak-5l-004",
+      "timestamp": "2026-05-17T04:20:31.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored demo quality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "sam-altman",
+        "delta": 0.8,
+        "reason": "A page might be showable, but no guided demo or report exists.",
+        "evidence": [
+          "No fixture, screenshot, or report artifact found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:demo-fixture",
+        "rubric_clause_ref": "demo_quality.fixture_reliability"
+      }
+    },
+    {
+      "id": "weak-5l-005",
+      "timestamp": "2026-05-17T04:20:32.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Sam adds authored harness agent engineering scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "sam-altman",
+        "delta": 0.2,
+        "reason": "Agent-process evidence is effectively absent.",
+        "evidence": [
+          "No autonomous prompt or loop evidence found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:agent-prompt",
+        "rubric_clause_ref": "harness_agent_engineering.autonomous_prompt_quality"
+      }
+    },
+    {
+      "id": "weak-5l-006",
+      "timestamp": "2026-05-17T04:20:33.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "andrej-karpathy",
+        "delta": 1.8,
+        "reason": "The product claim is too thin for strong confidence.",
+        "evidence": [
+          "README has only a brief statement."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "user-claim",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.target_user"
+      }
+    },
+    {
+      "id": "weak-5l-007",
+      "timestamp": "2026-05-17T04:20:34.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored technical execution scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "andrej-karpathy",
+        "delta": 1.2,
+        "reason": "The static file gives a tiny amount of implementation evidence, but verification is blocked.",
+        "evidence": [
+          "No documented build or test command could run."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:verification-command",
+        "rubric_clause_ref": "technical_execution.verification"
+      }
+    },
+    {
+      "id": "weak-5l-008",
+      "timestamp": "2026-05-17T04:20:35.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored originality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "andrej-karpathy",
+        "delta": 1,
+        "reason": "No mechanism beyond a generic judging page is visible.",
+        "evidence": [
+          "No rubric, evaluator, or structured events found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:rubric",
+        "rubric_clause_ref": "originality.assessment_model"
+      }
+    },
+    {
+      "id": "weak-5l-009",
+      "timestamp": "2026-05-17T04:20:36.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored demo quality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "andrej-karpathy",
+        "delta": 0.6,
+        "reason": "The first screen may exist, but no reliable demo path is documented.",
+        "evidence": [
+          "No setup or demo instructions found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:demo-instructions",
+        "rubric_clause_ref": "demo_quality.first_screen"
+      }
+    },
+    {
+      "id": "weak-5l-010",
+      "timestamp": "2026-05-17T04:20:37.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Andrej adds authored harness agent engineering scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "andrej-karpathy",
+        "delta": 0.5,
+        "reason": "There is no task graph, prompt, logging, or recovery design.",
+        "evidence": [
+          "No AGENT_PROMPT.md, SPEC.md, or FORET.md found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:harness-docs",
+        "rubric_clause_ref": "harness_agent_engineering.spec_clarity"
+      }
+    },
+    {
+      "id": "weak-5l-011",
+      "timestamp": "2026-05-17T04:20:38.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored impact scoring.",
+      "severity": "success",
+      "details": {
+        "criterion": "impact",
+        "judge": "ilya-sutskever",
+        "delta": 2,
+        "reason": "The problem category is plausible, but the repo reveals little insight.",
+        "evidence": [
+          "README claims judge assistance."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "user-claim",
+        "artifact_ref": "file:README.md",
+        "rubric_clause_ref": "impact.relevance"
+      }
+    },
+    {
+      "id": "weak-5l-012",
+      "timestamp": "2026-05-17T04:20:39.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored technical execution scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "technical_execution",
+        "judge": "ilya-sutskever",
+        "delta": 0.7,
+        "reason": "There is too little structure to infer a real system.",
+        "evidence": [
+          "No source directory or package manifest found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:source-layout",
+        "rubric_clause_ref": "technical_execution.coherent_architecture"
+      }
+    },
+    {
+      "id": "weak-5l-013",
+      "timestamp": "2026-05-17T04:20:40.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored originality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "originality",
+        "judge": "ilya-sutskever",
+        "delta": 2.2,
+        "reason": "A faint concept is present, but no deeper evaluation mechanism appears.",
+        "evidence": [
+          "No panel, rubric, or reflective loop found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:evaluator-mechanism",
+        "rubric_clause_ref": "originality.depth"
+      }
+    },
+    {
+      "id": "weak-5l-014",
+      "timestamp": "2026-05-17T04:20:41.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored demo quality scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "demo_quality",
+        "judge": "ilya-sutskever",
+        "delta": 0.4,
+        "reason": "The demo lacks a story, fixture, or final report.",
+        "evidence": [
+          "No SUBMISSION.md or judge report found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:judge-report",
+        "rubric_clause_ref": "demo_quality.report"
+      }
+    },
+    {
+      "id": "weak-5l-015",
+      "timestamp": "2026-05-17T04:20:42.000Z",
+      "type": "score_delta",
+      "stage": "scoring",
+      "message": "Ilya adds authored harness agent engineering scoring.",
+      "severity": "warning",
+      "details": {
+        "criterion": "harness_agent_engineering",
+        "judge": "ilya-sutskever",
+        "delta": 0.7,
+        "reason": "The submission gives no evidence of autonomous workflow design.",
+        "evidence": [
+          "No logs, task decomposition, or validation loop found."
+        ],
+        "confidence": 0.4,
+        "evidence_kind": "inferred",
+        "artifact_ref": "missing:agent-loop",
+        "rubric_clause_ref": "harness_agent_engineering.loop_evidence"
+      }
+    },
+    {
+      "id": "weak-029",
+      "timestamp": "2026-05-17T04:20:44.000Z",
+      "type": "stage_completed",
+      "stage": "scoring",
+      "message": "Rubric scoring complete.",
+      "severity": "warning",
+      "details": {
+        "score_band": "weak"
+      }
+    },
+    {
+      "id": "weak-030",
+      "timestamp": "2026-05-17T04:20:45.000Z",
+      "type": "stage_started",
+      "stage": "panel_interpretation",
+      "message": "Computing consensus across judge lenses.",
+      "severity": "info",
+      "details": {
+        "panel": [
+          "harrison-chase",
+          "brian-chesky"
+        ]
+      }
+    },
+    {
+      "id": "weak-031",
+      "timestamp": "2026-05-17T04:20:46.000Z",
+      "type": "stage_completed",
+      "stage": "panel_interpretation",
+      "message": "Panel agrees evidence is too thin for a strong score.",
+      "severity": "warning",
+      "details": {
+        "splits": 0
+      }
+    },
+    {
+      "id": "weak-032",
+      "timestamp": "2026-05-17T04:20:47.000Z",
+      "type": "stage_started",
+      "stage": "report_generation",
+      "message": "Generating judge-ready report.",
+      "severity": "info",
+      "details": {
+        "format": "in-app markdown"
+      }
+    },
+    {
+      "id": "weak-033",
+      "timestamp": "2026-05-17T04:20:48.000Z",
+      "type": "report_generated",
+      "stage": "report_generation",
+      "message": "Judge report generated with missing-evidence recommendations.",
+      "severity": "success",
+      "details": {
+        "sections": [
+          "summary",
+          "missing evidence",
+          "suggested improvements"
+        ]
+      }
+    },
+    {
+      "id": "weak-034",
+      "timestamp": "2026-05-17T04:20:49.000Z",
+      "type": "stage_completed",
+      "stage": "report_generation",
+      "message": "Report generation complete.",
+      "severity": "success",
+      "details": {
+        "export": "static view"
+      }
+    },
+    {
+      "id": "weak-035",
+      "timestamp": "2026-05-17T04:20:50.000Z",
+      "type": "evaluation_completed",
+      "stage": "report_generation",
+      "message": "Replay evaluation complete.",
+      "severity": "success",
+      "details": {
+        "score_band": "weak"
+      }
+    }
+  ]
+}

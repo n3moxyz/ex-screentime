@@ -10,9 +10,14 @@ build/
 .next/
 .vite/
 coverage/
+*.tsbuildinfo
+ledger/*.json
+ledger/*.md
+ledger/*.png
 
 # Local tooling
 .DS_Store
 .claude/
 .codex/
-
+vite.config.js
+vite.config.d.ts
