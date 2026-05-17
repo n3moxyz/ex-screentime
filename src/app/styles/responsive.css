@@ -1,0 +1,61 @@
+@media (max-width: 1180px) {
+  .workspace,
+  .live-grid,
+  .lower-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .intake {
+    position: static;
+  }
+
+  .split-panel,
+  .deck,
+  .deck-tabs {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .stage-strip,
+  .rubric-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .shell {
+    padding: 14px;
+  }
+
+  .topbar,
+  .stage__hero {
+    align-items: start;
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .topbar__meta {
+    justify-content: start;
+  }
+
+  .stage-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .criterion-row {
+    grid-template-columns: 38px 1fr;
+  }
+
+  .criterion-row__meta {
+    grid-column: 2 / 3;
+    justify-items: start;
+    text-align: left;
+  }
+
+  .comparison-grid,
+  .evidence-columns,
+  .lens-grid,
+  .rubric-grid {
+    grid-template-columns: 1fr;
+  }
+}

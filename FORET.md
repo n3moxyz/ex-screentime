@@ -22,7 +22,10 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Track selection automatically picks the evaluator panel; advanced panel details still support Phase 0 split and custom 3 to 5 lens testing.
 - Track presets reorder the scorecard around the selected track's lead evidence.
 - Local Path Mode exists as a conservative static inspection path behind the `Local static fallback` drawer. It reads safe docs, manifests, source layout, scripts, fixtures, and judge files through Vite dev middleware and emits the same event stream without executing repo commands.
+- Local Path Mode logic lives in `src/evaluator/local-inspect.ts` and imports the shared judge/rubric constants instead of duplicating them in Vite config.
 - Fixture selection has been removed from the primary sidebar. The strong fixture is the hidden default baseline; medium and weak remain available through the `Compare fixtures` tab to explain calibration.
+- Replay speed is visible as a top-bar control instead of only being hidden behind `?speed=fast`.
+- Reducer unit tests cover score clamping, spread/agreement thresholds, malformed `score_delta` details, and malformed `panel_split_detected` details.
 - No database, auth, external AI API, or required secrets are used.
 
 ## Codebase Structure
@@ -37,10 +40,11 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 ├── SPEC.md                         # Ralph Ledger product and build specification
 ├── SUBMISSION.md                   # Judge-facing submission summary
 ├── judges/                         # Implemented judge lens notes
+├── scripts/reducer-unit.mjs        # Direct reducer behavior tests
 ├── scripts/validate-fixture.mjs    # Fixture/schema/score validation
 ├── scripts/validate-scoring.mjs    # Five-lens score coverage and band validation
-├── src/app/                        # React UI
-├── src/evaluator/                  # Event reducer, rubric, judges, report logic
+├── src/app/                        # React UI, view components, and split styles
+├── src/evaluator/                  # Event reducer, rubric, judges, report, and local inspection logic
 ├── src/fixtures/                   # Replay event log data
 ├── README.md                       # Human-facing setup and demo overview
 ├── .env.example                    # Environment template
@@ -65,8 +69,10 @@ Ralph Ledger's core demo is: paste a GitHub repo URL, choose Harness, Impact, or
 - Keep `Phase 0 Split Demo` as a preset even after five-lens presets, because it protects the original judging demo and final score expectation.
 - Keep the normal user path simple: GitHub URL, three-way evaluation track, Start.
 - Keep Local Path Mode static-only until a trust gate and command-capture model are designed.
+- Keep `vite.config.ts` as a thin middleware wrapper; evaluator logic should live under `src/evaluator/`.
 - Build Phase 0 before broadening: replay fixture, live evaluation, scorecard, Harrison/Brian panel split, and judge report.
 - Use `npm run validate` to guard each fixture's event schema, expected score band, completion event, and the strong fixture's required Harrison/Brian harness disagreement.
+- Use `npm run test:reducer` to guard reducer math and detail validation directly.
 
 ## Spec Hardening (2026-05-17)
 
@@ -85,7 +91,7 @@ Plus naming guardrail at the top: product is **Ralph Ledger**, the directory is 
 - Should the GitHub repo be private or public?
 - Which dev server port should be reserved in `../PROJECTS.md`?
 - Should Local Path Mode run only static inspection first, or also execute documented commands after an explicit trust gate?
-- When Phase 1 expands the runtime, split `src/app/App.tsx` and `src/app/styles.css` into smaller view/component/style modules.
+- If the cockpit grows further, which extracted app components should become feature folders?
 
 ## Resolved Questions
 
@@ -96,8 +102,8 @@ Plus naming guardrail at the top: product is **Ralph Ledger**, the directory is 
 
 ## Verification Notes
 
-- `npm run check` passes: fixture validation, TypeScript typecheck, and Vite production build.
+- `npm run check` passes: fixture validation, reducer unit tests, TypeScript typecheck, and Vite production build.
 - `npm audit --audit-level=moderate` reports 0 vulnerabilities after upgrading to Vite 8.
-- `npm run smoke:visual` passes with the dev server running; it covers desktop and mobile headless Chrome, GitHub URL intake, hidden fixture dropdown verification, simplified track switching, Local Path Mode through the fallback drawer, fixture switching through Compare Fixtures, advanced panel override, Rubric/Report tabs, JSON export, final report score text, horizontal overflow checks, and ignored screenshots in `ledger/`.
+- `npm run smoke:visual` passes with the dev server running; it covers desktop and mobile headless Chrome, visible fast replay chip, GitHub URL intake, hidden fixture dropdown verification, simplified track switching, Local Path Mode through the fallback drawer, fixture switching through Compare Fixtures, advanced panel override, Rubric/Report tabs, JSON export, final report score text, horizontal overflow checks, and ignored screenshots in `ledger/`.
 - Fixture validation now rejects malformed score deltas, invalid evidence kinds, empty artifact/rubric references, non-string evidence items, missing stage completion, out-of-band fixture scores, and weak Harrison/Brian harness splits.
 - Scoring validation requires authored score coverage for every judge and rubric dimension and checks Phase 0 plus five-lens score bands.

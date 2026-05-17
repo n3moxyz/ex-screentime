@@ -9,8 +9,9 @@
     "preview": "vite preview --host 127.0.0.1 --port 4173",
     "typecheck": "tsc --noEmit --pretty false",
     "validate": "node scripts/validate-fixture.mjs && node scripts/validate-scoring.mjs",
+    "test:reducer": "node scripts/reducer-unit.mjs",
     "smoke:visual": "node scripts/visual-smoke.mjs",
-    "check": "npm run validate && npm run typecheck && npm run build"
+    "check": "npm run validate && npm run test:reducer && npm run typecheck && npm run build"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
@@ -18,6 +19,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@types/node": "^24.12.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^6.0.2",

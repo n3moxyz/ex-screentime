@@ -20,10 +20,11 @@ The dev server runs at `http://127.0.0.1:5173/`.
 | --- | --- |
 | `npm run dev` | Start the Vite dev server |
 | `npm run validate` | Validate replay fixture schema, five-lens scoring coverage, score bands, and required Harrison/Brian split |
+| `npm run test:reducer` | Run direct reducer unit tests for clamps, agreement/spread boundaries, and malformed event details |
 | `npm run typecheck` | Run TypeScript static checks |
 | `npm run build` | Build the production bundle |
 | `npm run smoke:visual` | With the dev server and system Chrome available, verify desktop/mobile viewports and save ignored screenshots |
-| `npm run check` | Run fixture validation, typecheck, and production build |
+| `npm run check` | Run fixture validation, reducer unit tests, typecheck, and production build |
 
 ## Primary Flow
 
@@ -39,6 +40,8 @@ The main screen intentionally hides fixture choice. The strong replay fixture is
 GitHub URL fetching is still Phase 2. In the current build, the pasted URL is captured for the user flow while the hidden strong replay baseline drives the live score stream.
 
 Track selection now picks the evaluator panel automatically. `Panel details` is an advanced override for calibration or custom lens testing; it is not part of the normal user path.
+
+The top bar includes a visible replay speed toggle so live demos no longer need to remember the hidden `?speed=fast` URL switch.
 
 All five judge lenses now have authored score-delta events in the strong, medium, and weak replay fixtures. `Phase 0 Split Demo` keeps the original Harrison/Brian canonical score stable, while the track presets use the same event stream with broader panels.
 

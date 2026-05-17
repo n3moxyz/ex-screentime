@@ -41,6 +41,7 @@ const runViewport = async (name, viewport) => {
 
   await page.goto(appUrl, { waitUntil: "networkidle", timeout: 15000 });
   await page.getByRole("heading", { name: "Ralph Ledger" }).waitFor({ timeout: 5000 });
+  await page.getByRole("button", { name: "Fast replay" }).waitFor({ timeout: 5000 });
   await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ex-screentime");
   if ((await page.getByLabel("Demo fixture").count()) !== 0) {
     consoleErrors.push(`${name}: primary intake still exposes the demo fixture dropdown`);

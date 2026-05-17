@@ -1,0 +1,89 @@
+.judge-card {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fffaf1;
+  padding: 12px;
+}
+
+.judge-card__top {
+  align-items: start;
+  gap: 9px;
+}
+
+.judge-card h4 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.judge-card p {
+  margin: 5px 0;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.judge-card small {
+  display: block;
+  color: var(--rust);
+  line-height: 1.35;
+}
+
+.bias-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.bias-grid span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 7px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.judge-card--compact .bias-grid {
+  display: none;
+}
+
+.report-view pre {
+  max-height: 560px;
+  overflow: auto;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fffaf1;
+  padding: 14px;
+  color: var(--ink);
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.report-pending {
+  display: grid;
+  place-items: center;
+  min-height: 320px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fffaf1;
+  color: var(--muted);
+  padding: 22px;
+  text-align: center;
+}
+
+.report-pending p {
+  max-width: 420px;
+  margin: 12px 0 0;
+  line-height: 1.5;
+}
+
+.report-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: end;
+}

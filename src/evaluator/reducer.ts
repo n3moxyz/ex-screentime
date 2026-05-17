@@ -3,6 +3,7 @@ import { RUBRIC, RUBRIC_BY_ID, STAGES } from "./rubric";
 import type {
   CriterionId,
   CriterionState,
+  EvidenceKind,
   EvaluationState,
   EvidenceItem,
   JudgeId,
@@ -13,6 +14,27 @@ import type {
 } from "./types";
 
 const judgeIds = Object.keys(JUDGES) as JudgeId[];
+const criterionIds = RUBRIC.map((item) => item.id);
+const evidenceKinds: EvidenceKind[] = ["observed", "inferred", "user-claim", "missing"];
+const consensusLevels: PanelSplit["consensus"][] = ["high", "medium", "low"];
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
+const isCriterionId = (value: unknown): value is CriterionId =>
+  typeof value === "string" && criterionIds.includes(value as CriterionId);
+
+const isJudgeId = (value: unknown): value is JudgeId =>
+  typeof value === "string" && judgeIds.includes(value as JudgeId);
+
+const isEvidenceKind = (value: unknown): value is EvidenceKind =>
+  typeof value === "string" && evidenceKinds.includes(value as EvidenceKind);
+
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every((item) => typeof item === "string");
+
+const isConsensus = (value: unknown): value is PanelSplit["consensus"] =>
+  typeof value === "string" && consensusLevels.includes(value as PanelSplit["consensus"]);
 
 const emptyPerJudge = () =>
   Object.fromEntries(judgeIds.map((judge) => [judge, 0])) as Record<JudgeId, number>;
@@ -39,18 +61,36 @@ export const createInitialState = (): EvaluationState => ({
   completed: false,
 });
 
-const isScoreDeltaDetails = (details: LedgerEvent["details"]): details is ScoreDeltaDetails => {
-  if (!details) return false;
+const isScoreDeltaDetails = (details: unknown): details is ScoreDeltaDetails => {
+  if (!isRecord(details)) return false;
   return (
-    typeof details.criterion === "string" &&
-    typeof details.judge === "string" &&
+    isCriterionId(details.criterion) &&
+    isJudgeId(details.judge) &&
     typeof details.delta === "number" &&
+    Number.isFinite(details.delta) &&
     typeof details.reason === "string" &&
-    Array.isArray(details.evidence) &&
+    isStringArray(details.evidence) &&
     typeof details.confidence === "number" &&
-    typeof details.evidence_kind === "string" &&
+    Number.isFinite(details.confidence) &&
+    details.confidence >= 0 &&
+    details.confidence <= 1 &&
+    isEvidenceKind(details.evidence_kind) &&
     typeof details.artifact_ref === "string" &&
     typeof details.rubric_clause_ref === "string"
+  );
+};
+
+const isPanelSplitDetails = (details: unknown): details is PanelSplit => {
+  if (!isRecord(details)) return false;
+  return (
+    isCriterionId(details.criterion) &&
+    isConsensus(details.consensus) &&
+    typeof details.meaningful === "boolean" &&
+    isJudgeId(details.highestJudge) &&
+    typeof details.highestReason === "string" &&
+    isJudgeId(details.lowestJudge) &&
+    typeof details.lowestReason === "string" &&
+    typeof details.resolutionNote === "string"
   );
 };
 
@@ -125,11 +165,8 @@ export const applyEvent = (state: EvaluationState, event: LedgerEvent): Evaluati
     };
   }
 
-  if (event.type === "panel_split_detected" && event.details) {
-    const details = event.details as Partial<PanelSplit>;
-    if (details.criterion) {
-      next.panelSplits[details.criterion] = details as PanelSplit;
-    }
+  if (event.type === "panel_split_detected" && isPanelSplitDetails(event.details)) {
+    next.panelSplits[event.details.criterion] = event.details;
   }
 
   if (event.type === "evaluation_completed") {

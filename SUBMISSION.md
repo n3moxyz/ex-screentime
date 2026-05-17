@@ -29,13 +29,16 @@ Open `http://127.0.0.1:5173/`, paste a GitHub repo URL, choose `Harness`, `Impac
 - Track selection automatically picks the evaluator panel for Harness, Impact, and Overall Ralphthon.
 - Advanced panel details still support Phase 0 split and custom 3 to 5 evaluator lens testing.
 - Track presets foreground the relevant rubric dimensions in the scorecard and evidence inspector.
+- Replay speed is visible in the top bar and can be toggled without editing the URL.
 - Local Path Mode is available behind `Local static fallback`, performs read-only static inspection of safe files, and emits the same structured event stream without running repo commands.
+- Local Path Mode scoring now uses the shared judge and rubric constants from `src/evaluator/*`.
 - Panel Splits View shows the required Harness / Agent Engineering disagreement.
 - Compare Fixtures view explains why strong, medium, and weak fixtures exist and shows their scores under the selected panel.
 - Judge Report View is generated from the final replay state.
 - Judge Report View can export the current report as Markdown or JSON.
 - Scorecard includes a score-change rail for the latest visible deltas.
 - `npm run validate` checks fixture schema, completion, expected score bands, five-lens score coverage, and the strong fixture's Harrison/Brian harness split.
+- `npm run test:reducer` directly checks reducer clamp behavior, spread/agreement boundaries, and malformed event-detail handling.
 
 ## Verification
 
@@ -47,20 +50,20 @@ npm audit --audit-level=moderate
 npm run smoke:visual
 ```
 
-Result: passing. `npm run smoke:visual` requires the dev server to be running. Audit reports 0 vulnerabilities. Fixture validation reports:
+Result: passing. `npm run smoke:visual` requires the dev server to be running. Audit reports 0 vulnerabilities. `npm run check` now includes fixture validation, reducer unit tests, typecheck, and production build. Fixture validation reports:
 
 - Strong fixture: 73 events, Phase 0 score 72.7/100, five-lens score 74.9/100, 9.2-point Harrison/Brian harness spread.
 - Medium fixture: 61 events, Phase 0 score 48.5/100, five-lens score 49.6/100.
 - Weak fixture: 53 events, Phase 0 score 5.0/100, five-lens score 5.3/100.
 
-Visual smoke opens the app in headless system Chrome at desktop and mobile widths, fills the GitHub URL intake, verifies the demo fixture dropdown is not exposed in the primary flow, checks simplified track switching, checks Local Path Mode against this repo through the fallback drawer, switches back to the strong calibration fixture through Compare Fixtures, checks the advanced panel override, starts the evaluation, waits for completion, opens the Rubric and Judge Report tabs, verifies the final score text, triggers JSON export, checks for horizontal overflow, and writes ignored screenshots to `ledger/visual-smoke-*.png`.
+Visual smoke opens the app in headless system Chrome at desktop and mobile widths, verifies the visible fast replay chip, fills the GitHub URL intake, verifies the demo fixture dropdown is not exposed in the primary flow, checks simplified track switching, checks Local Path Mode against this repo through the fallback drawer, switches back to the strong calibration fixture through Compare Fixtures, checks the advanced panel override, starts the evaluation, waits for completion, opens the Rubric and Judge Report tabs, verifies the final score text, triggers JSON export, checks for horizontal overflow, and writes ignored screenshots to `ledger/visual-smoke-*.png`.
 
 ## Known Limits
 
 - GitHub URL Mode captures the URL in the primary flow, but live remote fetching is intentionally deferred.
 - Local Path Mode is static-only and does not execute documented commands yet.
 - Replay evidence is pre-recorded and labeled as replay; it is not presented as live repo verification.
-- `src/app/App.tsx`, `src/app/styles.css`, and `vite.config.ts` are still consolidated Phase 1 files; the next pass should split view components, styles, and local-inspection middleware.
+- `src/app/App.tsx` is smaller after extracting view components, but further component-level splitting will still help if the cockpit grows.
 
 ## Self-Score
 
@@ -69,5 +72,5 @@ Visual smoke opens the app in headless system Chrome at desktop and mobile width
 | Demo Success | 8/10 | Main flow is URL, three-way track, and Start; calibration fixtures, advanced panel override, and static local inspection remain available. |
 | Trust Success | 8/10 | Score movements include evidence, confidence, references, judge lens, missing evidence, and report notes. |
 | Harness Track Success | 8/10 | Spec, prompt, five-lens fixture events, local static inspection, validation, and report are inspectable. |
-| Technical Success | 8/10 | Build/typecheck/fixture validation/audit pass, plus desktop and mobile visual smoke. |
+| Technical Success | 8/10 | Build/typecheck/fixture validation/reducer tests/audit pass, plus desktop and mobile visual smoke. |
 | Demo Quality Success | 8/10 | Main flow is reliable with visible score movement and panel disagreement. |
