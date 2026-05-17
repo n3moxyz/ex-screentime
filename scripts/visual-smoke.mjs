@@ -42,7 +42,6 @@ const runViewport = async (name, viewport) => {
   await page.goto(appUrl, { waitUntil: "networkidle", timeout: 15000 });
   await page.getByRole("heading", { name: "Ralph Ledger" }).waitFor({ timeout: 5000 });
   await page.getByRole("button", { name: "Fast replay" }).waitFor({ timeout: 5000 });
-  await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ralph-ledger");
   if ((await page.getByLabel("Demo fixture").count()) !== 0) {
     consoleErrors.push(`${name}: primary intake still exposes the demo fixture dropdown`);
   }
@@ -81,9 +80,7 @@ const runViewport = async (name, viewport) => {
     .locator(".comparison-card", { hasText: "Strong Harness Replay" })
     .getByRole("button", { name: /Use fixture/i })
     .click();
-  await page.getByLabel("GitHub repo URL").fill("https://github.com/n3moxyz/ralph-ledger");
-  await page.getByText("Local static fallback").click();
-  await page.getByRole("button", { name: /Start evaluation/i }).click();
+  await page.getByRole("button", { name: /Run safe replay demo/i }).click();
   await page.waitForFunction(
     () => document.body.textContent?.includes("Replay evaluation complete"),
     undefined,

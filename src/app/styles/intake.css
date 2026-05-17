@@ -142,8 +142,13 @@
   line-height: 1.4;
 }
 
-.github-suggestion-label {
-  margin: 6px 10px 4px;
+.github-suggestion-row {
+  margin: -8px 0 14px;
+}
+
+.github-suggestion-row__label {
+  display: block;
+  margin: 0 0 6px;
   color: var(--muted);
   font-size: 0.74rem;
   font-weight: 800;
@@ -151,28 +156,24 @@
   letter-spacing: 0.02em;
 }
 
-.github-suggestion-list {
-  margin: 0 10px 10px;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  gap: 4px;
+.github-suggestion-row__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.github-suggestion__pick {
-  width: 100%;
+.github-suggestion-pill {
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 999px;
   background: var(--card-bg);
   color: var(--ink);
-  padding: 6px 9px;
-  text-align: left;
-  font-size: 0.78rem;
-  font-weight: 700;
+  padding: 5px 11px;
+  font-size: 0.74rem;
+  font-weight: 800;
   cursor: pointer;
 }
 
-.github-suggestion__pick:hover {
+.github-suggestion-pill:hover {
   border-color: var(--ink);
 }
 

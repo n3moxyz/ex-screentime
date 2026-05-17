@@ -193,30 +193,33 @@ export function App() {
     () => generateReportJson(state, sessionMeta, panel),
     [panel, sessionMeta, state],
   );
-  const canStart =
-    panelIsValid && (fixture.meta.mode === "local-static" || submittedGithubUrl.length > 0);
+  const willCloneOnStart =
+    !localFixture && submittedGithubUrl.length > 0 && fixture.meta.mode !== "local-static";
+  const canStart = panelIsValid && !githubLoading;
   const modeLabel =
     fixture.meta.mode === "local-static"
       ? fixture.meta.submittedRepoUrl
         ? "GitHub Clone Mode"
         : "Static Local Path Mode"
-      : isGithubPreview
-        ? "GitHub URL Preview"
+      : willCloneOnStart
+        ? "Ready to clone"
         : "Replay Fixture Mode";
   const startButtonLabel = running
     ? "Pause"
-    : !canStart
-      ? "Paste URL first"
+    : githubLoading
+      ? "Cloning..."
       : state.completed
         ? "Run again"
         : hasStarted
           ? "Resume"
-          : "Start evaluation";
-  const heroEyebrow = isGithubPreview
+          : willCloneOnStart
+            ? "Clone & inspect"
+            : "Start evaluation";
+  const heroEyebrow = willCloneOnStart
     ? "Submitted GitHub repo"
     : `Evaluating ${fixture.meta.repoLabel}`;
-  const heroSummary = isGithubPreview
-    ? `${submittedGithubUrl} is queued for the judge cockpit. Live GitHub fetching is still Phase 2, so this build runs the strongest safe replay baseline while preserving the selected track and panel.`
+  const heroSummary = willCloneOnStart
+    ? `Click ${"“"}Clone & inspect${"”"} to fetch ${submittedGithubUrl} with a depth-1 clone and run the same static pipeline as Local Path Mode. Ralph Ledger never executes the repo's code.`
     : fixture.meta.summary;
   const toggleReplaySpeed = () => {
     setReplaySpeed((current) => (current === "fast" ? "normal" : "fast"));
@@ -324,11 +327,11 @@ export function App() {
     };
   }, []);
 
-  const inspectGithubUrl = async () => {
+  const cloneGithubUrl = async (): Promise<ReplayFixture | null> => {
     const url = githubUrl.trim();
     if (!url) {
       setGithubStatus("Paste a GitHub URL before running clone-and-inspect.");
-      return;
+      return null;
     }
     setGithubLoading(true);
     setGithubStatus(
@@ -355,14 +358,28 @@ export function App() {
       setRunning(false);
       setCursor(0);
       setGithubStatus(
-        "GitHub clone inspected statically. Start the event stream when you want to watch it, or fall back to safe replay.",
+        "GitHub clone inspected statically. Watching the event stream now.",
       );
+      return nextFixture;
     } catch (error) {
       const message = error instanceof Error ? error.message : "GitHub inspection failed.";
-      setGithubStatus(`${message} Falling back to the safe replay baseline is still one click away.`);
+      setGithubStatus(`${message} Run safe replay demo to fall back to the curated baseline.`);
+      return null;
     } finally {
       setGithubLoading(false);
     }
+  };
+
+  const startEvaluation = async () => {
+    if (running) {
+      setRunning(false);
+      return;
+    }
+    if (willCloneOnStart) {
+      const cloned = await cloneGithubUrl();
+      if (!cloned) return;
+    }
+    startReplay();
   };
 
   const inspectLocalPath = async () => {
@@ -488,21 +505,42 @@ export function App() {
               onChange={(event) => updateGithubUrl(event.target.value)}
             />
           </label>
+          {githubSuggestions.length > 0 && !submittedGithubUrl && !localFixture && (
+            <div className="github-suggestion-row">
+              <span className="github-suggestion-row__label">Try one of these:</span>
+              <div className="github-suggestion-row__pills">
+                {githubSuggestions.map((url) => (
+                  <button
+                    key={url}
+                    type="button"
+                    className="github-suggestion-pill"
+                    onClick={() => updateGithubUrl(url)}
+                  >
+                    {url.replace(/^https:\/\/github\.com\//, "")}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="run-context-card">
             <strong>
               {fixture.meta.mode === "local-static"
-                ? "Local static inspection ready"
-                : submittedGithubUrl
-                  ? "Ready for track and panel"
-                  : "Paste a GitHub URL to begin"}
+                ? fixture.meta.submittedRepoUrl
+                  ? "GitHub clone inspected"
+                  : "Local static inspection ready"
+                : willCloneOnStart
+                  ? "Ready to clone & inspect"
+                  : "Replay fixture loaded"}
             </strong>
             <p>
               {fixture.meta.mode === "local-static"
-                ? "This fallback reads safe files only and emits the same structured evaluation stream."
-                : submittedGithubUrl
-                  ? "The strongest replay baseline stays hidden as the reliable demo engine until live GitHub cloning lands."
-                  : "Or run the safe replay demo below — one click, no URL required."}
+                ? fixture.meta.submittedRepoUrl
+                  ? `Ralph Ledger read safe files from ${fixture.meta.repoLabel}. Press Start to watch the event stream.`
+                  : "This fallback reads safe files only and emits the same structured evaluation stream."
+                : willCloneOnStart
+                  ? "Start will clone the repo with --depth 1, run the same static pipeline as Local Path Mode, then replay the captured events."
+                  : "Paste a GitHub URL above to evaluate any public repo, or run the safe replay demo below for the curated baseline."}
             </p>
           </div>
 
@@ -521,7 +559,7 @@ export function App() {
           <div className="button-row">
             <button
               className="button button--primary"
-              onClick={running ? () => setRunning(false) : startReplay}
+              onClick={startEvaluation}
               disabled={!canStart}
             >
               {running ? <Pause size={16} /> : <Play size={16} />}
@@ -532,6 +570,7 @@ export function App() {
               Reset
             </button>
           </div>
+          {githubStatus && !running && <p className="local-status">{githubStatus}</p>}
 
           <button
             className="button button--ghost safe-replay-cta"
@@ -584,50 +623,9 @@ export function App() {
                 ? fixture.meta.submittedRepoUrl
                   ? "GitHub Clone Mode statically inspected a cloned working tree. Ralph Ledger reads files only and never executes repo commands."
                   : "Local Path Mode reads safe files and source layout only. It does not run install, build, test, or arbitrary repo commands."
-                : "GitHub URL Mode previews the safe replay baseline. Use the GitHub clone fallback to statically inspect any public GitHub repo, or run the safe replay demo for the canonical judging path."}
+                : "Paste any public GitHub URL above to evaluate it. Ralph Ledger clones with --depth 1, reads files, and deletes the temp directory. It never executes the repo's code."}
             </p>
           </div>
-
-          <details className="fallback-panel">
-            <summary>
-              <GitBranch size={16} aria-hidden="true" />
-              <span>Clone & inspect from GitHub</span>
-            </summary>
-            <p>
-              Clones any public <code>https://github.com/&lt;org&gt;/&lt;repo&gt;</code> URL with{" "}
-              <code>--depth 1 --filter=blob:none --single-branch --no-recurse-submodules</code> into
-              a temp directory, runs the same static inspection as Local Path Mode against the
-              cloned tree, then deletes the temp directory. Ralph Ledger does <strong>not</strong>{" "}
-              execute install, build, test, hooks, or submodule fetches — it only reads files.
-            </p>
-            {githubSuggestions.length > 0 && (
-              <>
-                <p className="github-suggestion-label">Examples to try:</p>
-                <ul className="github-suggestion-list">
-                  {githubSuggestions.map((url) => (
-                    <li key={url}>
-                      <button
-                        type="button"
-                        className="github-suggestion__pick"
-                        onClick={() => setGithubUrl(url)}
-                      >
-                        {url}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
-            <button
-              className="button button--wide"
-              onClick={inspectGithubUrl}
-              disabled={githubLoading || !githubUrl.trim()}
-            >
-              <GitBranch size={16} />
-              {githubLoading ? "Cloning..." : "Clone & inspect"}
-            </button>
-            {githubStatus && <p className="local-status">{githubStatus}</p>}
-          </details>
 
           <details className="fallback-panel">
             <summary>
